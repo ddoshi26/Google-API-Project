@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoogleCloudClassLibrary.Result {
+namespace GoogleCloudClassLibrary.PlacesHeader {
     public class Location {
         private Double lat;
         private Double lng;

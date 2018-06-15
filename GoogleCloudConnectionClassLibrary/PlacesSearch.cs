@@ -1,5 +1,5 @@
 ﻿using System;
-using GC = GoogleCloudClassLibrary.Result;
+using GC = GoogleCloudClassLibrary.PlacesHeader;
 
 namespace GoogleCloudClassLibrary.Places {
     class PlacesSearch {
