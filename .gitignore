@@ -1,0 +1,9 @@
+
+*.dll
+*.pdb
+GoogleCloudConnectionClassLibrary/obj/Debug/netstandard2.0/GoogleCloudClassLibrary.AssemblyInfo.cs
+*.cache
+GoogleCloudConnectionClassLibrary/obj/Debug/netstandard2.0/GoogleCloudClassLibrary.csproj.FileListAbsolute.txt
+GoogleCloudConnectionClassLibrary/obj/Debug/netstandard2.0/GoogleCloudConnectionClassLibrary.AssemblyInfo.cs
+GoogleCloudConnectionClassLibrary/obj/Release/netstandard2.0/GoogleCloudClassLibrary.AssemblyInfo.cs
+*.targets
