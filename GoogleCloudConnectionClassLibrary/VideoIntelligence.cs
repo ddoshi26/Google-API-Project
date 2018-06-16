@@ -1,7 +1,7 @@
 ﻿using System;
 using GC = GoogleCloudClassLibrary.VisualHeader;
 
-namespace GoogleCloudClassLibrary.VisualIntelligence {
+namespace GoogleCloudClassLibrary.Intelligence {
     public class VideoIntelligence {
         
         // TODO: Change all return types to Operation class
