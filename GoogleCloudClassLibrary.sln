@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleCloudClassLibrary", "GoogleCloudConnectionClassLibrary\GoogleCloudClassLibrary.csproj", "{8429AA33-0EA5-4132-9D83-59C71A9F6918}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleCloudClassLibrary", "GoogleCloudClassLibrary\GoogleCloudClassLibrary.csproj", "{404E263B-E030-4BBC-A705-6BDBD937CE67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8429AA33-0EA5-4132-9D83-59C71A9F6918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8429AA33-0EA5-4132-9D83-59C71A9F6918}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8429AA33-0EA5-4132-9D83-59C71A9F6918}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8429AA33-0EA5-4132-9D83-59C71A9F6918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404E263B-E030-4BBC-A705-6BDBD937CE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404E263B-E030-4BBC-A705-6BDBD937CE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404E263B-E030-4BBC-A705-6BDBD937CE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404E263B-E030-4BBC-A705-6BDBD937CE67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CBF6C039-C2C8-4F5E-A592-572B2AD2D394}
+		SolutionGuid = {3544DC36-A91D-4BF7-BFD6-96F4344A6AE5}
 	EndGlobalSection
 EndGlobal

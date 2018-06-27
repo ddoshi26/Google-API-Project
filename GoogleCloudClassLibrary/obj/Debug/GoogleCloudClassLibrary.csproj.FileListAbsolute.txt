@@ -1,0 +1,6 @@
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\GoogleCloudClassLibrary.dll
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\GoogleCloudClassLibrary.pdb
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csprojAssemblyReference.cache
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.dll
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.pdb
