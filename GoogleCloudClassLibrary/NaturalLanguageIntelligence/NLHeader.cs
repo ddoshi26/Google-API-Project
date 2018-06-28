@@ -39,6 +39,19 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         }
     }
 
+    public class AnalyzeEntitiesRequest {
+        private Document document;
+        private EncodingType encodingType;
+
+        public Document Document { get => document; set => document = value; }
+        public EncodingType EncodingType { get => encodingType; set => encodingType = value; }
+
+        public AnalyzeEntitiesRequest(Document document, EncodingType encodingType) {
+            Document = document;
+            EncodingType = encodingType;
+        }
+    }
+
     public class TextFeatures {
         private Boolean extractSyntax;
         private Boolean extractEntities;
@@ -142,7 +155,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private EntityResponseType type;
         private Dictionary<String, String> metadata;
         private double salience;
-        private EntityMention[] mentions;
+        private List<EntityMention> mentions;
         private Sentiment sentiment;
 
         public String Name {
@@ -157,7 +170,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         public double Salience {
             get => salience; set => salience = value;
         }
-        internal EntityMention[] Mentions {
+        internal List<EntityMention> Mentions {
             get => mentions; set => mentions = value;
         }
         internal Sentiment Sentiment {
@@ -165,7 +178,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         }
 
         public Entity(String name, EntityResponseType type, Dictionary<String, String> metadata, double salience,
-            EntityMention[] mentions, Sentiment sentiment) {
+            List<EntityMention> mentions, Sentiment sentiment) {
             this.Name = name;
             this.Type = type;
             this.Metadata = metadata;
@@ -176,17 +189,17 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     }
 
     public class AnalyzeEntitiesResponse {
-        private Entity[] entities;
+        private List<Entity> entities;
         private String language;
 
-        internal Entity[] Entities {
+        internal List<Entity> Entities {
             get => entities; set => entities = value;
         }
         public String Language {
             get => language; set => language = value;
         }
 
-        public AnalyzeEntitiesResponse(Entity[] entities, String language) {
+        public AnalyzeEntitiesResponse(List<Entity> entities, String language) {
             this.Entities = entities;
             this.language = language;
         }
@@ -212,7 +225,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     public class AnalyzeSentimentResponse {
         private Sentiment sentiment;
         private String language;
-        private Sentence[] sentences;
+        private List<Sentence> sentences;
 
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
@@ -220,11 +233,11 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         public String Language {
             get => language; set => language = value;
         }
-        public Sentence[] Sentences {
+        public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
 
-        public AnalyzeSentimentResponse(Sentiment sentiment, String language, Sentence[] sentences) {
+        public AnalyzeSentimentResponse(Sentiment sentiment, String language, List<Sentence> sentences) {
             this.Sentiment = sentiment;
             this.Language = language;
             this.Sentences = sentences;
@@ -387,21 +400,21 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     }
 
     public class AnalyzeSyntaxResponse {
-        private Sentence[] sentences;
-        private Token[] tokens;
+        private List<Sentence> sentences;
+        private List<Token> tokens;
         private String language;
 
-        internal Sentence[] Sentences {
+        internal List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
-        internal Token[] Tokens {
+        internal List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
         public String Language {
             get => language; set => language = value;
         }
 
-        public AnalyzeSyntaxResponse(Sentence[] sentences, Token[] tokens, String language) {
+        public AnalyzeSyntaxResponse(List<Sentence> sentences, List<Token> tokens, String language) {
             this.Sentences = sentences;
             this.Tokens = tokens;
             this.Language = language;
@@ -426,20 +439,20 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     }
 
     public class AnnotateText {
-        private Sentence[] sentences;
-        private Token[] tokens;
-        private Entity[] entities;
+        private List<Sentence> sentences;
+        private List<Token> tokens;
+        private List<Entity> entities;
         private Sentiment documentSentiment;
         private String language;
-        private ClassificationCategory[] categories;
+        private List<ClassificationCategory> categories;
 
-        internal Sentence[] Sentences {
+        internal List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
-        internal Token[] Tokens {
+        internal List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
-        internal Entity[] Entities {
+        internal List<Entity> Entities {
             get => entities; set => entities = value;
         }
         internal Sentiment DocumentSentiment {
@@ -448,19 +461,18 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         public String Language {
             get => language; set => language = value;
         }
-        internal ClassificationCategory[] Categories {
+        internal List<ClassificationCategory> Categories {
             get => categories; set => categories = value;
         }
 
-        public AnnotateText(Sentence[] sentences, Token[] tokens, Entity[] entities, Sentiment sentiment,
-            String language, ClassificationCategory[] classificationCategories) {
+        public AnnotateText(List<Sentence> sentences, List<Token> tokens, List<Entity> entities, Sentiment sentiment,
+            String language, List<ClassificationCategory> classificationCategories) {
             this.Sentences = sentences;
             this.Tokens = tokens;
             this.Entities = entities;
             this.DocumentSentiment = sentiment;
             this.Language = language;
             this.Categories = classificationCategories;
-
         }
     }
 }

@@ -11,7 +11,7 @@ using System.IO;
 namespace GoogleCloudClassLibrary.ImageIntelligence {
     class ImageIntelligence {
 
-        private static readonly HttpClient client = new HttpClient();
+        //private static readonly HttpClient client = new HttpClient();
 
         public List<AnnotateImageResponse> AnnotateImage(AnnotateImageRequests[] imageRequests) {
             if (imageRequests == null || imageRequests.Length == 0) {

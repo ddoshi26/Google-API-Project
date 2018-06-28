@@ -23,5 +23,21 @@ namespace GoogleCloudClassLibrary{
                 return temp_stream.ToString();
             }
         }
+
+        public static String processTextQuery(String input) {
+            String processedInput = "";
+            int len = input.Length;
+
+            for (int i = 0; i < len; i++) {
+                if (input[i] != ' ') {
+                    processedInput += input[i];
+                }
+                else {
+                    processedInput += "%20";
+                }
+            }
+
+            return processedInput;
+        }
     }
 }

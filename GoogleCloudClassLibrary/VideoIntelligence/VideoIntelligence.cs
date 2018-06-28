@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class VideoIntelligence {
 
-        private static readonly HttpClient client = new HttpClient();
+        //private static readonly HttpClient client = new HttpClient();
 
         public Operation AnnotateVideoWithLabelDetection(String videoUri, String videoData, VideoContext context,
             String outputUri = "", String cloudRegionId = "") {

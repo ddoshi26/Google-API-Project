@@ -10,21 +10,6 @@ using Newtonsoft.Json;
 
 namespace GoogleCloudClassLibrary.Places {
     class PlacesSearch {
-        public String processInput(String input) {
-            String processedInput = "";
-            int len = input.Length;
-
-            for (int i = 0; i < len; i++) {
-                if (input[i] != ' ') {
-                    processedInput += input[i];
-                }
-                else {
-                    processedInput += "%20";
-                }
-            }
-
-            return processedInput;
-        }
         // Find Places
 
         // Replace int with Status class
@@ -33,7 +18,7 @@ namespace GoogleCloudClassLibrary.Places {
                 return null;
             }
 
-            String processedQuery = processInput(query);
+            String processedQuery = BasicFunctions.processTextQuery(query);
 
             String HTTP_request = $"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={processedQuery}" +
                 "&inputtype=textquery&" + $"key={APIKey}";
