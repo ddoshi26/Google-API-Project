@@ -900,4 +900,14 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             this.WebDetection = webDetection;
         }
     }
+
+    public class AnnotateImageResponseList {
+        private List<AnnotateImageResponse> responses;
+
+        public List<AnnotateImageResponse> Responses { get => responses; set => responses = value; }
+
+        public AnnotateImageResponseList(List<AnnotateImageResponse> responses) {
+            Responses = responses;
+        }
+    }
 }
