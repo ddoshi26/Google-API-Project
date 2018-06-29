@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private String content;
         private String googleCloudUri = "";
 
-        internal DocumentType Type {
+        public DocumentType Type {
             get => type; set => type = value;
         }
         public String Language {
@@ -133,13 +134,13 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private EntityMentionType type;
         private Sentiment sentiment;
 
-        internal TextSpan Text {
+        public TextSpan Text {
             get => text; set => text = value;
         }
-        internal EntityMentionType Type {
+        public EntityMentionType Type {
             get => type; set => type = value;
         }
-        internal Sentiment Sentiment {
+        public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
 
@@ -161,7 +162,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         public String Name {
             get => name; set => name = value;
         }
-        internal EntityResponseType Type {
+        public EntityResponseType Type {
             get => type; set => type = value;
         }
         public Dictionary<String, String> Metadata {
@@ -170,10 +171,10 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         public double Salience {
             get => salience; set => salience = value;
         }
-        internal List<EntityMention> Mentions {
+        public List<EntityMention> Mentions {
             get => mentions; set => mentions = value;
         }
-        internal Sentiment Sentiment {
+        public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
 
@@ -192,7 +193,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private List<Entity> entities;
         private String language;
 
-        internal List<Entity> Entities {
+        public List<Entity> Entities {
             get => entities; set => entities = value;
         }
         public String Language {
@@ -201,7 +202,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
 
         public AnalyzeEntitiesResponse(List<Entity> entities, String language) {
             this.Entities = entities;
-            this.language = language;
+            this.Language = language;
         }
     }
 
@@ -316,40 +317,40 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         PartsOfSpeechTense tense;
         PartsOfSpeechVoice voice;
 
-        internal PartsOfSpeechTag Tag {
+        public PartsOfSpeechTag Tag {
             get => tag; set => tag = value;
         }
-        internal PartsOfSpeechAspect Aspect {
+        public PartsOfSpeechAspect Aspect {
             get => aspect; set => aspect = value;
         }
-        internal PartsOfSpeechCase Case {
+        public PartsOfSpeechCase Case {
             get => p_case; set => p_case = value;
         }
-        internal PartsOfSpeechForm Form {
+        public PartsOfSpeechForm Form {
             get => form; set => form = value;
         }
-        internal PartsOfSpeechGender Gender {
+        public PartsOfSpeechGender Gender {
             get => gender; set => gender = value;
         }
-        internal PartsOfSpeechMood Mood {
+        public PartsOfSpeechMood Mood {
             get => mood; set => mood = value;
         }
-        internal PartsOfSpeechNumber Number {
+        public PartsOfSpeechNumber Number {
             get => number; set => number = value;
         }
-        internal PartsOfSpeechPerson Person {
+        public PartsOfSpeechPerson Person {
             get => person; set => person = value;
         }
-        internal PartsOfSpeechProper Proper {
+        public PartsOfSpeechProper Proper {
             get => proper; set => proper = value;
         }
-        internal PartsOfSpeechReciprocity Reciprocity {
+        public PartsOfSpeechReciprocity Reciprocity {
             get => reciprocity; set => reciprocity = value;
         }
-        internal PartsOfSpeechTense Tense {
+        public PartsOfSpeechTense Tense {
             get => tense; set => tense = value;
         }
-        internal PartsOfSpeechVoice Voice {
+        public PartsOfSpeechVoice Voice {
             get => voice; set => voice = value;
         }
 
@@ -378,13 +379,13 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private DependencyEdgeLabel dependencyEdge;
         private String lemma;
 
-        internal TextSpan Text {
+        public TextSpan Text {
             get => text; set => text = value;
         }
-        internal PartsOfSpeech PartsOfSpeech {
+        public PartsOfSpeech PartsOfSpeech {
             get => partsOfSpeech; set => partsOfSpeech = value;
         }
-        internal DependencyEdgeLabel DependencyEdge {
+        public DependencyEdgeLabel DependencyEdge {
             get => dependencyEdge; set => dependencyEdge = value;
         }
         public String Lemma {
@@ -404,10 +405,10 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private List<Token> tokens;
         private String language;
 
-        internal List<Sentence> Sentences {
+        public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
-        internal List<Token> Tokens {
+        public List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
         public String Language {
@@ -446,22 +447,22 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private String language;
         private List<ClassificationCategory> categories;
 
-        internal List<Sentence> Sentences {
+        public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
-        internal List<Token> Tokens {
+        public List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
-        internal List<Entity> Entities {
+        public List<Entity> Entities {
             get => entities; set => entities = value;
         }
-        internal Sentiment DocumentSentiment {
+        public Sentiment DocumentSentiment {
             get => documentSentiment; set => documentSentiment = value;
         }
         public String Language {
             get => language; set => language = value;
         }
-        internal List<ClassificationCategory> Categories {
+        public List<ClassificationCategory> Categories {
             get => categories; set => categories = value;
         }
 

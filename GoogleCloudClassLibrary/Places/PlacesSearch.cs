@@ -4,47 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Net = System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Web = System.Web;
 using System.IO;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace GoogleCloudClassLibrary.Places {
-    class PlacesSearch {
+    public class PlacesSearch {
+
+        private static HttpClient httpClient;
+
+        public PlacesSearch() {
+            httpClient = new HttpClient();
+        }
+
         // Find Places
 
         // Replace int with Status class
-        public List<FindPlaceCandidates> FindPlacesUsingTextQuery(String APIKey, String query) {
+        public async Task<List<FindPlaceCandidates>> FindPlacesUsingTextQuery(String APIKey, String query) {
             if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
                 return null;
             }
 
             String processedQuery = BasicFunctions.processTextQuery(query);
 
-            String HTTP_request = $"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={processedQuery}" +
-                "&inputtype=textquery&" + $"key={APIKey}";
+            String HTTP_base_request = "https://maps.googleapis.com/maps/api/place/";
+            String HTTP_query = $"findplacefromtext/json?input={processedQuery}&inputtype=textquery&key={APIKey}";
 
-            Console.WriteLine(HTTP_request);
+            Console.WriteLine(HTTP_base_request + HTTP_query);
 
-            // Creating the HTTP WebRequest for this url
-            Net.HttpWebRequest request = (Net.HttpWebRequest) Net.WebRequest.Create(HTTP_request);
-            Net.HttpWebResponse response = (Net.HttpWebResponse) request.GetResponse();
-            Net.HttpStatusCode status_code = response.StatusCode;
-            Stream stream = response.GetResponseStream();
+            httpClient.BaseAddress = new Uri(HTTP_base_request);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // Function call to extract 
-            String result = BasicFunctions.processResponseStream(stream);
-            Console.WriteLine(result);
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
 
-            // Function call to process json
-            FindPlacesCandidateList candidatesList;
             try {
-                candidatesList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(result);
+                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                if (candidateList.Candidates.Count == 0) {
+                    Console.WriteLine(response_str);
+                    return null;
+                }
+                else {
+                    return candidateList.Candidates;
+                }
             } catch (JsonSerializationException e) {
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(response_str);
+                Console.WriteLine("Exception: " + e.StackTrace);
                 return null;
             }
-
-            return candidatesList.Candidates;
         }
 
         public List<FindPlaceCandidates> FindPlacesUsingPhoneNumber(String APIKey, String phone_no) {
@@ -70,7 +83,7 @@ namespace GoogleCloudClassLibrary.Places {
         // Nearby Search Requests
         // TODO: Create Custom error messages for validation errors
 
-        public List<NearbySearchResult> GetNearbySearchResultsRankByProminence(String APIKey, Location location,
+        public async Task<List<NearbySearchResult>> GetNearbySearchResultsRankByProminence(String APIKey, Location location,
             double radius) {
             if (BasicFunctions.isEmpty(APIKey) || location == null || radius <= 0)
                 return null;
@@ -78,23 +91,32 @@ namespace GoogleCloudClassLibrary.Places {
             if (radius > 50000)
                 return null;
 
-            String Http_request = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                $"location={location.Lat},{location.Lng}&radius={radius}";
+            String HTTP_query = $"nearbysearch/json?location={location.Lat},{location.Lng}&radius={radius}&key={APIKey}";
+            
+            //Console.WriteLine(HTTP_base_request + HTTP_query);
 
-            Console.WriteLine(Http_request);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            Net.HttpWebRequest request = (Net.HttpWebRequest) Net.WebRequest.Create(Http_request);
-            Net.HttpWebResponse response = (Net.HttpWebResponse) request.GetResponse();
-            Net.HttpStatusCode status_code = response.StatusCode;
-            Stream stream = response.GetResponseStream();
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
 
-            // Function call to extract 
-            String result = BasicFunctions.processResponseStream(stream);
-            Console.WriteLine(result);
-
-            ////NearbySearchResults searchResults = JsonConvert.DeserializeObject(result);
-
-            return null;
+            try {
+                NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
+                if (searchResultList.Results.Count == 0) {
+                    Console.WriteLine(response_str);
+                    return null;
+                }
+                else {
+                    return searchResultList.Results;
+                }
+            } catch (JsonSerializationException e) {
+                Console.WriteLine(response_str);
+                Console.WriteLine("Exception: " + e.StackTrace);
+                return null;
+            }
         }
 
         public NearbySearchResult[] GetNearbySearchResultsRankByProminenceWithOptions(String APIKey,

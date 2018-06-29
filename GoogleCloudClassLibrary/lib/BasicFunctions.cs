@@ -15,9 +15,12 @@ namespace GoogleCloudClassLibrary{
             using (var temp_stream = new System.IO.MemoryStream()) {
                 byte[] buffer = new byte[2048];
                 int bytes_read = 0;
+                String str = "";
 
                 while ((bytes_read = stream.Read(buffer, 0, buffer.Length)) > 0) {
                     temp_stream.Write(buffer, 0, bytes_read);
+                    str += buffer.ToString();
+                    Console.WriteLine(str);
                 }
 
                 return temp_stream.ToString();

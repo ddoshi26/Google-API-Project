@@ -32,7 +32,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private int maxResults;
         private String model;
 
-        internal ImageType Type {
+        public ImageType Type {
             get => type; set => type = value;
         }
         public int MaxResults {
@@ -44,8 +44,8 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
 
         public ImageFeatures(ImageType type, int maxResults, String model) {
             this.Type = type;
-            this.maxResults = maxResults;
-            this.model = model;
+            this.MaxResults = maxResults;
+            this.Model = model;
         }
     }
 
@@ -53,16 +53,16 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         Places.Location minLatLng;
         Places.Location maxLatLng;
 
-        internal Places.Location MinLatLng {
+        public Places.Location MinLatLng {
             get => minLatLng; set => minLatLng = value;
         }
-        internal Places.Location MaxLatLng {
+        public Places.Location MaxLatLng {
             get => maxLatLng; set => maxLatLng = value;
         }
 
-        public LatLngRect(Places.Location MinLatLng, Places.Location MaxLatLng) {
-            this.MinLatLng = MinLatLng;
-            this.MaxLatLng = MaxLatLng;
+        public LatLngRect(Places.Location minLatLng, Places.Location maxLatLng) {
+            this.MinLatLng = minLatLng;
+            this.MaxLatLng = maxLatLng;
         }
     }
 
@@ -72,7 +72,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private double[] cropHintAspectRatios;
         private Boolean includeGeoResults;
 
-        internal LatLngRect LatLngRect {
+        public LatLngRect LatLngRect {
             get => latLngRect; set => latLngRect = value;
         }
         public String[] LanguageHints {
@@ -115,6 +115,18 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         }
     }
 
+    public class AnnotateImageRequestList {
+        private List<AnnotateImageRequests> requests;
+
+        public List<AnnotateImageRequests> Requests {
+            get => requests; set => requests = value;
+        }
+
+        public AnnotateImageRequestList(List<AnnotateImageRequests> requests) {
+            this.Requests = requests;
+        }
+    }
+
     public class Vertex {
         private double x;
         private double y;
@@ -135,7 +147,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class BoundingPoly {
         private Vertex[] vertices;
 
-        internal Vertex[] Vertices {
+        public Vertex[] Vertices {
             get => vertices; set => vertices = value;
         }
 
@@ -178,10 +190,10 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private LandmarkType type;
         private Position position;
 
-        internal LandmarkType Type {
+        public LandmarkType Type {
             get => type; set => type = value;
         }
-        internal Position Position {
+        public Position Position {
             get => position; set => position = value;
         }
 
@@ -208,13 +220,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private Likelihood blurredLikelihood;
         private Likelihood headwearLikelihood;
 
-        internal BoundingPoly BoundingPoly {
+        public BoundingPoly BoundingPoly {
             get => boundingPoly; set => boundingPoly = value;
         }
-        internal BoundingPoly FDBoundingPoly {
+        public BoundingPoly FDBoundingPoly {
             get => fdBoundingPoly; set => fdBoundingPoly = value;
         }
-        internal Landmark[] Landmarks {
+        public Landmark[] Landmarks {
             get => landmarks; set => landmarks = value;
         }
         public double RollAngle {
@@ -232,25 +244,25 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public double LandmarkingConfidence {
             get => landmarkingConfidence; set => landmarkingConfidence = value;
         }
-        internal Likelihood JoyLikelihood {
+        public Likelihood JoyLikelihood {
             get => joyLikelihood; set => joyLikelihood = value;
         }
-        internal Likelihood SorrowLikelihood {
+        public Likelihood SorrowLikelihood {
             get => sorrowLikelihood; set => sorrowLikelihood = value;
         }
-        internal Likelihood AngerLikelihood {
+        public Likelihood AngerLikelihood {
             get => angerLikelihood; set => angerLikelihood = value;
         }
-        internal Likelihood SurpriseLikelihood {
+        public Likelihood SurpriseLikelihood {
             get => surpriseLikelihood; set => surpriseLikelihood = value;
         }
-        internal Likelihood UnderExposedLikelihood {
+        public Likelihood UnderExposedLikelihood {
             get => underExposedLikelihood; set => underExposedLikelihood = value;
         }
-        internal Likelihood BlurredLikelihood {
+        public Likelihood BlurredLikelihood {
             get => blurredLikelihood; set => blurredLikelihood = value;
         }
-        internal Likelihood HeadwearLikelihood {
+        public Likelihood HeadwearLikelihood {
             get => headwearLikelihood; set => headwearLikelihood = value;
         }
 
@@ -335,13 +347,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public double Topicality {
             get => topicality; set => topicality = value;
         }
-        internal BoundingPoly BoundingPoly {
+        public BoundingPoly BoundingPoly {
             get => boundingPoly; set => boundingPoly = value;
         }
-        internal LocationInfo[] Locations {
+        public LocationInfo[] Locations {
             get => locations; set => locations = value;
         }
-        internal Property[] Properties {
+        public Property[] Properties {
             get => properties; set => properties = value;
         }
 
@@ -384,7 +396,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private BreakType type;
         private Boolean isPrefix;
 
-        internal BreakType Type {
+        public BreakType Type {
             get => type; set => type = value;
         }
         public Boolean IsPrefix {
@@ -401,10 +413,10 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private DetectedLanguage[] detectedLanguages;
         private DetectedBreak detectedBreak;
 
-        internal DetectedLanguage[] DetectedLanguages {
+        public DetectedLanguage[] DetectedLanguages {
             get => detectedLanguages; set => detectedLanguages = value;
         }
-        internal DetectedBreak DetectedBreak {
+        public DetectedBreak DetectedBreak {
             get => detectedBreak; set => detectedBreak = value;
         }
 
@@ -420,10 +432,10 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private String text;
         private double confidence;
 
-        internal TextProperty Property {
+        public TextProperty Property {
             get => property; set => property = value;
         }
-        internal BoundingPoly BoundingBox {
+        public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
         public String Text {
@@ -447,13 +459,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private Symbol[] symbols;
         private double confidence;
 
-        internal TextProperty Property {
+        public TextProperty Property {
             get => property; set => property = value;
         }
-        internal BoundingPoly BoundingBox {
+        public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        internal Symbol[] Symbols {
+        public Symbol[] Symbols {
             get => symbols; set => symbols = value;
         }
         public double Confidence {
@@ -474,13 +486,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private Word[] words;
         private double confidence;
 
-        internal TextProperty Property {
+        public TextProperty Property {
             get => property; set => property = value;
         }
-        internal BoundingPoly BoundingBox {
+        public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        internal Word[] Words {
+        public Word[] Words {
             get => words; set => words = value;
         }
         public double Confidence {
@@ -506,16 +518,16 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private BlockType blockType;
         private double confidence;
 
-        internal TextProperty Property {
+        public TextProperty Property {
             get => property; set => property = value;
         }
-        internal BoundingPoly BoundingBox {
+        public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        internal Paragraph[] Paragraphs {
+        public Paragraph[] Paragraphs {
             get => paragraphs; set => paragraphs = value;
         }
-        internal BlockType BlockType {
+        public BlockType BlockType {
             get => blockType; set => blockType = value;
         }
         public double Confidence {
@@ -538,7 +550,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private Block[] blocks;
         private double confidence;
 
-        internal TextProperty Property {
+        public TextProperty Property {
             get => property; set => property = value;
         }
         public double Width {
@@ -547,7 +559,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public double Height {
             get => height; set => height = value;
         }
-        internal Block[] Blocks {
+        public Block[] Blocks {
             get => blocks; set => blocks = value;
         }
         public double Confidence {
@@ -690,7 +702,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private double confidence;
         private double importanceFraction;
 
-        internal BoundingPoly BoundingPoly {
+        public BoundingPoly BoundingPoly {
             get => boundingPoly; set => boundingPoly = value;
         }
         public double Confidence {
@@ -774,10 +786,10 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public String PageTitle {
             get => pageTitle; set => pageTitle = value;
         }
-        internal WebImage[] FullMatchingImages {
+        public WebImage[] FullMatchingImages {
             get => fullMatchingImages; set => fullMatchingImages = value;
         }
-        internal WebImage[] PartialMatchingImages {
+        public WebImage[] PartialMatchingImages {
             get => partialMatchingImages; set => partialMatchingImages = value;
         }
 
@@ -815,22 +827,22 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private WebImage[] visuallySimilarImages;
         private WebLabel[] bestGuessLabels;
 
-        internal WebEntity[] WebEntities {
+        public WebEntity[] WebEntities {
             get => webEntities; set => webEntities = value;
         }
-        internal WebImage[] FullMatchingImages {
+        public WebImage[] FullMatchingImages {
             get => fullMatchingImages; set => fullMatchingImages = value;
         }
-        internal WebImage[] PartialMatchingImages {
+        public WebImage[] PartialMatchingImages {
             get => partialMatchingImages; set => partialMatchingImages = value;
         }
-        internal WebPage[] PagesWithMatchingImages {
+        public WebPage[] PagesWithMatchingImages {
             get => pagesWithMatchingImages; set => pagesWithMatchingImages = value;
         }
-        internal WebImage[] VisuallySimilarImages {
+        public WebImage[] VisuallySimilarImages {
             get => visuallySimilarImages; set => visuallySimilarImages = value;
         }
-        internal WebLabel[] BestGuessLabels {
+        public WebLabel[] BestGuessLabels {
             get => bestGuessLabels; set => bestGuessLabels = value;
         }
 
@@ -856,34 +868,34 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private CropHintsAnnotation cropHintsAnnotations;
         private WebDetection webDetection;
 
-        internal FaceAnnotation FaceAnnotations {
+        public FaceAnnotation FaceAnnotations {
             get => faceAnnotations; set => faceAnnotations = value;
         }
-        internal EntityAnnotation[] LandmarkAnnotations {
+        public EntityAnnotation[] LandmarkAnnotations {
             get => landmarkAnnotations; set => landmarkAnnotations = value;
         }
-        internal EntityAnnotation[] LogoAnnotations {
+        public EntityAnnotation[] LogoAnnotations {
             get => logoAnnotations; set => logoAnnotations = value;
         }
-        internal EntityAnnotation[] LabelAnnotations {
+        public EntityAnnotation[] LabelAnnotations {
             get => labelAnnotations; set => labelAnnotations = value;
         }
-        internal EntityAnnotation[] TextAnnotations {
+        public EntityAnnotation[] TextAnnotations {
             get => textAnnotations; set => textAnnotations = value;
         }
-        internal TextAnnotation FullTextAnnotations {
+        public TextAnnotation FullTextAnnotations {
             get => fullTextAnnotations; set => fullTextAnnotations = value;
         }
-        internal SafeSearchAnnotation SafeSearchAnnotations {
+        public SafeSearchAnnotation SafeSearchAnnotations {
             get => safeSearchAnnotations; set => safeSearchAnnotations = value;
         }
-        internal ImagesProperties ImagesPropertiesAnnotations {
+        public ImagesProperties ImagesPropertiesAnnotations {
             get => imagesPropertiesAnnotations; set => imagesPropertiesAnnotations = value;
         }
-        internal CropHintsAnnotation CropHintsAnnotations {
+        public CropHintsAnnotation CropHintsAnnotations {
             get => cropHintsAnnotations; set => cropHintsAnnotations = value;
         }
-        internal WebDetection WebDetection {
+        public WebDetection WebDetection {
             get => webDetection; set => webDetection = value;
         }
 

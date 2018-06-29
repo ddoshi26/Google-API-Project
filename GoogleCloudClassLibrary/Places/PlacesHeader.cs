@@ -61,7 +61,7 @@ namespace GoogleCloudClassLibrary.Places {
         }
     }
 
-    class Id {
+    public class Id {
         private String place_id;
         private String scope;
 
@@ -91,13 +91,13 @@ namespace GoogleCloudClassLibrary.Places {
 
         private Boolean open_now;
 
-        private Photo[] photos;
+        private List<Photo> photos;
 
         private Id place_id;
-        private Id[] alternate_ids;
+        private List<Id> alternate_ids;
 
         private String reference;
-        private String[] types;
+        private List<String> types;
         private String vicinity;
 
         public string IconHTTP {
@@ -115,23 +115,51 @@ namespace GoogleCloudClassLibrary.Places {
         public string Reference {
             get => reference; set => reference = value;
         }
-        public string[] Types {
+        public List<string> Types {
             get => types; set => types = value;
         }
         public string Vicinity {
             get => vicinity; set => vicinity = value;
         }
-        internal Location Location {
+        public Location Location {
             get => location; set => location = value;
         }
-        internal Photo[] Photos {
+        public List<Photo> Photos {
             get => photos; set => photos = value;
         }
-        internal Id Place_id {
+        public Id Place_id {
             get => place_id; set => place_id = value;
         }
-        internal Id[] Alternate_ids {
+        public List<Id> Alternate_ids {
             get => alternate_ids; set => alternate_ids = value;
+        }
+
+        public NearbySearchResult(String iconHTTP, String id, String name, bool open_now, String reference,
+            List<String> types, String vicinity, Location location, List<Photo> photos, Id place_id,
+            List<Id> alternate_ids) {
+            this.IconHTTP = iconHTTP;
+            this.Id = id;
+            this.Name = name;
+            this.Open_now = open_now;
+            this.Reference = reference;
+            this.Types = types;
+            this.Vicinity = vicinity;
+            this.Location = location;
+            this.Photos = photos;
+            this.Place_id = place_id;
+            this.Alternate_ids = alternate_ids;
+        }
+    }
+
+    public class NearbySearchResultList {
+        private List<NearbySearchResult> results;
+
+        public List<NearbySearchResult> Results {
+            get => results; set => results = value;
+        }
+
+        public NearbySearchResultList(List<NearbySearchResult> results) {
+            this.Results = results;
         }
     }
 
@@ -146,7 +174,7 @@ namespace GoogleCloudClassLibrary.Places {
         public string Formatted_address {
             get => formatted_address; set => formatted_address = value;
         }
-        internal Location Location {
+        public Location Location {
             get => location; set => location = value;
         }
         public string Name {
@@ -155,7 +183,7 @@ namespace GoogleCloudClassLibrary.Places {
         public bool Open_now {
             get => open_now; set => open_now = value;
         }
-        internal Photo[] Photos {
+        public Photo[] Photos {
             get => photos; set => photos = value;
         }
         public double Rating {

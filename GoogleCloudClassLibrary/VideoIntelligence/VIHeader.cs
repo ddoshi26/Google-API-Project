@@ -57,10 +57,10 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         private String shotChangeDetectionModel;
         private String explicitContentDetectionModel;
 
-        internal VideoSegement[] Segements {
+        public VideoSegement[] Segements {
             get => segments; set => segments = value;
         }
-        internal LabelDetectionConfig LabelDetection {
+        public LabelDetectionConfig LabelDetection {
             get => labelDetection; set => labelDetection = value;
         }
         public String ShotChangeDetectionModel {
@@ -117,7 +117,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public Boolean OperationDone {
             get => operationDone; set => operationDone = value;
         }
-        internal Status Status {
+        public Status Status {
             get => status; set => status = value;
         }
         public Object Response {
@@ -151,10 +151,10 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public String InputContent {
             get => inputContent; set => inputContent = value;
         }
-        internal VideoFeature[] Features {
+        public VideoFeature[] Features {
             get => features; set => features = value;
         }
-        internal VideoContext VideoContext {
+        public VideoContext VideoContext {
             get => videoContext; set => videoContext = value;
         }
         public String OutputUri {
@@ -167,16 +167,16 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public AnnotateVideoRequest(String inputUri, String inputContent, VideoFeature[] videoFeatures,
             VideoContext videoContext, String outputUri, String outputLocationId) {
             if (!BasicFunctions.isEmpty(inputUri))
-                InputUri = inputUri;
+                this.InputUri = inputUri;
             if (!BasicFunctions.isEmpty(inputContent))
-                InputContent = inputContent;
-            Features = videoFeatures;
+                this.InputContent = inputContent;
+            this.Features = videoFeatures;
             if (videoContext != null)
-                VideoContext = videoContext;
+                this.VideoContext = videoContext;
             if (!BasicFunctions.isEmpty(outputUri))
-                OutputUri = outputUri;
+                this.OutputUri = outputUri;
             if (!BasicFunctions.isEmpty(outputLocationId))
-                OutputLocationId = outputLocationId;
+                this.OutputLocationId = outputLocationId;
         }
 
     }

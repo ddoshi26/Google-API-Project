@@ -7,13 +7,18 @@ using System.IO;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class VideoIntelligence {
 
-        //private static readonly HttpClient client = new HttpClient();
+        private static HttpClient httpClient;
 
-        public Operation AnnotateVideoWithLabelDetection(String videoUri, String videoData, VideoContext context,
+        public VideoIntelligence() {
+            httpClient = new HttpClient();
+        }
+
+        public async Task<Operation> AnnotateVideoWithLabelDetection(String APIKey, String videoUri, String videoData, VideoContext context,
             String outputUri = "", String cloudRegionId = "") {
 
             if ((BasicFunctions.isEmpty(videoUri) && BasicFunctions.isEmpty(videoData)) ||
@@ -23,32 +28,32 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
 
             AnnotateVideoRequest annotateVideoRequest = new AnnotateVideoRequest(videoUri, videoData, new VideoFeature[] { VideoFeature.LABEL_DETECTION }, context, outputUri, cloudRegionId);
 
-            String request_body = JsonConvert.SerializeObject(annotateVideoRequest);
+            httpClient.BaseAddress = new Uri("https://videointelligence.googleapis.com/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpWebRequest httpRequest = WebRequest.Create("https://videointelligence.googleapis.com/v1/videos:annotate") as HttpWebRequest;
-            httpRequest.ContentType = "application/json";
-            httpRequest.Method = "POST";
+            String request_query = "v1/videos:annotate?" + $"key={APIKey}";
 
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream())) {
-                streamWriter.Write(request_body);
-                streamWriter.Flush();
-                streamWriter.Close();
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, annotateVideoRequest);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+
+            if (response.IsSuccessStatusCode) {
+                Operation operation;
+                try {
+                    operation = JsonConvert.DeserializeObject<Operation>(response_str);
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine(e.StackTrace);
+                    return null;
+                }
+
+                return operation;
             }
-
-            HttpWebResponse response = httpRequest.GetResponse() as HttpWebResponse;
-            Stream response_stream = response.GetResponseStream();
-
-            String result_json = BasicFunctions.processResponseStream(response_stream);
-            Operation op_result;
-
-            try {
-                op_result = JsonConvert.DeserializeObject<Operation>(result_json);
-            } catch (JsonSerializationException e) {
-                Console.WriteLine(e.StackTrace);
+            else {
+                Console.WriteLine(response_str);
                 return null;
             }
-
-            return op_result;
         }
 
         public Operation AnnotateVideoWithShotChangeDetection(String videoUri, String videoData, VideoContext context,

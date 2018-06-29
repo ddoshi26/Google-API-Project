@@ -7,48 +7,58 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Diagnostics;
 
 namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
-    class NaturalLanguageIntelligence {
+    public class NaturalLanguageIntelligence {
 
-        //private static readonly HttpClient httpClient = new HttpClient();
+        private static HttpClient httpClient;
+
+        public NaturalLanguageIntelligence() {
+            httpClient = new HttpClient();
+        }
 
         public AnalyzeEntitiesResponse AnalyzeEntities(Document document, EncodingType encodingType) {
             return null;
         }
         
-        public AnalyzeEntitiesResponse AnalyzeEntitySentiment(Document document, EncodingType encodingType) {
-            if (document == null) {
+        public async Task<AnalyzeEntitiesResponse> AnalyzeEntitySentiment(String APIKey, Document document, EncodingType encodingType) {
+            if (document == null || BasicFunctions.isEmpty(APIKey)) {
                 return null;
             }
 
             AnalyzeEntitiesRequest entitiesRequest = new AnalyzeEntitiesRequest(document, encodingType);
-            String request_body = JsonConvert.SerializeObject(entitiesRequest);
-
-            HttpWebRequest httpRequest = WebRequest.Create("https://language.googleapis.com/v1/documents:analyzeEntitySentiment") as HttpWebRequest;
-            httpRequest.ContentType = "application/json";
-            httpRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream())) {
-                streamWriter.Write(request_body);
-                streamWriter.Flush();
-                streamWriter.Close();
-            }
-
-            HttpWebResponse response = httpRequest.GetResponse() as HttpWebResponse;
-            Stream response_stream = response.GetResponseStream();
-
-            String result_json = BasicFunctions.processResponseStream(response_stream);
-            AnalyzeEntitiesResponse entitySentimentResponse;
-
-            try {
-                entitySentimentResponse = JsonConvert.DeserializeObject<AnalyzeEntitiesResponse>(result_json);
-            } catch (JsonSerializationException e) {
-                Console.WriteLine(e.StackTrace);
+            if (entitiesRequest == null) {
                 return null;
             }
 
-            return entitySentimentResponse;
+            httpClient.BaseAddress = new Uri("https://language.googleapis.com/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            String request_query = "v1/documents:analyzeEntitySentiment?" + $"key={APIKey}";
+
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, entitiesRequest);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+
+            if (response.IsSuccessStatusCode) {
+                AnalyzeEntitiesResponse entitiesResponse;
+                try {
+                    entitiesResponse = JsonConvert.DeserializeObject<AnalyzeEntitiesResponse>(response_str);
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine(e.StackTrace);
+                    return null;
+                }
+
+                return entitiesResponse;
+            }
+            else {
+                Console.WriteLine(response_str);
+                return null;
+            }
         }
 
         public AnalyzeSentimentResponse AnalyzeSentiment(Document document, EncodingType encodingType) {

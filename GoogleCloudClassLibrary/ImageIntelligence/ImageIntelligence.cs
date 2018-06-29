@@ -7,46 +7,50 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace GoogleCloudClassLibrary.ImageIntelligence {
-    class ImageIntelligence {
+    public class ImageIntelligence {
 
-        //private static readonly HttpClient client = new HttpClient();
+        private static HttpClient httpClient;
 
-        public List<AnnotateImageResponse> AnnotateImage(AnnotateImageRequests[] imageRequests) {
-            if (imageRequests == null || imageRequests.Length == 0) {
+        public ImageIntelligence() {
+            httpClient = new HttpClient();
+        }
+
+        public async Task<List<AnnotateImageResponse>> AnnotateImage(String APIKey, List<AnnotateImageRequests> imageRequests) {
+            if (imageRequests == null || imageRequests.Count == 0) {
                 return null;
             }
 
-            List<AnnotateImageRequests> imageRequestList = imageRequests.ToList();
+            AnnotateImageRequestList imageRequestList = new AnnotateImageRequestList(imageRequests);
+            
+            httpClient.BaseAddress = new Uri("https://vision.googleapis.com/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            String request_body = JsonConvert.SerializeObject(imageRequestList);
+            String request_query = "v1/images:annotate?" + $"key={APIKey}";
 
-            // Make Httprequest
-            HttpWebRequest httpRequest = WebRequest.Create("https://vision.googleapis.com/v1/images:annotate") as HttpWebRequest;
-            httpRequest.ContentType = "application/json";
-            httpRequest.Method = "POST";
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, imageRequestList);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
 
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream())) {
-                streamWriter.Write(request_body);
-                streamWriter.Flush();
-                streamWriter.Close();
+            if (response.IsSuccessStatusCode) {
+                AnnotateImageResponseList imageResponseList;
+                try {
+                    imageResponseList = JsonConvert.DeserializeObject<AnnotateImageResponseList>(response_str);
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine(e.StackTrace);
+                    return null;
+                }
+
+                return imageResponseList.Responses;
             }
-
-            HttpWebResponse response = httpRequest.GetResponse() as HttpWebResponse;
-            Stream response_stream = response.GetResponseStream();
-
-            String result_json = BasicFunctions.processResponseStream(response_stream);
-            AnnotateImageResponseList responseList;
-
-            try {
-                responseList = JsonConvert.DeserializeObject<AnnotateImageResponseList>(result_json);
-            } catch (JsonSerializationException e) {
-                Console.WriteLine(e.StackTrace);
+            else {
+                Console.WriteLine(response_str);
                 return null;
             }
-
-            return responseList.Responses;
         }
     }
 }
