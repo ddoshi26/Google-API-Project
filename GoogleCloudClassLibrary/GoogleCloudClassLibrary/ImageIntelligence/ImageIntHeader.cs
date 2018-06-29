@@ -68,24 +68,24 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
 
     public class ImageContext {
         private LatLngRect latLngRect;
-        private String[] languageHints;
-        private double[] cropHintAspectRatios;
+        private List<String> languageHints;
+        private List<double> cropHintAspectRatios;
         private Boolean includeGeoResults;
 
         public LatLngRect LatLngRect {
             get => latLngRect; set => latLngRect = value;
         }
-        public String[] LanguageHints {
+        public List<String> LanguageHints {
             get => languageHints; set => languageHints = value;
         }
-        public double[] CropHintAspectRatios {
+        public List<double> CropHintAspectRatios {
             get => cropHintAspectRatios; set => cropHintAspectRatios = value;
         }
         public Boolean IncludeGeoResults {
             get => includeGeoResults; set => includeGeoResults = value;
         }
 
-        public ImageContext(LatLngRect latLngRect, String[] langHints, double[] cropHintAspectRatios, Boolean includeGeoResults) {
+        public ImageContext(LatLngRect latLngRect, List<String> langHints, List<double> cropHintAspectRatios, Boolean includeGeoResults) {
             this.LatLngRect = latLngRect;
             this.LanguageHints = langHints;
             this.CropHintAspectRatios = cropHintAspectRatios;
@@ -95,20 +95,20 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
 
     public class AnnotateImageRequests {
         private Image image;
-        private ImageFeatures[] features;
+        private List<ImageFeatures> features;
         private ImageContext imageContext;
 
         public Image Image {
             get => image; set => image = value;
         }
-        public ImageFeatures[] Features {
+        public List<ImageFeatures> Features {
             get => features; set => features = value;
         }
         public ImageContext ImageContext {
             get => imageContext; set => imageContext = value;
         }
 
-        public AnnotateImageRequests(Image image, ImageFeatures[] features, ImageContext context) {
+        public AnnotateImageRequests(Image image, List<ImageFeatures> features, ImageContext context) {
             this.Image = image;
             this.Features = features;
             this.ImageContext = context;
@@ -145,13 +145,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class BoundingPoly {
-        private Vertex[] vertices;
+        private List<Vertex> vertices;
 
-        public Vertex[] Vertices {
+        public List<Vertex> Vertices {
             get => vertices; set => vertices = value;
         }
 
-        public BoundingPoly(Vertex[] vertices) {
+        public BoundingPoly(List<Vertex> vertices) {
             this.Vertices = vertices;
         }
     }
@@ -206,7 +206,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class FaceAnnotation {
         private BoundingPoly boundingPoly;
         private BoundingPoly fdBoundingPoly;
-        private Landmark[] landmarks;
+        private List<Landmark> landmarks;
         private double rollAngle;
         private double panAngle;
         private double tiltAngle;
@@ -226,7 +226,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public BoundingPoly FDBoundingPoly {
             get => fdBoundingPoly; set => fdBoundingPoly = value;
         }
-        public Landmark[] Landmarks {
+        public List<Landmark> Landmarks {
             get => landmarks; set => landmarks = value;
         }
         public double RollAngle {
@@ -266,7 +266,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             get => headwearLikelihood; set => headwearLikelihood = value;
         }
 
-        public FaceAnnotation(BoundingPoly boundingPoly, BoundingPoly fdBoundingPoly, Landmark[] landmarks, double rollAngle, double panAngle, double tiltAngle, double detectionConfidence, double landmarkingConfidence, Likelihood joyLikelihood, Likelihood sorrowLikelihood, Likelihood angerLikelihood, Likelihood surpriseLikelihood, Likelihood underExposedLikelihood, Likelihood blurredLikelihood, Likelihood headwearLikelihood) {
+        public FaceAnnotation(BoundingPoly boundingPoly, BoundingPoly fdBoundingPoly, List<Landmark> landmarks, double rollAngle, double panAngle, double tiltAngle, double detectionConfidence, double landmarkingConfidence, Likelihood joyLikelihood, Likelihood sorrowLikelihood, Likelihood angerLikelihood, Likelihood surpriseLikelihood, Likelihood underExposedLikelihood, Likelihood blurredLikelihood, Likelihood headwearLikelihood) {
             this.BoundingPoly = boundingPoly;
             this.FDBoundingPoly = fdBoundingPoly;
             this.Landmarks = landmarks;
@@ -326,8 +326,8 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private double confidence;
         private double topicality;
         private BoundingPoly boundingPoly;
-        private LocationInfo[] locations;
-        private Property[] properties;
+        private List<LocationInfo> locations;
+        private List<Property> properties;
 
         public String Mid {
             get => mid; set => mid = value;
@@ -350,15 +350,15 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public BoundingPoly BoundingPoly {
             get => boundingPoly; set => boundingPoly = value;
         }
-        public LocationInfo[] Locations {
+        public List<LocationInfo> Locations {
             get => locations; set => locations = value;
         }
-        public Property[] Properties {
+        public List<Property> Properties {
             get => properties; set => properties = value;
         }
 
         public EntityAnnotation(String mid, String locale, String description, double score, double confidence,
-            double topicality, BoundingPoly boundingPoly, LocationInfo[] locations, Property[] properties) {
+            double topicality, BoundingPoly boundingPoly, List<LocationInfo> locations, List<Property> properties) {
             this.Mid = mid;
             this.Locale = locale;
             this.Description = description;
@@ -410,17 +410,17 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class TextProperty {
-        private DetectedLanguage[] detectedLanguages;
+        private List<DetectedLanguage> detectedLanguages;
         private DetectedBreak detectedBreak;
 
-        public DetectedLanguage[] DetectedLanguages {
+        public List<DetectedLanguage> DetectedLanguages {
             get => detectedLanguages; set => detectedLanguages = value;
         }
         public DetectedBreak DetectedBreak {
             get => detectedBreak; set => detectedBreak = value;
         }
 
-        public TextProperty(DetectedLanguage[] detectedLanguages, DetectedBreak detectedBreak) {
+        public TextProperty(List<DetectedLanguage> detectedLanguages, DetectedBreak detectedBreak) {
             this.DetectedLanguages = detectedLanguages;
             this.DetectedBreak = detectedBreak;
         }
@@ -456,7 +456,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class Word {
         private TextProperty property;
         private BoundingPoly boundingBox;
-        private Symbol[] symbols;
+        private List<Symbol> symbols;
         private double confidence;
 
         public TextProperty Property {
@@ -465,14 +465,14 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        public Symbol[] Symbols {
+        public List<Symbol> Symbols {
             get => symbols; set => symbols = value;
         }
         public double Confidence {
             get => confidence; set => confidence = value;
         }
 
-        public Word(TextProperty property, BoundingPoly boundingBox, Symbol[] symbols, double confidence) {
+        public Word(TextProperty property, BoundingPoly boundingBox, List<Symbol> symbols, double confidence) {
             this.Property = property;
             this.BoundingBox = boundingBox;
             this.Symbols = symbols;
@@ -483,7 +483,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class Paragraph {
         private TextProperty property;
         private BoundingPoly boundingBox;
-        private Word[] words;
+        private List<Word> words;
         private double confidence;
 
         public TextProperty Property {
@@ -492,14 +492,14 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        public Word[] Words {
+        public List<Word> Words {
             get => words; set => words = value;
         }
         public double Confidence {
             get => confidence; set => confidence = value;
         }
 
-        public Paragraph(TextProperty property, BoundingPoly boundingBox, Word[] words, double confidence) {
+        public Paragraph(TextProperty property, BoundingPoly boundingBox, List<Word> words, double confidence) {
             this.Property = property;
             this.BoundingBox = boundingBox;
             this.Words = words;
@@ -514,7 +514,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class Block {
         private TextProperty property;
         private BoundingPoly boundingBox;
-        private Paragraph[] paragraphs;
+        private List<Paragraph> paragraphs;
         private BlockType blockType;
         private double confidence;
 
@@ -524,7 +524,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public BoundingPoly BoundingBox {
             get => boundingBox; set => boundingBox = value;
         }
-        public Paragraph[] Paragraphs {
+        public List<Paragraph> Paragraphs {
             get => paragraphs; set => paragraphs = value;
         }
         public BlockType BlockType {
@@ -534,7 +534,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             get => confidence; set => confidence = value;
         }
 
-        public Block(TextProperty property, BoundingPoly boundingBox, Paragraph[] paragraphs, BlockType blockType, double confidence) {
+        public Block(TextProperty property, BoundingPoly boundingBox, List<Paragraph> paragraphs, BlockType blockType, double confidence) {
             this.Property = property;
             this.BoundingBox = boundingBox;
             this.Paragraphs = paragraphs;
@@ -547,7 +547,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private TextProperty property;
         private double width;
         private double height;
-        private Block[] blocks;
+        private List<Block> blocks;
         private double confidence;
 
         public TextProperty Property {
@@ -559,14 +559,14 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public double Height {
             get => height; set => height = value;
         }
-        public Block[] Blocks {
+        public List<Block> Blocks {
             get => blocks; set => blocks = value;
         }
         public double Confidence {
             get => confidence; set => confidence = value;
         }
 
-        public Page(TextProperty property, double width, double height, Block[] blocks, double confidence) {
+        public Page(TextProperty property, double width, double height, List<Block> blocks, double confidence) {
             this.Property = property;
             this.Width = width;
             this.Height = height;
@@ -576,17 +576,17 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class TextAnnotation {
-        private Page[] pages;
+        private List<Page> pages;
         private String text;
 
-        public Page[] Pages {
+        public List<Page> Pages {
             get => pages; set => pages = value;
         }
         public String Text {
             get => text; set => text = value;
         }
-
-        public TextAnnotation(Page[] pages, String text) {
+    
+        public TextAnnotation(List<Page> pages, String text) {
             this.Pages = pages;
             this.Text = text;
         }
@@ -674,13 +674,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class DominantColorsAnnotation {
-        private ColorInfo[] colors;
+        private List<ColorInfo> colors;
 
-        public ColorInfo[] Colors {
+        public List<ColorInfo> Colors {
             get => colors; set => colors = value;
         }
 
-        public DominantColorsAnnotation(ColorInfo[] colors) {
+        public DominantColorsAnnotation(List<ColorInfo> colors) {
             this.Colors = colors;
         }
     }
@@ -720,13 +720,13 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class CropHintsAnnotation {
-        private CropHint[] cropHints;
+        private List<CropHint> cropHints;
 
-        public CropHint[] CropHints {
+        public List<CropHint> CropHints {
             get => cropHints; set => cropHints = value;
         }
 
-        public CropHintsAnnotation(CropHint[] cropHints) {
+        public CropHintsAnnotation(List<CropHint> cropHints) {
             this.CropHints = cropHints;
         }
     }
@@ -774,8 +774,8 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         private String url;
         private double relevancy_score;
         private String pageTitle;
-        private WebImage[] fullMatchingImages;
-        private WebImage[] partialMatchingImages;
+        private List<WebImage> fullMatchingImages;
+        private List<WebImage> partialMatchingImages;
 
         public String URL {
             get => url; set => url = value;
@@ -786,14 +786,14 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public String PageTitle {
             get => pageTitle; set => pageTitle = value;
         }
-        public WebImage[] FullMatchingImages {
+        public List<WebImage> FullMatchingImages {
             get => fullMatchingImages; set => fullMatchingImages = value;
         }
-        public WebImage[] PartialMatchingImages {
+        public List<WebImage> PartialMatchingImages {
             get => partialMatchingImages; set => partialMatchingImages = value;
         }
 
-        public WebPage(String url, double relevancy_score, String pageTitle, WebImage[] fullMatchingImages, WebImage[] partialMatchingImages) {
+        public WebPage(String url, double relevancy_score, String pageTitle, List<WebImage> fullMatchingImages, List<WebImage> partialMatchingImages) {
             this.URL = url;
             this.Relevancy_score = relevancy_score;
             this.PageTitle = pageTitle;
@@ -820,33 +820,33 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class WebDetection {
-        private WebEntity[] webEntities;
-        private WebImage[] fullMatchingImages;
-        private WebImage[] partialMatchingImages;
-        private WebPage[] pagesWithMatchingImages;
-        private WebImage[] visuallySimilarImages;
-        private WebLabel[] bestGuessLabels;
+        private List<WebEntity> webEntities;
+        private List<WebImage> fullMatchingImages;
+        private List<WebImage> partialMatchingImages;
+        private List<WebPage> pagesWithMatchingImages;
+        private List<WebImage> visuallySimilarImages;
+        private List<WebLabel> bestGuessLabels;
 
-        public WebEntity[] WebEntities {
+        public List<WebEntity> WebEntities {
             get => webEntities; set => webEntities = value;
         }
-        public WebImage[] FullMatchingImages {
+        public List<WebImage> FullMatchingImages {
             get => fullMatchingImages; set => fullMatchingImages = value;
         }
-        public WebImage[] PartialMatchingImages {
+        public List<WebImage> PartialMatchingImages {
             get => partialMatchingImages; set => partialMatchingImages = value;
         }
-        public WebPage[] PagesWithMatchingImages {
+        public List<WebPage> PagesWithMatchingImages {
             get => pagesWithMatchingImages; set => pagesWithMatchingImages = value;
         }
-        public WebImage[] VisuallySimilarImages {
+        public List<WebImage> VisuallySimilarImages {
             get => visuallySimilarImages; set => visuallySimilarImages = value;
         }
-        public WebLabel[] BestGuessLabels {
+        public List<WebLabel> BestGuessLabels {
             get => bestGuessLabels; set => bestGuessLabels = value;
         }
 
-        public WebDetection(WebEntity[] webEntities, WebImage[] fullMatchingImages, WebImage[] partialMatchingImages, WebPage[] pagesWithMatchingImages, WebImage[] visuallySimilarImages, WebLabel[] bestGuessLabels) {
+        public WebDetection(List<WebEntity> webEntities, List<WebImage> fullMatchingImages, List<WebImage> partialMatchingImages, List<WebPage> pagesWithMatchingImages, List<WebImage> visuallySimilarImages, List<WebLabel> bestGuessLabels) {
             this.WebEntities = webEntities;
             this.FullMatchingImages = fullMatchingImages;
             this.PartialMatchingImages = partialMatchingImages;
@@ -858,10 +858,10 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
 
     public class AnnotateImageResponse {
         private FaceAnnotation faceAnnotations;
-        private EntityAnnotation[] landmarkAnnotations;
-        private EntityAnnotation[] logoAnnotations;
-        private EntityAnnotation[] labelAnnotations;
-        private EntityAnnotation[] textAnnotations;
+        private List<EntityAnnotation> landmarkAnnotations;
+        private List<EntityAnnotation> logoAnnotations;
+        private List<EntityAnnotation> labelAnnotations;
+        private List<EntityAnnotation> textAnnotations;
         private TextAnnotation fullTextAnnotations;
         private SafeSearchAnnotation safeSearchAnnotations;
         private ImagesProperties imagesPropertiesAnnotations;
@@ -871,16 +871,16 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public FaceAnnotation FaceAnnotations {
             get => faceAnnotations; set => faceAnnotations = value;
         }
-        public EntityAnnotation[] LandmarkAnnotations {
+        public List<EntityAnnotation> LandmarkAnnotations {
             get => landmarkAnnotations; set => landmarkAnnotations = value;
         }
-        public EntityAnnotation[] LogoAnnotations {
+        public List<EntityAnnotation> LogoAnnotations {
             get => logoAnnotations; set => logoAnnotations = value;
         }
-        public EntityAnnotation[] LabelAnnotations {
+        public List<EntityAnnotation> LabelAnnotations {
             get => labelAnnotations; set => labelAnnotations = value;
         }
-        public EntityAnnotation[] TextAnnotations {
+        public List<EntityAnnotation> TextAnnotations {
             get => textAnnotations; set => textAnnotations = value;
         }
         public TextAnnotation FullTextAnnotations {
@@ -899,7 +899,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             get => webDetection; set => webDetection = value;
         }
 
-        public AnnotateImageResponse(FaceAnnotation faceAnnotation, EntityAnnotation[] landmarkAnnotations, EntityAnnotation[] logoAnnotations, EntityAnnotation[] labelAnnotations, EntityAnnotation[] textAnnotations, TextAnnotation fullTextAnnotations, SafeSearchAnnotation safeSearchAnnotations, ImagesProperties imagesPropertiesAnnotations, CropHintsAnnotation cropHintsAnnotations, WebDetection webDetection) {
+        public AnnotateImageResponse(FaceAnnotation faceAnnotation, List<EntityAnnotation> landmarkAnnotations, List<EntityAnnotation> logoAnnotations, List<EntityAnnotation> labelAnnotations, List<EntityAnnotation> textAnnotations, TextAnnotation fullTextAnnotations, SafeSearchAnnotation safeSearchAnnotations, ImagesProperties imagesPropertiesAnnotations, CropHintsAnnotation cropHintsAnnotations, WebDetection webDetection) {
             this.FaceAnnotations = faceAnnotation;
             this.LandmarkAnnotations = landmarkAnnotations;
             this.LogoAnnotations = logoAnnotations;

@@ -47,6 +47,8 @@ namespace GoogleCloudConsole {
             requestsList.Add(request);
             Task<List<II.AnnotateImageResponse>> responses = imageIntelligence.AnnotateImage("API_KEY", requestsList);
             responses.Wait();
+
+            return;
         }
     }
 }

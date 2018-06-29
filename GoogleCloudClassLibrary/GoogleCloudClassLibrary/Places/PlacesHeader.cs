@@ -31,7 +31,7 @@ namespace GoogleCloudClassLibrary.Places {
         private Double height;
         private Double width;
         private String photo_ref;
-        private String[] html_attributions;
+        private List<String> html_attributions;
 
         public double Height {
             get => height; private set => height = value;
@@ -42,7 +42,7 @@ namespace GoogleCloudClassLibrary.Places {
         public string Photo_ref {
             get => photo_ref; private set => photo_ref = value;
         }
-        public string[] Html_attributions {
+        public List<string> Html_attributions {
             get => html_attributions; private set => html_attributions = value;
         }
 
@@ -53,7 +53,7 @@ namespace GoogleCloudClassLibrary.Places {
             this.Html_attributions = null;
         }
 
-        public Photo(Double height, Double width, String photo_ref, String[] html_atts) {
+        public Photo(Double height, Double width, String photo_ref, List<String> html_atts) {
             this.Height = height;
             this.Width = width;
             this.Photo_ref = photo_ref;
@@ -168,7 +168,7 @@ namespace GoogleCloudClassLibrary.Places {
         private Location location;
         private String name;
         private Boolean open_now;
-        private Photo[] photos;
+        private List<Photo> photos;
         private double rating;
 
         public string Formatted_address {
@@ -183,7 +183,7 @@ namespace GoogleCloudClassLibrary.Places {
         public bool Open_now {
             get => open_now; set => open_now = value;
         }
-        public Photo[] Photos {
+        public List<Photo> Photos {
             get => photos; set => photos = value;
         }
         public double Rating {
@@ -191,7 +191,7 @@ namespace GoogleCloudClassLibrary.Places {
         }
 
         public FindPlaceCandidates(String formatted_address, Location location, String name, bool open_now,
-            Photo[] photos, double rating) {
+            List<Photo> photos, double rating) {
             Formatted_address = formatted_address;
             Location = location;
             Name = name;

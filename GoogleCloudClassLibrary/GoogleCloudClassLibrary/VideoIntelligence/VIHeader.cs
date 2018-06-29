@@ -52,12 +52,12 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     }
 
     public class VideoContext {
-        private VideoSegement[] segments;
+        private List<VideoSegement> segments;
         private LabelDetectionConfig labelDetection;
         private String shotChangeDetectionModel;
         private String explicitContentDetectionModel;
 
-        public VideoSegement[] Segements {
+        public List<VideoSegement> Segements {
             get => segments; set => segments = value;
         }
         public LabelDetectionConfig LabelDetection {
@@ -70,7 +70,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
             get => explicitContentDetectionModel; set => explicitContentDetectionModel = value;
         }
 
-        public VideoContext(VideoSegement[] segements, LabelDetectionConfig labelDetectionConfig, String shotChangeModel,
+        public VideoContext(List<VideoSegement> segements, LabelDetectionConfig labelDetectionConfig, String shotChangeModel,
             String explicitContentModel) {
             this.Segements = segements;
             this.LabelDetection = labelDetectionConfig;
@@ -82,7 +82,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class Status {
         private double number;
         private String message;
-        private Object[] details;
+        private List<Object> details;
 
         public double Number {
             get => number; set => number = value;
@@ -90,11 +90,11 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public String Message {
             get => message; set => message = value;
         }
-        public Object[] Details {
+        public List<Object> Details {
             get => details; set => details = value;
         }
 
-        public Status(double number, String message, Object[] details) {
+        public Status(double number, String message, List<Object> details) {
             this.Number = number;
             this.Message = message;
             this.Details = details;
@@ -140,7 +140,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class AnnotateVideoRequest {
         private String inputUri;
         private String inputContent;
-        private VideoFeature[] features;
+        private List<VideoFeature> features;
         private VideoContext videoContext;
         private String outputUri;
         private String outputLocationId;
@@ -151,7 +151,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public String InputContent {
             get => inputContent; set => inputContent = value;
         }
-        public VideoFeature[] Features {
+        public List<VideoFeature> Features {
             get => features; set => features = value;
         }
         public VideoContext VideoContext {
@@ -164,7 +164,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
             get => outputLocationId; set => outputLocationId = value;
         }
 
-        public AnnotateVideoRequest(String inputUri, String inputContent, VideoFeature[] videoFeatures,
+        public AnnotateVideoRequest(String inputUri, String inputContent, List<VideoFeature> videoFeatures,
             VideoContext videoContext, String outputUri, String outputLocationId) {
             if (!BasicFunctions.isEmpty(inputUri))
                 this.InputUri = inputUri;

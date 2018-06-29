@@ -52,7 +52,10 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
                 return null;
             }
 
-            AnnotateVideoRequest annotateVideoRequest = new AnnotateVideoRequest(inputUri, inputContent, new VideoFeature[] { VideoFeature.LABEL_DETECTION }, context, outputUri, cloudRegionId);
+            List<VideoFeature> videoFeatures = new List<VideoFeature>();
+            videoFeatures.Add(VideoFeature.LABEL_DETECTION);
+
+            AnnotateVideoRequest annotateVideoRequest = new AnnotateVideoRequest(inputUri, inputContent, videoFeatures, context, outputUri, cloudRegionId);
 
             // Setting up the header for the request body
             httpClient.DefaultRequestHeaders.Accept.Clear();
