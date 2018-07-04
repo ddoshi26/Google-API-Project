@@ -29,3 +29,4 @@ C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleC
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudConsole\GoogleCloudConsole\obj\Debug\GoogleCloudConsole.csproj.CopyComplete
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudConsole\GoogleCloudConsole\obj\Debug\GoogleCloudConsole.exe
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudConsole\GoogleCloudConsole\obj\Debug\GoogleCloudConsole.pdb
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudConsole\GoogleCloudConsole\bin\Debug\GoogleCloudClassLibrary.dll

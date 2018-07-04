@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -138,46 +139,328 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     }
 
     public class AnnotateVideoRequest {
-        private String inputUri;
-        private String inputContent;
-        private List<VideoFeature> features;
-        private VideoContext videoContext;
-        private String outputUri;
-        private String outputLocationId;
+        private String input_Uri;
+        private String input_Content;
+        private List<VideoFeature> feats;
+        private VideoContext video_Context;
+        private String output_Uri;
+        private String location_Id;
 
-        public String InputUri {
-            get => inputUri; set => inputUri = value;
+        public String inputUri {
+            get => input_Uri; set => input_Uri = value;
         }
-        public String InputContent {
-            get => inputContent; set => inputContent = value;
+        public String inputContent {
+            get => input_Content; set => input_Content = value;
         }
-        public List<VideoFeature> Features {
-            get => features; set => features = value;
+        public List<VideoFeature> features {
+            get => feats; set => feats = value;
         }
-        public VideoContext VideoContext {
-            get => videoContext; set => videoContext = value;
+        public VideoContext videoContext {
+            get => video_Context; set => video_Context = value;
         }
-        public String OutputUri {
-            get => outputUri; set => outputUri = value;
+        public String outputUri {
+            get => output_Uri; set => output_Uri = value;
         }
-        public String OutputLocationId {
-            get => outputLocationId; set => outputLocationId = value;
+        public String locationId {
+            get => location_Id; set => location_Id = value;
         }
 
         public AnnotateVideoRequest(String inputUri, String inputContent, List<VideoFeature> videoFeatures,
             VideoContext videoContext, String outputUri, String outputLocationId) {
             if (!BasicFunctions.isEmpty(inputUri))
-                this.InputUri = inputUri;
+                this.inputUri = inputUri;
             if (!BasicFunctions.isEmpty(inputContent))
-                this.InputContent = inputContent;
-            this.Features = videoFeatures;
+                this.inputContent = inputContent;
+            this.features = videoFeatures;
             if (videoContext != null)
-                this.VideoContext = videoContext;
+                this.videoContext = videoContext;
             if (!BasicFunctions.isEmpty(outputUri))
-                this.OutputUri = outputUri;
+                this.outputUri = outputUri;
             if (!BasicFunctions.isEmpty(outputLocationId))
-                this.OutputLocationId = outputLocationId;
+                this.locationId = outputLocationId;
+        }
+    }
+
+    public class AnnotationProgress {
+        private String inputUri;
+        private double progresspercent;
+        private String startTime;
+        private String updateTime;
+
+        public string InputUri {
+            get => inputUri;
+            set => inputUri = value;
+        }
+        public double Progresspercent {
+            get => progresspercent;
+            set => progresspercent = value;
+        }
+        public string StartTime {
+            get => startTime;
+            set => startTime = value;
+        }
+        public string UpdateTime {
+            get => updateTime;
+            set => updateTime = value;
         }
 
+        public AnnotationProgress(String inputUri, double progresspercent, String startTime, String updateTime) {
+            InputUri = inputUri;
+            Progresspercent = progresspercent;
+            StartTime = startTime;
+            UpdateTime = updateTime;
+        }
+    }
+
+    public class Metadata {
+        private String type;
+        private List<AnnotationProgress> annotation_Progress;
+
+        [JsonProperty("@type")]
+        public String Type {
+            get => type;
+            set => type = value;
+        }
+
+        public List<AnnotationProgress> annotationProgress {
+            get => annotation_Progress;
+            set => annotation_Progress = value;
+        }
+
+        public Metadata(string type, List<AnnotationProgress> annotationProgress) {
+            this.Type = type;
+            this.annotationProgress = annotationProgress;
+        }
+    }
+
+    public class Entity {
+        private String entity_Id;
+        private String desc;
+        private String language_Code;
+
+        public string entityId {
+            get => entity_Id;
+            set => entity_Id = value;
+        }
+        public string description {
+            get => desc;
+            set => desc = value;
+        }
+        public string languageCode {
+            get => language_Code;
+            set => language_Code = value;
+        }
+
+        public Entity(string entityId, string description, string languageCode) {
+            this.entityId = entityId;
+            this.description = description;
+            this.languageCode = languageCode;
+        }
+    }
+
+    public class LabelSegment {
+        private VideoSegement segment;
+        private double conf;
+        
+        public VideoSegement Segment {
+            get => segment;
+            set => segment = value;
+        }
+        public double confidence {
+            get => conf;
+            set => conf = value;
+        }
+
+        public LabelSegment(VideoSegement segment, double confidence) {
+            this.Segment = segment;
+            this.confidence = confidence;
+        }
+    }
+
+    public class LabelFrame {
+        private String time_Offset;
+        private double conf;
+
+        public string timeOffset {
+            get => time_Offset;
+            set => time_Offset = value;
+        }
+        public double confidence {
+            get => conf;
+            set => conf = value;
+        }
+
+        public LabelFrame(String timeOffset, double confidence) {
+            this.timeOffset = timeOffset;
+            this.confidence = confidence;
+        }
+    }
+
+    public class LabelAnnotation {
+        private Entity entity;
+        private List<Entity> category_Entities;
+        private List<LabelSegment> segments;
+        private List<LabelFrame> frame;
+
+        public Entity Entity {
+            get => entity;
+            set => entity = value;
+        }
+        public List<Entity> categoryEntities {
+            get => category_Entities;
+            set => category_Entities = value;
+        }
+        public List<LabelSegment> Segments {
+            get => segments;
+            set => segments = value;
+        }
+        public List<LabelFrame> Frame {
+            get => frame;
+            set => frame = value;
+        }
+
+        public LabelAnnotation(Entity entity, List<Entity> categoryEntities, List<LabelSegment> segments, List<LabelFrame> frame) {
+            this.entity = entity;
+            this.categoryEntities = categoryEntities;
+            this.segments = segments;
+            this.frame = frame;
+        }
+    }
+
+    public enum PornographicContentLikelihood {
+        LIKELIHOOD_UNSPECIFIED, VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY
+    }
+
+    public class ExplicitContentFrame {
+        private String time_Offset;
+        private PornographicContentLikelihood pornography_Likelihood;
+        public string timeOffset {
+            get => time_Offset;
+            set => time_Offset = value;
+        }
+        public PornographicContentLikelihood pornographyLikelihood {
+            get => pornography_Likelihood;
+            set => pornography_Likelihood = value;
+        }
+
+        public ExplicitContentFrame(string timeOffset, PornographicContentLikelihood pornographyLikelihood) {
+            this.timeOffset = timeOffset;
+            this.pornographyLikelihood = pornographyLikelihood;
+        }
+    }
+
+    public class ExplicitContentAnnotation {
+        private List<ExplicitContentFrame> frame;
+
+        public List<ExplicitContentFrame> frames {
+            get => frame;
+            set => frame = value;
+        }
+
+        public ExplicitContentAnnotation(List<ExplicitContentFrame> frames) {
+            this.frames = frames;
+        }
+    }
+
+    public class VideoAnnotationResult {
+        private String input_Uri;
+        private List<LabelAnnotation> segmentLabelAnnotations;
+        private List<LabelAnnotation> shotLabelAnnotations;
+        private List<LabelAnnotation> frameLabelAnnotations;
+        private List<VideoSegement> shotAnnotations;
+        private ExplicitContentAnnotation explicitAnnotations;
+        private Status error;
+
+        public string inputUri {
+            get => input_Uri;
+            set => input_Uri = value;
+        }
+        public List<LabelAnnotation> SegmentLabelAnnotations {
+            get => segmentLabelAnnotations;
+            set => segmentLabelAnnotations = value;
+        }
+        public List<LabelAnnotation> ShotLabelAnnotations {
+            get => shotLabelAnnotations;
+            set => shotLabelAnnotations = value;
+        }
+        public List<LabelAnnotation> FrameLabelAnnotations {
+            get => frameLabelAnnotations;
+            set => frameLabelAnnotations = value;
+        }
+        public List<VideoSegement> ShotAnnotations {
+            get => shotAnnotations;
+            set => shotAnnotations = value;
+        }
+        public ExplicitContentAnnotation ExplicitAnnotation {
+            get => explicitAnnotations;
+            set => explicitAnnotations = value;
+        }
+        public Status Error {
+            get => error;
+            set => error = value;
+        }
+
+        public VideoAnnotationResult(string inputUri, List<LabelAnnotation> segmentLabelAnnotations, 
+            List<LabelAnnotation> shotLabelAnnotations, List<LabelAnnotation> frameLabelAnnotations,
+            List<VideoSegement> shotAnnotations, ExplicitContentAnnotation explicitAnnotations, Status error) {
+            this.inputUri = inputUri;
+            this.SegmentLabelAnnotations = segmentLabelAnnotations;
+            this.ShotLabelAnnotations = shotLabelAnnotations;
+            this.frameLabelAnnotations = frameLabelAnnotations;
+            this.shotAnnotations = shotAnnotations;
+            this.explicitAnnotations = explicitAnnotations;
+            this.error = error;
+        }
+    }
+
+    public class AnnotateResponse {
+        private String type;
+        private List<VideoAnnotationResult> annotation_Results;
+
+        [JsonProperty("@type")]
+        public string Type {
+            get => type;
+            set => type = value;
+        }
+        public List<VideoAnnotationResult> annotationResults {
+            get => annotation_Results;
+            set => annotation_Results = value;
+        }
+
+        public AnnotateResponse(string type, List<VideoAnnotationResult> annotationResults) {
+            this.Type = type;
+            this.annotationResults = annotationResults;
+        }
+    }
+
+    public class VideoAnnotationResponse {
+        private String name;
+        private Metadata metadata;
+        private Boolean done;
+        private AnnotateResponse response;
+
+        public string Name {
+            get => name;
+            set => name = value;
+        }
+        public Metadata Metadata {
+            get => metadata;
+            set => metadata = value;
+        }
+        public bool Done {
+            get => done;
+            set => done = value;
+        }
+        public AnnotateResponse Response {
+            get => response;
+            set => response = value;
+        }
+
+        public VideoAnnotationResponse(string name, Metadata metadata, bool done, AnnotateResponse response) {
+            this.Name = name;
+            this.Metadata = metadata;
+            Done = done;
+            this.Response = response;
+        }
     }
 }

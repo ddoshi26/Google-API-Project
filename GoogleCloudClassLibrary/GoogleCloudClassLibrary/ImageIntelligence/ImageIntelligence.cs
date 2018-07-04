@@ -37,7 +37,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
          *   the query is unsuccessful and an error is returned, then the method returns null.
          */
         public async Task<List<AnnotateImageResponse>> AnnotateImage(String APIKey, AnnotateImageRequestList imageRequests) {
-            if (imageRequests == null || imageRequests.Requests.Count == 0) {
+            if (imageRequests == null || imageRequests.requests.Count == 0) {
                 return null;
             }
 
@@ -48,9 +48,11 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             // The API address to which we will make the HTTP POST query
             String request_query = "v1/images:annotate?" + $"key={APIKey}";
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, imageRequests);
+
             Stream stream = await response.Content.ReadAsStreamAsync();
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
 
             /* 
              * Similar two-step hop as we have seen before. We try to deserialize the response string, expecting
@@ -62,6 +64,8 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
                 AnnotateImageResponseList imageResponseList;
                 try {
                     imageResponseList = JsonConvert.DeserializeObject<AnnotateImageResponseList>(response_str);
+                    if (imageResponseList.Responses.Count == 0)
+                        return null;
                 } catch (JsonSerializationException e) {
                     Console.WriteLine(e.StackTrace);
                     return null;
@@ -70,7 +74,6 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
                 return imageResponseList.Responses;
             }
             else {
-                Console.WriteLine(response_str);
                 return null;
             }
         }

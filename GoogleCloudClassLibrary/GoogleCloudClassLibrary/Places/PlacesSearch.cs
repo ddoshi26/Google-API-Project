@@ -58,6 +58,7 @@ namespace GoogleCloudClassLibrary.Places {
             Stream stream = await response.Content.ReadAsStreamAsync();
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
 
             /* 
              * Here we do a two-step hop to achieve the appropriate return value:
@@ -73,14 +74,12 @@ namespace GoogleCloudClassLibrary.Places {
             try {
                 FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                 if (candidateList.Candidates.Count == 0) {
-                    Console.WriteLine(response_str);
                     return null;
                 }
                 else {
                     return candidateList.Candidates;
                 }
             } catch (JsonSerializationException e) {
-                Console.WriteLine(response_str);
                 Console.WriteLine("Exception: " + e.StackTrace);
                 return null;
             }
@@ -149,6 +148,7 @@ namespace GoogleCloudClassLibrary.Places {
             Stream stream = await response.Content.ReadAsStreamAsync();
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
 
             /* 
              * Here we do a two-step hop again to achieve the appropriate return value:
@@ -164,14 +164,12 @@ namespace GoogleCloudClassLibrary.Places {
             try {
                 NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                 if (searchResultList.Results.Count == 0) {
-                    Console.WriteLine(response_str);
                     return null;
                 }
                 else {
                     return searchResultList.Results;
                 }
             } catch (JsonSerializationException e) {
-                Console.WriteLine(response_str);
                 Console.WriteLine("Exception: " + e.StackTrace);
                 return null;
             }

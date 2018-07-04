@@ -62,10 +62,11 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             // API address to which we make the HTTP POST query
             String request_query = "v1/documents:analyzeEntitySentiment?" + $"key={APIKey}";
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, entitiesRequest);
+
             Stream stream = await response.Content.ReadAsStreamAsync();
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
-
+            Console.WriteLine(response_str);
             /* 
              * Similar two-step hop as we have seen before. We try to deserialize the response string, expecting
              * an object of AnalyzeEntitiesResponse. If the response is not an AnalyzeEntitiesResponse object, 
@@ -84,7 +85,6 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
                 return entitiesResponse;
             }
             else {
-                Console.WriteLine(response_str);
                 return null;
             }
         }

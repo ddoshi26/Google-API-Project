@@ -18,25 +18,30 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private DocumentType type;
         private String language;
         private String content;
-        private String googleCloudUri = "";
+        private String googleCloudUri;
 
+        [JsonProperty("type")]
         public DocumentType Type {
             get => type; set => type = value;
         }
+        [JsonProperty("language")]
         public String Language {
             get => language; set => language = value;
         }
+        [JsonProperty("content")]
         public String Content {
             get => content; set => content = value;
         }
+        [JsonProperty("gcsContentUri")]
         public String GoogleCloudUri {
             get => googleCloudUri; set => googleCloudUri = value;
         }
 
-        public Document(DocumentType type, String language, String content) {
+        public Document(DocumentType type, String language, String content = null, String googleCloudUri = null) {
             this.Type = type;
             this.Language = language;
             this.Content = content;
+            this.GoogleCloudUri = googleCloudUri;
         }
     }
 
@@ -44,7 +49,9 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private Document document;
         private EncodingType encodingType;
 
+        [JsonProperty("document")]
         public Document Document { get => document; set => document = value; }
+        [JsonProperty("encodingType")]
         public EncodingType EncodingType { get => encodingType; set => encodingType = value; }
 
         public AnalyzeEntitiesRequest(Document document, EncodingType encodingType) {

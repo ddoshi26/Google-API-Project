@@ -43,7 +43,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
          *   because the HTTP request and the annotation are both performed asynchronously. Returns null if
          *   an error is thrown or if a validation fails. (TODO: Improve to return error codes)
          */
-        public async Task<Operation> AnnotateVideoWithLabelDetection(String APIKey, String inputUri, String inputContent,
+        public async Task<VideoAnnotationResponse> AnnotateVideoWithLabelDetection(String APIKey, String inputUri, String inputContent,
             VideoContext context, String outputUri = "", String cloudRegionId = "") {
 
             // One and only one of inputUri and inputContent can be set
@@ -57,41 +57,78 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
 
             AnnotateVideoRequest annotateVideoRequest = new AnnotateVideoRequest(inputUri, inputContent, videoFeatures, context, outputUri, cloudRegionId);
 
+            String str = JsonConvert.SerializeObject(annotateVideoRequest);
+            Console.WriteLine(str);
+
             // Setting up the header for the request body
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // API address to which we will make the HTTP POST query
-            String request_query = "v1/videos:annotate?" + $"key={APIKey}"; 
+            String request_query = "v1/videos:annotate?" + $"key={APIKey}";
             HttpResponseMessage response = await httpClient.PostAsJsonAsync(request_query, annotateVideoRequest);
 
-            Stream stream = await response.Content.ReadAsStreamAsync();
+            Stream stream = response.Content.ReadAsStreamAsync().Result;
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
-
+            Console.WriteLine(response_str);
             /* 
              * Similar two-step hop as we have seen before. We try to deserialize the response string, expecting
              * an object of Operation. If the response is not an Operation object, then we will encounter a
              * JSONSerialization error and return null. If it is as we expect, then we just return the 
              * Operation object.
-             */ 
+             */
             if (response.IsSuccessStatusCode) {
                 Operation operation;
                 try {
                     operation = JsonConvert.DeserializeObject<Operation>(response_str);
                 } catch (JsonSerializationException e) {
-                    Console.WriteLine(response_str);
                     Console.WriteLine(e.StackTrace);
                     return null;
                 }
+                
+                String operation_json = await GetVideoAnnotateOperation(APIKey, operation.Name);
+                try {
+                    VideoAnnotationResponse annotationResponse = JsonConvert.DeserializeObject<VideoAnnotationResponse>(operation_json);
 
-                return operation;
+                    while (!annotationResponse.Done) {
+                        System.Threading.Thread.Sleep(60000);
+                        operation_json = await GetVideoAnnotateOperation(APIKey, operation.Name);
+                        annotationResponse = JsonConvert.DeserializeObject<VideoAnnotationResponse>(operation_json);
+                    }
+
+                    Console.WriteLine(operation_json);
+                    return annotationResponse;
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine(e.StackTrace);
+                    return null;
+                }
             }
             else {
-                // If the query returns an error code, then we just print what we received and return null
-                Console.WriteLine(response_str);
+                //if the query returns an error code, then we just print what we received and return null
                 return null;
             }
+            //return null;
+        }
+
+        public async Task<string> GetVideoAnnotateOperation(String APIKey, String op_name) {
+            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(op_name)) {
+                return null;
+            }
+
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // API address to which we will make the HTTP POST query
+            String request_query = "v1/operations/" + $"{op_name}?key={APIKey}";
+            HttpResponseMessage response = await httpClient.GetAsync(request_query);
+
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            return response_str;
         }
 
         public Operation AnnotateVideoWithShotChangeDetection(String inputUri, String inputContent, VideoContext context,

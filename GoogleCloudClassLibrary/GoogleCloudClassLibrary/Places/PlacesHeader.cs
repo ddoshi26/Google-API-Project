@@ -93,7 +93,9 @@ namespace GoogleCloudClassLibrary.Places {
 
         private List<Photo> photos;
 
-        private Id place_id;
+        private String place_id;
+        private String scope;
+
         private List<Id> alternate_ids;
 
         private String reference;
@@ -127,16 +129,19 @@ namespace GoogleCloudClassLibrary.Places {
         public List<Photo> Photos {
             get => photos; set => photos = value;
         }
-        public Id Place_id {
+        public string Place_id {
             get => place_id; set => place_id = value;
+        }
+        public string Scope {
+            get => scope; set => scope = value;
         }
         public List<Id> Alternate_ids {
             get => alternate_ids; set => alternate_ids = value;
         }
 
         public NearbySearchResult(String iconHTTP, String id, String name, bool open_now, String reference,
-            List<String> types, String vicinity, Location location, List<Photo> photos, Id place_id,
-            List<Id> alternate_ids) {
+            List<String> types, String vicinity, Location location, List<Photo> photos, String place_id,
+            String scope, List<Id> alternate_ids) {
             this.IconHTTP = iconHTTP;
             this.Id = id;
             this.Name = name;
@@ -147,6 +152,7 @@ namespace GoogleCloudClassLibrary.Places {
             this.Location = location;
             this.Photos = photos;
             this.Place_id = place_id;
+            this.Scope = scope;
             this.Alternate_ids = alternate_ids;
         }
     }
@@ -164,12 +170,17 @@ namespace GoogleCloudClassLibrary.Places {
     }
 
     public class FindPlaceCandidates {
+        private String place_id;
         private String formatted_address;
         private Location location;
         private String name;
         private Boolean open_now;
         private List<Photo> photos;
         private double rating;
+
+        public string Place_id {
+            get => place_id; set => place_id = value;
+        }
 
         public string Formatted_address {
             get => formatted_address; set => formatted_address = value;

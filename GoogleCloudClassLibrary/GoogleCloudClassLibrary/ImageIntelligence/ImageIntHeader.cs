@@ -1,24 +1,38 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GoogleCloudClassLibrary.ImageIntelligence {
+    public class ImageSource {
+        private String ImageUri;
+
+        public String imageUri {
+            get => ImageUri;
+            set => ImageUri = value;
+        }
+
+        public ImageSource(String imageUri) {
+            this.imageUri = imageUri;
+        }
+    }
+
     public class Image {
-        private String content;
-        private String sourceUri;
+        private String Content;
+        private ImageSource Source;
 
-        public String Content {
-            get => content; set => content = value;
+        public String content {
+            get => Content; set => Content = value;
         }
-        public String SourceUri {
-            get => sourceUri; set => sourceUri = value;
+        public ImageSource source {
+            get => Source; set => Source = value;
         }
 
-        public Image(String content = "", String sourceUri = "") {
-            this.Content = content;
-            this.SourceUri = sourceUri;
+        public Image(String content = "", ImageSource source = null) {
+            this.content = content;
+            this.source = source;
         }
     }
 
@@ -28,102 +42,102 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class ImageFeatures {
-        private ImageType type;
-        private int maxResults;
-        private String model;
+        private ImageType Type;
+        private int MaxResults;
+        private String Model;
 
-        public ImageType Type {
-            get => type; set => type = value;
+        public ImageType type {
+            get => Type; set => Type = value;
         }
-        public int MaxResults {
-            get => maxResults; set => maxResults = value;
+        public int maxResults {
+            get => MaxResults; set => MaxResults = value;
         }
-        public String Model {
-            get => model; set => model = value;
+        public String model {
+            get => Model; set => Model = value;
         }
 
         public ImageFeatures(ImageType type, int maxResults, String model) {
-            this.Type = type;
-            this.MaxResults = maxResults;
-            this.Model = model;
+            this.type = type;
+            this.maxResults = maxResults;
+            this.model = model;
         }
     }
 
     public class LatLngRect {
-        Places.Location minLatLng;
-        Places.Location maxLatLng;
+        Places.Location MinLatLng;
+        Places.Location MaxLatLng;
 
-        public Places.Location MinLatLng {
-            get => minLatLng; set => minLatLng = value;
+        public Places.Location minLatLng {
+            get => MinLatLng; set => MinLatLng = value;
         }
-        public Places.Location MaxLatLng {
-            get => maxLatLng; set => maxLatLng = value;
+        public Places.Location maxLatLng {
+            get => MaxLatLng; set => MaxLatLng = value;
         }
 
         public LatLngRect(Places.Location minLatLng, Places.Location maxLatLng) {
-            this.MinLatLng = minLatLng;
-            this.MaxLatLng = maxLatLng;
+            this.minLatLng = minLatLng;
+            this.maxLatLng = maxLatLng;
         }
     }
 
     public class ImageContext {
-        private LatLngRect latLngRect;
-        private List<String> languageHints;
-        private List<double> cropHintAspectRatios;
-        private Boolean includeGeoResults;
+        private LatLngRect LatLngRect;
+        private List<String> LanguageHints;
+        private List<double> CropHintAspectRatios;
+        private Boolean IncludeGeoResults;
 
-        public LatLngRect LatLngRect {
-            get => latLngRect; set => latLngRect = value;
+        public LatLngRect latLngRect {
+            get => LatLngRect; set => LatLngRect = value;
         }
-        public List<String> LanguageHints {
-            get => languageHints; set => languageHints = value;
+        public List<String> languageHints {
+            get => LanguageHints; set => LanguageHints = value;
         }
-        public List<double> CropHintAspectRatios {
-            get => cropHintAspectRatios; set => cropHintAspectRatios = value;
+        public List<double> cropHintAspectRatios {
+            get => CropHintAspectRatios; set => CropHintAspectRatios = value;
         }
-        public Boolean IncludeGeoResults {
-            get => includeGeoResults; set => includeGeoResults = value;
+        public Boolean includeGeoResults {
+            get => IncludeGeoResults; set => IncludeGeoResults = value;
         }
 
         public ImageContext(LatLngRect latLngRect, List<String> langHints, List<double> cropHintAspectRatios, Boolean includeGeoResults) {
-            this.LatLngRect = latLngRect;
-            this.LanguageHints = langHints;
-            this.CropHintAspectRatios = cropHintAspectRatios;
-            this.IncludeGeoResults = includeGeoResults;
+            this.latLngRect = latLngRect;
+            this.languageHints = langHints;
+            this.cropHintAspectRatios = cropHintAspectRatios;
+            this.includeGeoResults = includeGeoResults;
         }
     }
 
     public class AnnotateImageRequests {
-        private Image image;
-        private List<ImageFeatures> features;
-        private ImageContext imageContext;
+        private Image Image;
+        private List<ImageFeatures> Features;
+        private ImageContext ImageContext;
 
-        public Image Image {
-            get => image; set => image = value;
+        public Image image {
+            get => Image; set => Image = value;
         }
-        public List<ImageFeatures> Features {
-            get => features; set => features = value;
+        public List<ImageFeatures> features {
+            get => Features; set => Features = value;
         }
-        public ImageContext ImageContext {
-            get => imageContext; set => imageContext = value;
+        public ImageContext imageContext {
+            get => ImageContext; set => ImageContext = value;
         }
 
         public AnnotateImageRequests(Image image, List<ImageFeatures> features, ImageContext context) {
-            this.Image = image;
-            this.Features = features;
-            this.ImageContext = context;
+            this.image = image;
+            this.features = features;
+            this.imageContext = context;
         }
     }
 
     public class AnnotateImageRequestList {
-        private List<AnnotateImageRequests> requests;
+        private List<AnnotateImageRequests> Requests;
 
-        public List<AnnotateImageRequests> Requests {
-            get => requests; set => requests = value;
+        public List<AnnotateImageRequests> requests {
+            get => Requests; set => Requests = value;
         }
 
         public AnnotateImageRequestList(List<AnnotateImageRequests> requests) {
-            this.Requests = requests;
+            this.requests = requests;
         }
     }
 
@@ -157,7 +171,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public enum LandmarkType {
-        UNKNOWN_LANDMARK, LEFT_EYE, RIGHT_EYE, LEFT_OF_LEFT_EYEBROW, RIGHT_OF_LEFT_EYEBROW, LEFT_OF_RIGHT_EYEBROW, RIGHT_OF_RIGHT_EYEBROW, MIDPOINT_BETWEEN_EYES, NOSE_TIP, UPPER_LIP, LOWER_LIP, MOUTH_LEFT, MOUTH_RIGHT, MOUTH_CENTER, NOSE_BOTTOM_RIGHT, NOSE_BOTTOM_LEFT, NOSE_BOTTOM_CENTER, LEFT_EYE_TOP_BOUNDARY, LEFT_EYE_RIGHT_CORNER, LEFT_EYE_LEFT_CORNER, RIGHT_EYE_TOP_BOUNDARY, RIGHT_EYE_RIGHT_CORNER, RIGHT_EYE_BOTTOM_BOUNDARY, RIGHT_EYE_LEFT_CORNER, LEFT_EYEBROW_UPPER_MIDPOINT, RIGHT_EYEBROW_UPPER_MIDPOINT, LEFT_EAR_TRAGION, RIGHT_EAR_TRAGION, LEFT_EYE_PUPIL, RIGHT_EYE_PUPIL, FOREHEAD_GLABELLA, CHIN_GNATHION, CHIN_LEFT_GONION, CHIN_RIGHT_GONION
+        UNKNOWN_LANDMARK, LEFT_EYE, RIGHT_EYE, LEFT_OF_LEFT_EYEBROW, RIGHT_OF_LEFT_EYEBROW, LEFT_OF_RIGHT_EYEBROW, RIGHT_OF_RIGHT_EYEBROW, MIDPOINT_BETWEEN_EYES, NOSE_TIP, UPPER_LIP, LOWER_LIP, MOUTH_LEFT, MOUTH_RIGHT, MOUTH_CENTER, NOSE_BOTTOM_RIGHT, NOSE_BOTTOM_LEFT, NOSE_BOTTOM_CENTER, LEFT_EYE_TOP_BOUNDARY, LEFT_EYE_BOTTOM_BOUNDARY, LEFT_EYE_RIGHT_CORNER, LEFT_EYE_LEFT_CORNER, RIGHT_EYE_TOP_BOUNDARY, RIGHT_EYE_RIGHT_CORNER, RIGHT_EYE_BOTTOM_BOUNDARY, RIGHT_EYE_LEFT_CORNER, LEFT_EYEBROW_UPPER_MIDPOINT, RIGHT_EYEBROW_UPPER_MIDPOINT, LEFT_EAR_TRAGION, RIGHT_EAR_TRAGION, LEFT_EYE_PUPIL, RIGHT_EYE_PUPIL, FOREHEAD_GLABELLA, CHIN_GNATHION, CHIN_LEFT_GONION, CHIN_RIGHT_GONION
     }
 
     public class Position {
@@ -857,18 +871,18 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     }
 
     public class AnnotateImageResponse {
-        private FaceAnnotation faceAnnotations;
+        private List<FaceAnnotation> faceAnnotations;
         private List<EntityAnnotation> landmarkAnnotations;
         private List<EntityAnnotation> logoAnnotations;
         private List<EntityAnnotation> labelAnnotations;
         private List<EntityAnnotation> textAnnotations;
         private TextAnnotation fullTextAnnotations;
         private SafeSearchAnnotation safeSearchAnnotations;
-        private ImagesProperties imagesPropertiesAnnotations;
-        private CropHintsAnnotation cropHintsAnnotations;
+        private ImagesProperties imagePropertiesAnnotation;
+        private CropHintsAnnotation cropHintsAnnotation;
         private WebDetection webDetection;
 
-        public FaceAnnotation FaceAnnotations {
+        public List<FaceAnnotation> FaceAnnotations {
             get => faceAnnotations; set => faceAnnotations = value;
         }
         public List<EntityAnnotation> LandmarkAnnotations {
@@ -889,17 +903,17 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         public SafeSearchAnnotation SafeSearchAnnotations {
             get => safeSearchAnnotations; set => safeSearchAnnotations = value;
         }
-        public ImagesProperties ImagesPropertiesAnnotations {
-            get => imagesPropertiesAnnotations; set => imagesPropertiesAnnotations = value;
+        public ImagesProperties ImagePropertiesAnnotation {
+            get => imagePropertiesAnnotation; set => imagePropertiesAnnotation = value;
         }
-        public CropHintsAnnotation CropHintsAnnotations {
-            get => cropHintsAnnotations; set => cropHintsAnnotations = value;
+        public CropHintsAnnotation CropHintsAnnotation {
+            get => cropHintsAnnotation; set => cropHintsAnnotation = value;
         }
         public WebDetection WebDetection {
             get => webDetection; set => webDetection = value;
         }
 
-        public AnnotateImageResponse(FaceAnnotation faceAnnotation, List<EntityAnnotation> landmarkAnnotations, List<EntityAnnotation> logoAnnotations, List<EntityAnnotation> labelAnnotations, List<EntityAnnotation> textAnnotations, TextAnnotation fullTextAnnotations, SafeSearchAnnotation safeSearchAnnotations, ImagesProperties imagesPropertiesAnnotations, CropHintsAnnotation cropHintsAnnotations, WebDetection webDetection) {
+        public AnnotateImageResponse(List<FaceAnnotation> faceAnnotation, List<EntityAnnotation> landmarkAnnotations, List<EntityAnnotation> logoAnnotations, List<EntityAnnotation> labelAnnotations, List<EntityAnnotation> textAnnotations, TextAnnotation fullTextAnnotations, SafeSearchAnnotation safeSearchAnnotations, ImagesProperties imagePropertiesAnnotation, CropHintsAnnotation cropHintsAnnotation, WebDetection webDetection) {
             this.FaceAnnotations = faceAnnotation;
             this.LandmarkAnnotations = landmarkAnnotations;
             this.LogoAnnotations = logoAnnotations;
@@ -907,8 +921,8 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             this.TextAnnotations = textAnnotations;
             this.FullTextAnnotations = fullTextAnnotations;
             this.SafeSearchAnnotations = safeSearchAnnotations;
-            this.ImagesPropertiesAnnotations = imagesPropertiesAnnotations;
-            this.CropHintsAnnotations = cropHintsAnnotations;
+            this.ImagePropertiesAnnotation = imagePropertiesAnnotation;
+            this.CropHintsAnnotation = cropHintsAnnotation;
             this.WebDetection = webDetection;
         }
     }
@@ -916,6 +930,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class AnnotateImageResponseList {
         private List<AnnotateImageResponse> responses;
 
+        [JsonProperty("responses")]
         public List<AnnotateImageResponse> Responses { get => responses; set => responses = value; }
 
         public AnnotateImageResponseList(List<AnnotateImageResponse> responses) {
