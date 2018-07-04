@@ -23,7 +23,6 @@ namespace GoogleCloudClassLibrary.Places {
         }
 
         // Find Places
-        // TODO: Replace int with Status class
 
         /*
          * Method: FindPlacesUsingTextQuery

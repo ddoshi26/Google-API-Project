@@ -27,7 +27,7 @@ namespace GoogleCloudConsole {
             results.Wait();
 
             // Natural Language Intelligence
-            // Function 3 - AnalyzeEntitySentiment 
+            // Function 3 - AnalyzeEntitySentiment - Tessted
             NL.NaturalLanguageIntelligence nli = new NL.NaturalLanguageIntelligence();
             NL.Document document = new NL.Document((NL.DocumentType.PLAIN_TEXT), "en", "gs://\"gccl_dd_01/Case Response - Masterpiece Cakeshop.pdf\"");
             Task<NL.AnalyzeEntitiesResponse> response = nli.AnalyzeEntitySentiment(API_KEY, document, NL.EncodingType.UTF8);

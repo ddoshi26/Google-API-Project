@@ -97,11 +97,11 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             return null;
         }
 
-        public AnnotateText AnnotateText(Document document, TextFeatures features, EncodingType encodingType) {
+        public AnnotateTextResponse AnnotateText(Document document, TextFeatures features, EncodingType encodingType) {
             return null;
         }
 
-        public List<ClassificationCategory> ClassifyText(Document document) {
+        public ClassifyTextResponse ClassifyText(Document document) {
             return null;
         }
     }

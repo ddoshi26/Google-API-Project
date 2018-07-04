@@ -10,9 +10,11 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         private String startTimeOffset;
         private String endTimeOffset;
 
+        [JsonProperty("startTimeOffset")]
         public String StartTimeOffset {
             get => startTimeOffset; set => startTimeOffset = value;
         }
+        [JsonProperty("endTimeOffset")]
         public String EndTimeOffset {
             get => endTimeOffset; set => endTimeOffset = value;
         }
@@ -26,7 +28,6 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class LabelDetectionConfig {
         private Boolean shotMode = false;
         private Boolean frameMode = false;
-
         private Boolean stationaryCamera;
         private String model;
 
@@ -52,51 +53,90 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         }
     }
 
+    public class ShotChangeDetectionConfig {
+        private String model;
+
+        [JsonProperty("model")]
+        public String Model {
+            get => model;
+            set => model = value;
+        }
+
+        public ShotChangeDetectionConfig(String model) {
+            Model = model;
+        }
+    }
+
+
+    public class ExplicitContentDetectionConfig {
+        private String model;
+
+        [JsonProperty("model")]
+        public String Model {
+            get => model;
+            set => model = value;
+        }
+
+        public ExplicitContentDetectionConfig(String model) {
+            Model = model;
+        }
+    }
+
     public class VideoContext {
         private List<VideoSegement> segments;
-        private LabelDetectionConfig labelDetection;
-        private String shotChangeDetectionModel;
-        private String explicitContentDetectionModel;
+        private LabelDetectionConfig labelDetectionConfig;
+        private ShotChangeDetectionConfig shotChangeDetectionConfig;
+        private ExplicitContentDetectionConfig explicitContentDetectionConfig;
 
+        [JsonProperty("segments")]
         public List<VideoSegement> Segements {
             get => segments; set => segments = value;
         }
-        public LabelDetectionConfig LabelDetection {
-            get => labelDetection; set => labelDetection = value;
-        }
-        public String ShotChangeDetectionModel {
-            get => shotChangeDetectionModel; set => shotChangeDetectionModel = value;
-        }
-        public String ExplicitChangeDetectionModel {
-            get => explicitContentDetectionModel; set => explicitContentDetectionModel = value;
+
+        [JsonProperty("labelDetectionConfig")]
+        public LabelDetectionConfig LabelDetectionConfig {
+            get => labelDetectionConfig; set => labelDetectionConfig = value;
         }
 
-        public VideoContext(List<VideoSegement> segements, LabelDetectionConfig labelDetectionConfig, String shotChangeModel,
-            String explicitContentModel) {
+        [JsonProperty("shotChangeDetectionConfig")]
+        public ShotChangeDetectionConfig ShotChangeDetectionConfig {
+            get => shotChangeDetectionConfig; set => shotChangeDetectionConfig = value;
+        }
+        public ExplicitContentDetectionConfig ExplicitContentDetectionConfig {
+            get => explicitContentDetectionConfig; set => explicitContentDetectionConfig = value;
+        }
+
+        public VideoContext(List<VideoSegement> segements, LabelDetectionConfig labelDetectionConfig, 
+            ShotChangeDetectionConfig shotChangeDetectionConfig, ExplicitContentDetectionConfig explicitContentDetectionConfig) {
             this.Segements = segements;
-            this.LabelDetection = labelDetectionConfig;
-            this.ShotChangeDetectionModel = shotChangeModel;
-            this.ExplicitChangeDetectionModel = explicitContentModel;
+            this.LabelDetectionConfig = labelDetectionConfig;
+            this.ShotChangeDetectionConfig = shotChangeDetectionConfig;
+            this.ExplicitContentDetectionConfig = explicitContentDetectionConfig;
         }
     }
 
     public class Status {
-        private double number;
+        private double code;
         private String message;
         private List<Object> details;
 
-        public double Number {
-            get => number; set => number = value;
+        [JsonProperty("code")]
+        public double Code {
+            get => code; set => code = value;
         }
+
+        [JsonProperty("message")]
         public String Message {
             get => message; set => message = value;
         }
+
+        [JsonProperty("details")]
         public List<Object> Details {
             get => details; set => details = value;
         }
 
-        public Status(double number, String message, List<Object> details) {
-            this.Number = number;
+        public Status(double code, String message, List<Object> details) {
+            this.Code = code;
             this.Message = message;
             this.Details = details;
         }
@@ -109,18 +149,27 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         private Status status;
         private Object response;
 
+        [JsonProperty("name")]
         public String Name {
             get => name; set => name = value;
         }
+
+        [JsonProperty("metadata")]
         public Object Metadata {
             get => metadata; set => metadata = value;
         }
+
+        [JsonProperty("done")]
         public Boolean OperationDone {
             get => operationDone; set => operationDone = value;
         }
+
+        [JsonProperty("status")]
         public Status Status {
             get => status; set => status = value;
         }
+
+        [JsonProperty("response")]
         public Object Response {
             get => response; set => response = value;
         }
@@ -139,45 +188,56 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     }
 
     public class AnnotateVideoRequest {
-        private String input_Uri;
-        private String input_Content;
-        private List<VideoFeature> feats;
-        private VideoContext video_Context;
-        private String output_Uri;
-        private String location_Id;
+        private String inputUri;
+        private String inputContent;
+        private List<VideoFeature> features;
+        private VideoContext videoContext;
+        private String outputUri;
+        private String locationId;
 
-        public String inputUri {
-            get => input_Uri; set => input_Uri = value;
+        [JsonProperty("inputUri")]
+        public String InputUri {
+            get => inputUri; set => inputUri = value;
         }
-        public String inputContent {
-            get => input_Content; set => input_Content = value;
+
+        [JsonProperty("inputContent")]
+        public String InputContent {
+            get => inputContent; set => inputContent = value;
         }
-        public List<VideoFeature> features {
-            get => feats; set => feats = value;
+
+        [JsonProperty("features")]
+        public List<VideoFeature> Features {
+            get => features; set => features = value;
         }
-        public VideoContext videoContext {
-            get => video_Context; set => video_Context = value;
+
+        [JsonProperty("videoContext")]
+        public VideoContext VideoContext {
+            get => videoContext; set => videoContext = value;
         }
-        public String outputUri {
-            get => output_Uri; set => output_Uri = value;
+
+        [JsonProperty("outputUri")]
+        public String OutputUri {
+            get => outputUri; set => outputUri = value;
         }
-        public String locationId {
-            get => location_Id; set => location_Id = value;
+
+        [JsonProperty("locationId")]
+        public String LocationId {
+            get => locationId; set => locationId = value;
         }
 
         public AnnotateVideoRequest(String inputUri, String inputContent, List<VideoFeature> videoFeatures,
             VideoContext videoContext, String outputUri, String outputLocationId) {
             if (!BasicFunctions.isEmpty(inputUri))
-                this.inputUri = inputUri;
+                this.InputUri = inputUri;
             if (!BasicFunctions.isEmpty(inputContent))
-                this.inputContent = inputContent;
-            this.features = videoFeatures;
+                this.InputContent = inputContent;
+            this.Features = videoFeatures;
             if (videoContext != null)
-                this.videoContext = videoContext;
+                this.VideoContext = videoContext;
             if (!BasicFunctions.isEmpty(outputUri))
-                this.outputUri = outputUri;
+                this.OutputUri = outputUri;
             if (!BasicFunctions.isEmpty(outputLocationId))
-                this.locationId = outputLocationId;
+                this.LocationId = outputLocationId;
         }
     }
 
@@ -234,96 +294,114 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     }
 
     public class Entity {
-        private String entity_Id;
-        private String desc;
-        private String language_Code;
+        private String entityId;
+        private String description;
+        private String languageCode;
 
-        public string entityId {
-            get => entity_Id;
-            set => entity_Id = value;
+        [JsonProperty("entityId")]
+        public string EntityId {
+            get => entityId;
+            set => entityId = value;
         }
-        public string description {
-            get => desc;
-            set => desc = value;
+
+        [JsonProperty("description")]
+        public string Description {
+            get => description;
+            set => description = value;
         }
-        public string languageCode {
-            get => language_Code;
-            set => language_Code = value;
+
+        [JsonProperty("languageCode")]
+        public string LanguageCode {
+            get => languageCode;
+            set => languageCode = value;
         }
 
         public Entity(string entityId, string description, string languageCode) {
-            this.entityId = entityId;
-            this.description = description;
-            this.languageCode = languageCode;
+            this.EntityId = entityId;
+            this.Description = description;
+            this.LanguageCode = languageCode;
         }
     }
 
     public class LabelSegment {
         private VideoSegement segment;
-        private double conf;
-        
+        private double confidence;
+
+        [JsonProperty("segment")]
         public VideoSegement Segment {
             get => segment;
             set => segment = value;
         }
-        public double confidence {
-            get => conf;
-            set => conf = value;
+
+        [JsonProperty("confidence")]
+        public double Confidence {
+            get => confidence;
+            set => confidence = value;
         }
 
         public LabelSegment(VideoSegement segment, double confidence) {
             this.Segment = segment;
-            this.confidence = confidence;
+            this.Confidence = confidence;
         }
     }
 
     public class LabelFrame {
-        private String time_Offset;
-        private double conf;
+        private String timeOffset;
+        private double confidence;
 
-        public string timeOffset {
-            get => time_Offset;
-            set => time_Offset = value;
+        [JsonProperty("timeOffset")]
+        public string TimeOffset {
+            get => timeOffset;
+            set => timeOffset = value;
         }
-        public double confidence {
-            get => conf;
-            set => conf = value;
+
+        [JsonProperty("confidence")]
+        public double Confidence {
+            get => confidence;
+            set => confidence = value;
         }
 
         public LabelFrame(String timeOffset, double confidence) {
-            this.timeOffset = timeOffset;
-            this.confidence = confidence;
+            this.TimeOffset = timeOffset;
+            this.Confidence = confidence;
         }
     }
 
     public class LabelAnnotation {
         private Entity entity;
-        private List<Entity> category_Entities;
+        private List<Entity> categoryEntities;
         private List<LabelSegment> segments;
-        private List<LabelFrame> frame;
+        private List<LabelFrame> frames;
 
+        [JsonProperty("entity")]
         public Entity Entity {
             get => entity;
             set => entity = value;
         }
-        public List<Entity> categoryEntities {
-            get => category_Entities;
-            set => category_Entities = value;
+
+        [JsonProperty("categoryEntities")]
+        public List<Entity> CategoryEntities {
+            get => categoryEntities;
+            set => categoryEntities = value;
         }
+
+        [JsonProperty("segments")]
         public List<LabelSegment> Segments {
             get => segments;
             set => segments = value;
         }
-        public List<LabelFrame> Frame {
-            get => frame;
-            set => frame = value;
+
+        [JsonProperty("frames")]
+        public List<LabelFrame> Frames {
+            get => frames;
+            set => frames = value;
         }
 
         public LabelAnnotation(Entity entity, List<Entity> categoryEntities, List<LabelSegment> segments, List<LabelFrame> frame) {
-            this.entity = entity;
-            this.categoryEntities = categoryEntities;
-            this.segments = segments;
-            this.frame = frame;
+            this.Entity = entity;
+            this.CategoryEntities = categoryEntities;
+            this.Segments = segments;
+            this.Frames = frame;
         }
     }
 
@@ -332,69 +410,87 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     }
 
     public class ExplicitContentFrame {
-        private String time_Offset;
-        private PornographicContentLikelihood pornography_Likelihood;
-        public string timeOffset {
-            get => time_Offset;
-            set => time_Offset = value;
+        private String timeOffset;
+        private PornographicContentLikelihood pornographyLikelihood;
+
+        [JsonProperty("timeOffset")]
+        public string TimeOffset {
+            get => timeOffset;
+            set => timeOffset = value;
         }
-        public PornographicContentLikelihood pornographyLikelihood {
-            get => pornography_Likelihood;
-            set => pornography_Likelihood = value;
+
+        [JsonProperty("pornographyLikelihood")]
+        public PornographicContentLikelihood PornographyLikelihood {
+            get => pornographyLikelihood;
+            set => pornographyLikelihood = value;
         }
 
         public ExplicitContentFrame(string timeOffset, PornographicContentLikelihood pornographyLikelihood) {
-            this.timeOffset = timeOffset;
-            this.pornographyLikelihood = pornographyLikelihood;
+            this.TimeOffset = timeOffset;
+            this.PornographyLikelihood = pornographyLikelihood;
         }
     }
 
     public class ExplicitContentAnnotation {
-        private List<ExplicitContentFrame> frame;
+        private List<ExplicitContentFrame> frames;
 
-        public List<ExplicitContentFrame> frames {
-            get => frame;
-            set => frame = value;
+        [JsonProperty("frames")]
+        public List<ExplicitContentFrame> Frames {
+            get => frames;
+            set => frames = value;
         }
 
         public ExplicitContentAnnotation(List<ExplicitContentFrame> frames) {
-            this.frames = frames;
+            this.Frames = frames;
         }
     }
 
     public class VideoAnnotationResult {
-        private String input_Uri;
+        private String inputUri;
         private List<LabelAnnotation> segmentLabelAnnotations;
         private List<LabelAnnotation> shotLabelAnnotations;
         private List<LabelAnnotation> frameLabelAnnotations;
         private List<VideoSegement> shotAnnotations;
-        private ExplicitContentAnnotation explicitAnnotations;
+        private ExplicitContentAnnotation explicitAnnotation;
         private Status error;
 
-        public string inputUri {
-            get => input_Uri;
-            set => input_Uri = value;
+        [JsonProperty("inputUri")]
+        public string InputUri {
+            get => inputUri;
+            set => inputUri = value;
         }
+
+        [JsonProperty("segmentLabelAnnotations")]
         public List<LabelAnnotation> SegmentLabelAnnotations {
             get => segmentLabelAnnotations;
             set => segmentLabelAnnotations = value;
         }
+
+        [JsonProperty("shotLabelAnnotations")]
         public List<LabelAnnotation> ShotLabelAnnotations {
             get => shotLabelAnnotations;
             set => shotLabelAnnotations = value;
         }
+
+        [JsonProperty("frameLabelAnnotations")]
         public List<LabelAnnotation> FrameLabelAnnotations {
             get => frameLabelAnnotations;
             set => frameLabelAnnotations = value;
         }
+
+        [JsonProperty("shotAnnotations")]
         public List<VideoSegement> ShotAnnotations {
             get => shotAnnotations;
             set => shotAnnotations = value;
         }
+
+        [JsonProperty("explicitAnnotation")]
         public ExplicitContentAnnotation ExplicitAnnotation {
-            get => explicitAnnotations;
-            set => explicitAnnotations = value;
+            get => explicitAnnotation;
+            set => explicitAnnotation = value;
         }
+
+        [JsonProperty("error")]
         public Status Error {
             get => error;
             set => error = value;
@@ -402,34 +498,36 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
 
         public VideoAnnotationResult(string inputUri, List<LabelAnnotation> segmentLabelAnnotations, 
             List<LabelAnnotation> shotLabelAnnotations, List<LabelAnnotation> frameLabelAnnotations,
-            List<VideoSegement> shotAnnotations, ExplicitContentAnnotation explicitAnnotations, Status error) {
-            this.inputUri = inputUri;
+            List<VideoSegement> shotAnnotations, ExplicitContentAnnotation explicitAnnotation, Status error) {
+            this.InputUri = inputUri;
             this.SegmentLabelAnnotations = segmentLabelAnnotations;
             this.ShotLabelAnnotations = shotLabelAnnotations;
-            this.frameLabelAnnotations = frameLabelAnnotations;
-            this.shotAnnotations = shotAnnotations;
-            this.explicitAnnotations = explicitAnnotations;
-            this.error = error;
+            this.FrameLabelAnnotations = frameLabelAnnotations;
+            this.ShotAnnotations = shotAnnotations;
+            this.ExplicitAnnotation = explicitAnnotation;
+            this.Error = error;
         }
     }
 
     public class AnnotateResponse {
         private String type;
-        private List<VideoAnnotationResult> annotation_Results;
+        private List<VideoAnnotationResult> annotationResults;
 
         [JsonProperty("@type")]
         public string Type {
             get => type;
             set => type = value;
         }
-        public List<VideoAnnotationResult> annotationResults {
-            get => annotation_Results;
-            set => annotation_Results = value;
+
+        [JsonProperty("annotationResults")]
+        public List<VideoAnnotationResult> AnnotationResults {
+            get => annotationResults;
+            set => annotationResults = value;
         }
 
         public AnnotateResponse(string type, List<VideoAnnotationResult> annotationResults) {
             this.Type = type;
-            this.annotationResults = annotationResults;
+            this.AnnotationResults = annotationResults;
         }
     }
 
@@ -439,18 +537,25 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         private Boolean done;
         private AnnotateResponse response;
 
+        [JsonProperty("name")]
         public string Name {
             get => name;
             set => name = value;
         }
+
+        [JsonProperty("metadata")]
         public Metadata Metadata {
             get => metadata;
             set => metadata = value;
         }
+
+        [JsonProperty("done")]
         public bool Done {
             get => done;
             set => done = value;
         }
+
+        [JsonProperty("response")]
         public AnnotateResponse Response {
             get => response;
             set => response = value;
@@ -459,7 +564,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         public VideoAnnotationResponse(string name, Metadata metadata, bool done, AnnotateResponse response) {
             this.Name = name;
             this.Metadata = metadata;
-            Done = done;
+            this.Done = done;
             this.Response = response;
         }
     }

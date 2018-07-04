@@ -51,6 +51,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
 
         [JsonProperty("document")]
         public Document Document { get => document; set => document = value; }
+
         [JsonProperty("encodingType")]
         public EncodingType EncodingType { get => encodingType; set => encodingType = value; }
 
@@ -67,18 +68,27 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private Boolean extractEntitySentiment;
         private Boolean classifyText;
 
+        [JsonProperty("extractSyntax")]
         public bool ExtractSyntax {
             get => extractSyntax; set => extractSyntax = value;
         }
+
+        [JsonProperty("extractEntities")]
         public bool ExtractEntities {
             get => extractEntities; set => extractEntities = value;
         }
+
+        [JsonProperty("extractDocumentSentiment")]
         public bool ExtractDocumentSentiment {
             get => extractDocumentSentiment; set => extractDocumentSentiment = value;
         }
+
+        [JsonProperty("extractEntitySentiment")]
         public bool ExtractEntitySentiment {
             get => extractEntitySentiment; set => extractEntitySentiment = value;
         }
+
+        [JsonProperty("classifyText")]
         public bool ClassifyText {
             get => classifyText; set => classifyText = value;
         }
@@ -98,9 +108,12 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private double magnitude;
         private double score;
 
+        [JsonProperty("magnitude")]
         public double Magnitude {
             get => magnitude; set => magnitude = value;
         }
+
+        [JsonProperty("score")]
         public double Score {
             get => score; set => score = value;
         }
@@ -115,9 +128,12 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         String content;
         int beginOffset;
 
+        [JsonProperty("content")]
         public String Content {
             get => content; set => content = value;
         }
+
+        [JsonProperty("beginOffset")]
         public int BeginOffset {
             get => beginOffset; set => beginOffset = value;
         }
@@ -141,12 +157,17 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private EntityMentionType type;
         private Sentiment sentiment;
 
+        [JsonProperty("text")]
         public TextSpan Text {
             get => text; set => text = value;
         }
+
+        [JsonProperty("type")]
         public EntityMentionType Type {
             get => type; set => type = value;
         }
+
+        [JsonProperty("sentiment")]
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
@@ -166,21 +187,32 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private List<EntityMention> mentions;
         private Sentiment sentiment;
 
+        [JsonProperty("name")]
         public String Name {
             get => name; set => name = value;
         }
+
+        [JsonProperty("type")]
         public EntityResponseType Type {
             get => type; set => type = value;
         }
+
+        [JsonProperty("metadata")]
         public Dictionary<String, String> Metadata {
             get => metadata; set => metadata = value;
         }
+
+        [JsonProperty("salience")]
         public double Salience {
             get => salience; set => salience = value;
         }
+
+        [JsonProperty("mentions")]
         public List<EntityMention> Mentions {
             get => mentions; set => mentions = value;
         }
+
+        [JsonProperty("sentiment")]
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
@@ -200,9 +232,12 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private List<Entity> entities;
         private String language;
 
+        [JsonProperty("entities")]
         public List<Entity> Entities {
             get => entities; set => entities = value;
         }
+
+        [JsonProperty("language")]
         public String Language {
             get => language; set => language = value;
         }
@@ -217,9 +252,12 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private TextSpan text;
         private Sentiment sentiment;
 
+        [JsonProperty("text")]
         public TextSpan Text {
             get => text; set => text = value;
         }
+
+        [JsonProperty("sentiment")]
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
@@ -235,12 +273,17 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private String language;
         private List<Sentence> sentences;
 
+        [JsonProperty("sentiment")]
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
+
+        [JsonProperty("language")]
         public String Language {
             get => language; set => language = value;
         }
+
+        [JsonProperty("sentences")]
         public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
@@ -324,39 +367,62 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         PartsOfSpeechTense tense;
         PartsOfSpeechVoice voice;
 
+        [JsonProperty("tag")]
         public PartsOfSpeechTag Tag {
             get => tag; set => tag = value;
         }
+
+        [JsonProperty("aspect")]
         public PartsOfSpeechAspect Aspect {
             get => aspect; set => aspect = value;
         }
+
+        [JsonProperty("case")]
         public PartsOfSpeechCase Case {
             get => p_case; set => p_case = value;
         }
+
+        [JsonProperty("form")]
         public PartsOfSpeechForm Form {
             get => form; set => form = value;
         }
+
+        [JsonProperty("gender")]
         public PartsOfSpeechGender Gender {
             get => gender; set => gender = value;
         }
+
+        [JsonProperty("mood")]
         public PartsOfSpeechMood Mood {
             get => mood; set => mood = value;
         }
+
+        [JsonProperty("number")]
         public PartsOfSpeechNumber Number {
             get => number; set => number = value;
         }
+
+        [JsonProperty("person")]
         public PartsOfSpeechPerson Person {
             get => person; set => person = value;
         }
+
+        [JsonProperty("proper")]
         public PartsOfSpeechProper Proper {
             get => proper; set => proper = value;
         }
+
+        [JsonProperty("reciprocity")]
         public PartsOfSpeechReciprocity Reciprocity {
             get => reciprocity; set => reciprocity = value;
         }
+
+        [JsonProperty("tense")]
         public PartsOfSpeechTense Tense {
             get => tense; set => tense = value;
         }
+
+        [JsonProperty("voice")]
         public PartsOfSpeechVoice Voice {
             get => voice; set => voice = value;
         }
@@ -382,26 +448,33 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
 
     public class Token {
         private TextSpan text;
-        private PartsOfSpeech partsOfSpeech;
+        private PartsOfSpeech partOfSpeech;
         private DependencyEdgeLabel dependencyEdge;
         private String lemma;
 
+        [JsonProperty("text")]
         public TextSpan Text {
             get => text; set => text = value;
         }
-        public PartsOfSpeech PartsOfSpeech {
-            get => partsOfSpeech; set => partsOfSpeech = value;
+
+        [JsonProperty("partOfSpeech")]
+        public PartsOfSpeech PartOfSpeech {
+            get => partOfSpeech; set => partOfSpeech = value;
         }
+
+        [JsonProperty("dependencyEdge")]
         public DependencyEdgeLabel DependencyEdge {
             get => dependencyEdge; set => dependencyEdge = value;
         }
+
+        [JsonProperty("lemma")]
         public String Lemma {
             get => lemma; set => lemma = value;
         }
 
-        public Token(TextSpan text, PartsOfSpeech partsOfSpeech, DependencyEdgeLabel dependencyEdge, String lemma) {
+        public Token(TextSpan text, PartsOfSpeech partOfSpeech, DependencyEdgeLabel dependencyEdge, String lemma) {
             this.Text = text;
-            this.PartsOfSpeech = partsOfSpeech;
+            this.PartOfSpeech = partOfSpeech;
             this.DependencyEdge = dependencyEdge;
             this.Lemma = lemma;
         }
@@ -412,12 +485,17 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private List<Token> tokens;
         private String language;
 
+        [JsonProperty("sentences")]
         public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
+
+        [JsonProperty("tokens")]
         public List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
+
+        [JsonProperty("language")]
         public String Language {
             get => language; set => language = value;
         }
@@ -429,13 +507,46 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         }
     }
 
+    public class AnnotateTextRequest {
+        private Document document;
+        private TextFeatures features;
+        private EncodingType encodingType;
+
+        [JsonProperty("document")]
+        public Document Document {
+            get => document;
+            set => document = value;
+        }
+
+        [JsonProperty("features")]
+        public TextFeatures Features {
+            get => features;
+            set => features = value;
+        }
+
+        [JsonProperty("encodingType")]
+        public EncodingType EncodingType {
+            get => encodingType;
+            set => encodingType = value;
+        }
+
+        public AnnotateTextRequest(Document document, TextFeatures features, EncodingType encodingType) {
+            Document = document;
+            Features = features;
+            EncodingType = encodingType;
+        }
+    }
+
     public class ClassificationCategory {
         private String name;
         private double confidence;
 
+        [JsonProperty("name")]
         public String Name {
             get => name; set => name = value;
         }
+
+        [JsonProperty("confidence")]
         public double Confidence {
             get => confidence; set => confidence = value;
         }
@@ -446,7 +557,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         }
     }
 
-    public class AnnotateText {
+    public class AnnotateTextResponse {
         private List<Sentence> sentences;
         private List<Token> tokens;
         private List<Entity> entities;
@@ -454,26 +565,37 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private String language;
         private List<ClassificationCategory> categories;
 
+        [JsonProperty("sentences")]
         public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
         }
+
+        [JsonProperty("tokens")]
         public List<Token> Tokens {
             get => tokens; set => tokens = value;
         }
+
+        [JsonProperty("entities")]
         public List<Entity> Entities {
             get => entities; set => entities = value;
         }
+
+        [JsonProperty("documentSentiment")]
         public Sentiment DocumentSentiment {
             get => documentSentiment; set => documentSentiment = value;
         }
+
+        [JsonProperty("language")]
         public String Language {
             get => language; set => language = value;
         }
+
+        [JsonProperty("categories")]
         public List<ClassificationCategory> Categories {
             get => categories; set => categories = value;
         }
 
-        public AnnotateText(List<Sentence> sentences, List<Token> tokens, List<Entity> entities, Sentiment sentiment,
+        public AnnotateTextResponse(List<Sentence> sentences, List<Token> tokens, List<Entity> entities, Sentiment sentiment,
             String language, List<ClassificationCategory> classificationCategories) {
             this.Sentences = sentences;
             this.Tokens = tokens;
@@ -481,6 +603,33 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             this.DocumentSentiment = sentiment;
             this.Language = language;
             this.Categories = classificationCategories;
+        }
+    }
+
+    public class ClassifyTextRequest {
+        private Document document;
+
+        [JsonProperty("document")]
+        public Document Document {
+            get => document;
+            set => document = value;
+        }
+
+        public ClassifyTextRequest(Document document) {
+            Document = document;
+        }
+    }
+
+    public class ClassifyTextResponse {
+        private List<ClassificationCategory> categories;
+
+        public List<ClassificationCategory> Categories {
+            get => categories;
+            set => categories = value;
+        }
+
+        public ClassifyTextResponse(List<ClassificationCategory> categories) {
+            Categories = categories;
         }
     }
 }

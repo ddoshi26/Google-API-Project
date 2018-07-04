@@ -37,7 +37,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
          *   the query is unsuccessful and an error is returned, then the method returns null.
          */
         public async Task<List<AnnotateImageResponse>> AnnotateImage(String APIKey, AnnotateImageRequestList imageRequests) {
-            if (imageRequests == null || imageRequests.requests.Count == 0) {
+            if (imageRequests == null || imageRequests.Requests.Count == 0) {
                 return null;
             }
 
