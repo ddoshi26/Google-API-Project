@@ -84,24 +84,269 @@ namespace GoogleCloudClassLibrary.Places {
             }
         }
 
-        public List<FindPlaceCandidates> FindPlacesUsingPhoneNumber(String APIKey, String phone_no) {
-            return null;
+        // TODO: Fix this. Query returns INVALID_REQUEST
+        public async Task<List<FindPlaceCandidates>> FindPlacesUsingPhoneNumber(String APIKey, String phone_no) {
+            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(phone_no)) {
+                return null;
+            }
+            
+            // Converting the query into a URL friendly version
+            String HTTP_query = $"findplacefromtext/json?input={phone_no}&inputtype=phonenumber&key={APIKey}";
+
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making the asynchronous GET request to Places API and colleting the response
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            // Similar two-step hop as we have seen in the previous function
+            try {
+                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                if (candidateList.Candidates.Count == 0) {
+                    return null;
+                }
+                else {
+                    return candidateList.Candidates;
+                }
+            } catch (JsonSerializationException e) {
+                Console.WriteLine("Exception: " + e.StackTrace);
+                return null;
+            }
         }
 
-        public List<FindPlaceCandidates> FindPlacesWithPointLocationBias(String APIKey, String query, String input_type,
-            Location location, String language_code = "en", String fields = "") {
-            return null;
+        /*
+         * Method: FindPlacesWithPointLocationBias
+         * 
+         * Description: This method can be used to query the Places API for places with some specific matching 
+         *   parameter located at a given location. The API will prefer results that are closer to the given location.
+         * 
+         * Parameters:
+         *   - APIKey (String): String representing the Gooogle Cloud Services API access key. For more details:
+         *       https://developers.google.com/places/web-service/get-api-key
+         *   - query (String): A string parameter that will be used to search through the Places API and find 
+         *       places that contain matching information. This could be any collection of keywords that can 
+         *       appropriately describe the place sought.
+         *   - inputType (InputType): THis identifies the type of input provided in the query. This can either be
+         *       TEXTQUERY or PHONENUMBER.
+         *   - location (Location): The coordinates of the point which will be used by the Places API to bias results.
+         *   - fields (List<Fields>): OPTIONAL parameter. This is a list of details you wish to get about the places
+         *       that match the query. If the list is empty or null, then the Places API will only return the place_id
+         *       by default.
+         *   - language_code (String): OPTIONAL parameter indicating the language in which results will be returned.
+         *       By default this is set to English. List of supported languages and their codes: 
+         *       https://developers.google.com/maps/faq#languagesupport
+         * 
+         * Return: The method returns a list of all the candidates that match the query provided. The list is 
+         *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
+         */
+        public async Task<List<FindPlaceCandidates>> FindPlacesWithPointLocationBias(String APIKey, String query, InputType inputType,
+            Location location, List<Fields> fields, String language_code = "") {
+            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query) || location == null) {
+                return null;
+            }
+
+            String processed_query = BasicFunctions.processTextQuery(query);
+
+            // Converting the query into a URL friendly version
+            String HTTP_query = $"findplacefromtext/json?input={processed_query}&inputtype={inputType.ToString().ToLower()}" +
+                $"&locationbias=point:{location.Lat},{location.Lng}";
+
+            if (fields != null && fields.Count != 0) {
+                HTTP_query += $"&fields={BasicFunctions.getFieldsListString(fields)}";
+            }
+            if (!BasicFunctions.isEmpty(language_code)) {
+                HTTP_query += $"&language={language_code}";
+            }
+            HTTP_query += $"&key={APIKey}";
+            
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making the asynchronous GET request to Places API and colleting the response
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            if (!response.IsSuccessStatusCode) {
+                return null;
+            }
+
+            // Similar two-step hop as we have seen in the previous function
+            try {
+                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                if (candidateList.Candidates.Count == 0) {
+                    return null;
+                }
+                else {
+                    return candidateList.Candidates;
+                }
+            } catch (JsonSerializationException e) {
+                Console.WriteLine("Exception: " + e.StackTrace);
+                return null;
+            }
         }
 
-        public List<FindPlaceCandidates> FindPlacesWithCircularLocationBias(String APIKey, String query,
-            String input_type, Location location, double radius, String language_code = "en",
-            String fields = "") {
-            return null;
+        /*
+         * Method: FindPlacesWithCirculaarLocationBias
+         * 
+         * Description: This method can be used to query the Places API for places with some specific matching 
+         *   parameter located within a circular region. The API will prefer results that are within the region
+         *   formed by the location point and the radius parameters.
+         * 
+         * Parameters:
+         *   - APIKey (String): String representing the Gooogle Cloud Services API access key. For more details:
+         *       https://developers.google.com/places/web-service/get-api-key
+         *   - query (String): A string parameter that will be used to search through the Places API and find 
+         *       places that contain matching information. This could be any collection of keywords that can 
+         *       appropriately describe the place sought.
+         *   - inputType (InputType): THis identifies the type of input provided in the query. This can either be
+         *       TEXTQUERY or PHONENUMBER.
+         *   - location (Location): The coordinates of the point which will be used as teh center of the circular 
+         *       search region by the Places API.
+         *   - radius (double): Radius of the circular search region from the location point. This is in meters
+         *      and the allowable range is between 0 and 50,000 meters (inclusive).
+         *   - fields (List<Fields>): OPTIONAL parameter. This is a list of details you wish to get about the places
+         *       that match the query. If the list is empty or null, then the Places API will only return the place_id
+         *       by default.
+         *   - language_code (String): OPTIONAL parameter indicating the language in which results will be returned.
+         *       By default this is set to English. List of supported languages and their codes: 
+         *       https://developers.google.com/maps/faq#languagesupport
+         * 
+         * Return: The method returns a list of all the candidates that match the query provided. The list is 
+         *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
+         */
+        public async Task<List<FindPlaceCandidates>> FindPlacesWithCircularLocationBias(String APIKey, String query,
+            InputType inputType, Location location, double radius, List<Fields> fields, String language_code = "") {
+            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query) || location == null || radius <= 0) {
+                return null;
+            }
+
+            String processed_query = BasicFunctions.processTextQuery(query);
+
+            // Converting the query into a URL friendly version
+            String HTTP_query = $"findplacefromtext/json?input={processed_query}&inputtype={inputType.ToString().ToLower()}" +
+                $"&locationbias=circle:{radius}@{location.Lat},{location.Lng}";
+
+            if (fields != null && fields.Count != 0) {
+                HTTP_query += $"&fields={BasicFunctions.getFieldsListString(fields)}";
+            }
+            if (!BasicFunctions.isEmpty(language_code)) {
+                HTTP_query += $"&language={language_code}";
+            }
+            HTTP_query += $"&key={APIKey}";
+
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making the asynchronous GET request to Places API and colleting the response
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            if (!response.IsSuccessStatusCode) {
+                return null;
+            }
+
+            // Similar two-step hop as we have seen in the previous function
+            try {
+                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                if (candidateList.Candidates.Count == 0) {
+                    return null;
+                }
+                else {
+                    return candidateList.Candidates;
+                }
+            } catch (JsonSerializationException e) {
+                Console.WriteLine("Exception: " + e.StackTrace);
+                return null;
+            }
         }
 
-        public List<FindPlaceCandidates> FindPlacesWithRectLocationBias(String APIKey, String query, String input_type,
-            Location southWestCorner, Location northEastCorner, String language_code = "en", String fields = "") {
-            return null;
+        /*
+         * Method: FindPlacesWithCirculaarLocationBias
+         * 
+         * Description: This method can be used to query the Places API for places with some specific matching 
+         *   parameter located within a rectangular region. The API will prefer results that are within the region
+         *   formed by SouthWest and NorthEast corner points.
+         * 
+         * Parameters:
+         *   - APIKey (String): String representing the Gooogle Cloud Services API access key. For more details:
+         *       https://developers.google.com/places/web-service/get-api-key
+         *   - query (String): A string parameter that will be used to search through the Places API and find 
+         *       places that contain matching information. This could be any collection of keywords that can 
+         *       appropriately describe the place sought.
+         *   - inputType (InputType): THis identifies the type of input provided in the query. This can either be
+         *       TEXTQUERY or PHONENUMBER.
+         *   - southWestCorner (Location): The coordinates of the SouthWest point  of the search rectangle.
+         *   - northEastCorner (Location): The coordinates of the NorthEast point of the search rectangle.
+         *   - fields (List<Fields>): OPTIONAL parameter. This is a list of details you wish to get about the places
+         *       that match the query. If the list is empty or null, then the Places API will only return the place_id
+         *       by default.
+         *   - language_code (String): OPTIONAL parameter indicating the language in which results will be returned.
+         *       By default this is set to English. List of supported languages and their codes: 
+         *       https://developers.google.com/maps/faq#languagesupport
+         * 
+         * Return: The method returns a list of all the candidates that match the query provided. The list is 
+         *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
+         */
+        public async Task<List<FindPlaceCandidates>> FindPlacesWithRectLocationBias(String APIKey, String query, InputType inputType,
+            Location southWestCorner, Location northEastCorner, List<Fields> fields, String language_code = "") {
+            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
+                return null;
+            }
+            if (southWestCorner == null || northEastCorner == null) {
+                return null;
+            }
+
+            String processed_query = BasicFunctions.processTextQuery(query);
+
+            // Converting the query into a URL friendly version
+            String HTTP_query = $"findplacefromtext/json?input={processed_query}&inputtype={inputType.ToString().ToLower()}" +
+                $"&locationbias=rectangle:{southWestCorner.Lat},{southWestCorner.Lng}|{northEastCorner.Lat},{northEastCorner.Lng}";
+
+            if (fields != null && fields.Count != 0) {
+                HTTP_query += $"&fields={BasicFunctions.getFieldsListString(fields)}";
+            }
+            if (!BasicFunctions.isEmpty(language_code)) {
+                HTTP_query += $"&language={language_code}";
+            }
+            HTTP_query += $"&key={APIKey}";
+
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making the asynchronous GET request to Places API and colleting the response
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            if (!response.IsSuccessStatusCode) {
+                return null;
+            }
+
+            // Similar two-step hop as we have seen in the previous function
+            try {
+                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                if (candidateList.Candidates.Count == 0) {
+                    return null;
+                }
+                else {
+                    return candidateList.Candidates;
+                }
+            } catch (JsonSerializationException e) {
+                Console.WriteLine("Exception: " + e.StackTrace);
+                return null;
+            }
         }
 
         // Nearby Search Requests

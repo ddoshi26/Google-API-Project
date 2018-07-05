@@ -6,6 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GoogleCloudClassLibrary.Places {
+
+    public enum InputType {
+        TEXTQUERY, PHONENUMBER
+    }
+
+    public enum Fields {
+        PHOTOS, FORMATTED_ADDRESS, NAME, PLACE_ID, ICON, ID, PERMANENTLY_CLOSED, PLUS_CODE, TYPES,
+        OPENING_HOURS, RATING, PRICE_LEVEL
+    }
+
     public class Location {
         private Double lat;
         private Double lng;
@@ -111,20 +121,6 @@ namespace GoogleCloudClassLibrary.Places {
         }
     }
 
-    public class Geometry {
-        private Location location;
-
-        [JsonProperty("location")]
-        public Location Location {
-            get => location;
-            set => location = value;
-        }
-
-        public Geometry(Location location) {
-            Location = location;
-        }
-    }
-
     public class Viewport {
         private Location northEast;
         private Location southWest;
@@ -144,6 +140,28 @@ namespace GoogleCloudClassLibrary.Places {
         public Viewport(Location northEast, Location southWest) {
             NorthEast = northEast;
             SouthWest = southWest;
+        }
+    }
+
+    public class Geometry {
+        private Location location;
+        private Viewport viewport;
+
+        [JsonProperty("location")]
+        public Location Location {
+            get => location;
+            set => location = value;
+        }
+
+        [JsonProperty("viewport")]
+        public Viewport Viewport {
+            get => viewport;
+            set => viewport = value;
+        }
+
+        public Geometry(Location location, Viewport viewport) {
+            Location = location;
+            Viewport = viewport;
         }
     }
 
@@ -265,12 +283,39 @@ namespace GoogleCloudClassLibrary.Places {
         }
     }
 
+    public class PlusCode {
+        private String compoundCode;
+        private String globalCode;
+
+        [JsonProperty("compound_code")]
+        public string CompoundCode {
+            get => compoundCode;
+            set => compoundCode = value;
+        }
+
+        [JsonProperty("global_code")]
+        public string GlobalCode {
+            get => globalCode;
+            set => globalCode = value;
+        }
+
+        public PlusCode(string compoundCode, string globalCode) {
+            CompoundCode = compoundCode;
+            GlobalCode = globalCode;
+        }
+
+    }
+
     public class FindPlaceCandidates {
         private String place_id;
         private String formatted_address;
         private Geometry geometry;
-        private Viewport viewport;
+        private String id;
+        private String icon;
         private String name;
+        private PlusCode plusCode;
+        private List<String> types;
+        private Boolean permanentlyClosed;
         private OpeningHours openingHours;
         private List<Photo> photos;
         private double rating;
@@ -290,14 +335,39 @@ namespace GoogleCloudClassLibrary.Places {
             get => geometry; set => geometry = value;
         }
 
-        [JsonProperty("viewport")]
-        public Viewport Viewport {
-            get => viewport; set => viewport = value;
+        [JsonProperty("icon")]
+        public string Icon {
+            get => icon;
+            set => icon = value;
+        }
+
+        [JsonProperty("id")]
+        public string Id {
+            get => id;
+            set => id = value;
         }
 
         [JsonProperty("name")]
         public string Name {
             get => name; set => name = value;
+        }
+
+        [JsonProperty("plus_code")]
+        public PlusCode PlusCode {
+            get => plusCode;
+            set => plusCode = value;
+        }
+
+        [JsonProperty("types")]
+        public List<string> Types {
+            get => types;
+            set => types = value;
+        }
+
+        [JsonProperty("permanently_closed")]
+        public bool PermanentlyClosed {
+            get => permanentlyClosed;
+            set => permanentlyClosed = value;
         }
 
         [JsonProperty("opening_hours")]
@@ -315,14 +385,20 @@ namespace GoogleCloudClassLibrary.Places {
             get => rating; set => rating = value;
         }
 
-        public FindPlaceCandidates(String formatted_address, Geometry geometry, String name, OpeningHours openingHours,
-            Viewport viewport, List<Photo> photos, double rating) {
+        public FindPlaceCandidates(String formatted_address, Geometry geometry, String icon, String id,
+            String name, PlusCode plusCode, List<String> types, OpeningHours openingHours, List<Photo> photos,
+            double rating, Boolean permanentlyClosed) {
             Formatted_address = formatted_address;
             Geometry = geometry;
+            Icon = icon;
+            Id = id;
             Name = name;
+            PlusCode = plusCode;
+            Types = types;
             OpeningHours = openingHours;
             Photos = photos;
             Rating = rating;
+            PermanentlyClosed = permanentlyClosed;
         }
     }
 
