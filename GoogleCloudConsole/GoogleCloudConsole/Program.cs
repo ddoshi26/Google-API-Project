@@ -13,9 +13,9 @@ using Newtonsoft.Json;
 namespace GoogleCloudConsole {
     class Program {
         static void Main(string[] args) {
-            String API_KEY = "AIzaSyB72dDD0LrpCvVzkXvXu-qwr9ITqFhFhmU";
             // Google Places Search
             // Funtion 1 - FindPlacesUsingTextQuery - Tested
+            String API_KEY = Console.ReadLine();
             GC.Places.PlacesSearch placesSearch = new GC.Places.PlacesSearch();
             Task<List<GC.Places.FindPlaceCandidates>> candidates = placesSearch.FindPlacesUsingTextQuery(API_KEY,
                 "720 Northwestern Ave");
