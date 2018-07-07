@@ -263,6 +263,7 @@ namespace GoogleCloudClassLibrary.Places {
     }
 
     public class NearbySearchResultList {
+        private String nextPageToken;
         private List<String> html_attributions;
         private List<NearbySearchResult> results;
 
@@ -275,6 +276,12 @@ namespace GoogleCloudClassLibrary.Places {
         public List<String> Html_attributions {
             get => html_attributions;
             set => html_attributions = value;
+        }
+
+        [JsonProperty("next_page_token")]
+        public string NextPageToken {
+            get => nextPageToken;
+            set => nextPageToken = value;
         }
 
         public NearbySearchResultList(List<NearbySearchResult> results, List<String> html_attributions) {
@@ -405,6 +412,7 @@ namespace GoogleCloudClassLibrary.Places {
     public class FindPlacesCandidateList {
         private List<FindPlaceCandidates> candidates;
         private String status;
+        private String error_message;
 
         [JsonProperty("candidates")]
         public List<FindPlaceCandidates> Candidates { get => candidates; set => candidates = value; }
@@ -415,9 +423,16 @@ namespace GoogleCloudClassLibrary.Places {
             set => status = value;
         }
 
-        public FindPlacesCandidateList(List<FindPlaceCandidates> candidates, String status) {
+        [JsonProperty("error_message")]
+        public string Error_message {
+            get => error_message;
+            set => error_message = value;
+        }
+
+        public FindPlacesCandidateList(List<FindPlaceCandidates> candidates, String status, String error_message) {
             Candidates = candidates;
             Status = status;
+            Error_message = error_message;
         }
     }
 }

@@ -40,9 +40,9 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<List<FindPlaceCandidates>> FindPlacesUsingTextQuery(String APIKey, String query) {
+        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesUsingTextQuery(String APIKey, String query) {
             if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
-                return null;
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_API_KEY);
             }
 
             // Converting the query into a URL friendly version
@@ -70,51 +70,26 @@ namespace GoogleCloudClassLibrary.Places {
              *   2. If the response string is as expected a json of FindPlacesCandidateList, then things go 
              *      smoothly and we return that.
              */
-            try {
-                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
-                if (candidateList.Candidates.Count == 0) {
-                    return null;
+            if (response.IsSuccessStatusCode) {
+                try {
+                    FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                    if (!candidateList.Status.Equals("OK")) {
+                        Status status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                    }
+                    else if (candidateList.Candidates.Count == 0) {
+                        return null; // TODO: Check for a better error message. Currently between 404 Not Found vs 204 No Content
+                    }
+                    else {
+                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
+                    return null; // TODO: Check for a better error message. Maybe even pass on the exception, if nothing else works
                 }
-                else {
-                    return candidateList.Candidates;
-                }
-            } catch (JsonSerializationException e) {
-                Console.WriteLine("Exception: " + e.StackTrace);
-                return null;
             }
-        }
-
-        // TODO: Fix this. Query returns INVALID_REQUEST
-        public async Task<List<FindPlaceCandidates>> FindPlacesUsingPhoneNumber(String APIKey, String phone_no) {
-            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(phone_no)) {
-                return null;
-            }
-            
-            // Converting the query into a URL friendly version
-            String HTTP_query = $"findplacefromtext/json?input={phone_no}&inputtype=phonenumber&key={APIKey}";
-
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            // Making the asynchronous GET request to Places API and colleting the response
-            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
-            Stream stream = await response.Content.ReadAsStreamAsync();
-            StreamReader streamReader = new StreamReader(stream);
-            String response_str = streamReader.ReadToEnd();
-            Console.WriteLine(response_str);
-
-            // Similar two-step hop as we have seen in the previous function
-            try {
-                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
-                if (candidateList.Candidates.Count == 0) {
-                    return null;
-                }
-                else {
-                    return candidateList.Candidates;
-                }
-            } catch (JsonSerializationException e) {
-                Console.WriteLine("Exception: " + e.StackTrace);
-                return null;
+            else {
+                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int)response.StatusCode, response.ReasonPhrase));
             }
         }
 
@@ -122,7 +97,9 @@ namespace GoogleCloudClassLibrary.Places {
          * Method: FindPlacesWithPointLocationBias
          * 
          * Description: This method can be used to query the Places API for places with some specific matching 
-         *   parameter located at a given location. The API will prefer results that are closer to the given location.
+         *   parameter located at a given location. This only works for text query. For phone number queries,
+         *   please use Circular or Rectangular FindPlaces methods below. The API will prefer results that are
+         *   closer to the given location.
          * 
          * Parameters:
          *   - APIKey (String): String representing the Gooogle Cloud Services API access key. For more details:
@@ -130,8 +107,6 @@ namespace GoogleCloudClassLibrary.Places {
          *   - query (String): A string parameter that will be used to search through the Places API and find 
          *       places that contain matching information. This could be any collection of keywords that can 
          *       appropriately describe the place sought.
-         *   - inputType (InputType): THis identifies the type of input provided in the query. This can either be
-         *       TEXTQUERY or PHONENUMBER.
          *   - location (Location): The coordinates of the point which will be used by the Places API to bias results.
          *   - fields (List<Fields>): OPTIONAL parameter. This is a list of details you wish to get about the places
          *       that match the query. If the list is empty or null, then the Places API will only return the place_id
@@ -143,16 +118,22 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<List<FindPlaceCandidates>> FindPlacesWithPointLocationBias(String APIKey, String query, InputType inputType,
+        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithPointLocationBias(String APIKey, String query,
             Location location, List<Fields> fields, String language_code = "") {
-            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query) || location == null) {
-                return null;
+            if (BasicFunctions.isEmpty(APIKey)) {
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_API_KEY);
+            }
+            if (BasicFunctions.isEmpty(query)) {
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_QUERY);
+            }
+            if (location == null) {
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_LOCATION);
             }
 
             String processed_query = BasicFunctions.processTextQuery(query);
 
             // Converting the query into a URL friendly version
-            String HTTP_query = $"findplacefromtext/json?input={processed_query}&inputtype={inputType.ToString().ToLower()}" +
+            String HTTP_query = $"findplacefromtext/json?input={processed_query}&inputtype={InputType.TEXTQUERY.ToString().ToLower()}" +
                 $"&locationbias=point:{location.Lat},{location.Lng}";
 
             if (fields != null && fields.Count != 0) {
@@ -173,27 +154,32 @@ namespace GoogleCloudClassLibrary.Places {
             String response_str = streamReader.ReadToEnd();
             Console.WriteLine(response_str);
 
-            if (!response.IsSuccessStatusCode) {
-                return null;
-            }
-
-            // Similar two-step hop as we have seen in the previous function
-            try {
-                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
-                if (candidateList.Candidates.Count == 0) {
+            if (response.IsSuccessStatusCode) {
+                // Similar two-step hop as we have seen in the previous function
+                try {
+                    FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                    if (!candidateList.Status.Equals("OK")) {
+                        Status status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                    }
+                    else if (candidateList.Candidates.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
                     return null;
                 }
-                else {
-                    return candidateList.Candidates;
-                }
-            } catch (JsonSerializationException e) {
-                Console.WriteLine("Exception: " + e.StackTrace);
-                return null;
+            }
+            else {
+                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
         /*
-         * Method: FindPlacesWithCirculaarLocationBias
+         * Method: FindPlacesWithCircularLocationBias
          * 
          * Description: This method can be used to query the Places API for places with some specific matching 
          *   parameter located within a circular region. The API will prefer results that are within the region
@@ -221,10 +207,19 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<List<FindPlaceCandidates>> FindPlacesWithCircularLocationBias(String APIKey, String query,
+        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithCircularLocationBias(String APIKey, String query,
             InputType inputType, Location location, double radius, List<Fields> fields, String language_code = "") {
-            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query) || location == null || radius <= 0) {
+            if (BasicFunctions.isEmpty(APIKey) || radius <= 0) {
                 return null;
+            }
+            if (BasicFunctions.isEmpty(query)) {
+                return null;
+            }
+            if (location == null) {
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_LOCATION);
+            }
+            if (radius <= 0 || radius > 50000) {
+                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.INVALID_RADIUS);
             }
 
             String processed_query = BasicFunctions.processTextQuery(query);
@@ -251,27 +246,33 @@ namespace GoogleCloudClassLibrary.Places {
             String response_str = streamReader.ReadToEnd();
             Console.WriteLine(response_str);
 
-            if (!response.IsSuccessStatusCode) {
-                return null;
-            }
-
             // Similar two-step hop as we have seen in the previous function
-            try {
-                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
-                if (candidateList.Candidates.Count == 0) {
+            if (response.IsSuccessStatusCode) {
+                // Similar two-step hop as we have seen in the previous function
+                try {
+                    FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                    if (!candidateList.Status.Equals("OK")) {
+                        Status status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                    }
+                    else if (candidateList.Candidates.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
                     return null;
                 }
-                else {
-                    return candidateList.Candidates;
-                }
-            } catch (JsonSerializationException e) {
-                Console.WriteLine("Exception: " + e.StackTrace);
-                return null;
+            }
+            else {
+                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
         /*
-         * Method: FindPlacesWithCirculaarLocationBias
+         * Method: FindPlacesWithRectLocationBias
          * 
          * Description: This method can be used to query the Places API for places with some specific matching 
          *   parameter located within a rectangular region. The API will prefer results that are within the region
@@ -297,8 +298,9 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<List<FindPlaceCandidates>> FindPlacesWithRectLocationBias(String APIKey, String query, InputType inputType,
-            Location southWestCorner, Location northEastCorner, List<Fields> fields, String language_code = "") {
+        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithRectLocationBias(String APIKey, 
+            String query, InputType inputType, Location southWestCorner, Location northEastCorner, 
+            List<Fields> fields, String language_code = "") {
             if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
                 return null;
             }
@@ -329,23 +331,29 @@ namespace GoogleCloudClassLibrary.Places {
             StreamReader streamReader = new StreamReader(stream);
             String response_str = streamReader.ReadToEnd();
             Console.WriteLine(response_str);
-
-            if (!response.IsSuccessStatusCode) {
-                return null;
-            }
-
+            
             // Similar two-step hop as we have seen in the previous function
-            try {
-                FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
-                if (candidateList.Candidates.Count == 0) {
+            if (response.IsSuccessStatusCode) {
+                // Similar two-step hop as we have seen in the previous function
+                try {
+                    FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
+                    if (!candidateList.Status.Equals("OK")) {
+                        Status status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                    }
+                    else if (candidateList.Candidates.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
                     return null;
                 }
-                else {
-                    return candidateList.Candidates;
-                }
-            } catch (JsonSerializationException e) {
-                Console.WriteLine("Exception: " + e.StackTrace);
-                return null;
+            }
+            else {
+                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
@@ -372,7 +380,7 @@ namespace GoogleCloudClassLibrary.Places {
          *   places at the head of the list. The list is wrapped in a Task<> because the method makes 
          *   Asynchronous HTTP requests to the Places API.
          */
-        public async Task<List<NearbySearchResult>> GetNearbySearchResultsRankByProminence(String APIKey, Location location,
+        public async Task<NearbySearchResultList> GetNearbySearchResultsRankByProminence(String APIKey, Location location,
             double radius) {
             if (BasicFunctions.isEmpty(APIKey) || location == null)
                 return null;
@@ -411,7 +419,7 @@ namespace GoogleCloudClassLibrary.Places {
                     return null;
                 }
                 else {
-                    return searchResultList.Results;
+                    return searchResultList;
                 }
             } catch (JsonSerializationException e) {
                 Console.WriteLine("Exception: " + e.StackTrace);
@@ -419,24 +427,217 @@ namespace GoogleCloudClassLibrary.Places {
             }
         }
 
-        public List<NearbySearchResult> GetNearbySearchResultsRankByProminenceWithOptions(String APIKey,
-            Location location, double radius, Boolean open_now, String keyword = "", String language_code = "en", int min_price = -1,
-            int max_price = -1, String type = "") {
+        /*
+         * 
+         */ 
+        public async Task<NearbySearchResultList> GetNearbySearchResultsRankByProminenceWithOptions(String APIKey,
+            Location location, double radius, Boolean open_now = false, String keyword = "", String language_code = "", 
+            int min_price = -1, int max_price = -1, String type = "") {
+            if (BasicFunctions.isEmpty(APIKey) || location == null)
+                return null;
+
+            if (radius < 0 || radius > 50000)
+                return null;
+
+            // Creating the HTTP query url
+            String HTTP_query = $"nearbysearch/json?location={location.Lat},{location.Lng}&radius={radius}";
+
+            if (open_now) {
+                HTTP_query += $"&opennow={open_now}";
+            }
+            if (!BasicFunctions.isEmpty(keyword)) {
+                HTTP_query += $"&keyword={keyword}";
+            }
+            if (!BasicFunctions.isEmpty(language_code)) {
+                HTTP_query += $"&language={language_code}";
+            }
+            if (min_price > 0) {
+                HTTP_query += $"&minprice={min_price}";
+            }
+            if (max_price > 0) {
+                HTTP_query += $"&maxprice={max_price}";
+            }
+            if (!BasicFunctions.isEmpty(type)) {
+                HTTP_query += $"&type={type}";
+            }
+            HTTP_query += $"&key={APIKey}";
+
+            // Setting up the request header to indicate that the request body will be in json
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making an asynchronous HTTP GET request to the Places API and collecting the output
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            // Similar two-step jump as we have seen before
+            if (response.IsSuccessStatusCode) {
+                try {
+                    NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
+                    if (searchResultList == null || searchResultList.Results.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return searchResultList;
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
+                    return null;
+                }
+            }
+
             return null;
         }
 
-        public List<NearbySearchResult> GetNearbySearchResultsRankByDistance(String APIKey, Location location,
+        public async Task<NearbySearchResultList> GetNearbySearchResultsRankByDistance(String APIKey, Location location,
             String keyword = "", String type = "") {
+            if (BasicFunctions.isEmpty(APIKey) || location == null)
+                return null;
+            if (BasicFunctions.isEmpty(keyword) && BasicFunctions.isEmpty(type)) {
+                return null;
+            }
+
+            // Creating the HTTP query url
+            String HTTP_query = $"nearbysearch/json?rankby=distance&location={location.Lat},{location.Lng}";
+
+            if (!BasicFunctions.isEmpty(keyword)) {
+                HTTP_query += $"&keyword={keyword}";
+            }
+            if (!BasicFunctions.isEmpty(type)) {
+                HTTP_query += $"&type={type}";
+            }
+            HTTP_query += $"&key={APIKey}";
+
+            // Setting up the request header to indicate that the request body will be in json
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making an asynchronous HTTP GET request to the Places API and collecting the output
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            // Similar two-step jump as we have seen before
+            if (response.IsSuccessStatusCode) {
+                try {
+                    NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
+                    if (searchResultList == null || searchResultList.Results.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return searchResultList;
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
+                    return null;
+                }
+            }
+
             return null;
         }
 
-        public List<NearbySearchResult> GetNearbySearchResultsRankByDistanceWithOptions(String APIKey,
+        public async Task<NearbySearchResultList> GetNearbySearchResultsRankByDistanceWithOptions(String APIKey,
             Location location, Boolean open_now, String keyword = "", String type = "",
-            String language_code = "en", int min_price = -1, int max_price = -1) {
+            String language_code = "", int min_price = -1, int max_price = -1) {
+            if (BasicFunctions.isEmpty(APIKey) || location == null)
+                return null;
+            if (BasicFunctions.isEmpty(keyword) && BasicFunctions.isEmpty(type)) {
+                return null;
+            }
+
+            // Creating the HTTP query url
+            String HTTP_query = $"nearbysearch/json?rankby=distance&location={location.Lat},{location.Lng}";
+
+            if (!BasicFunctions.isEmpty(keyword)) {
+                HTTP_query += $"&keyword={keyword}";
+            }
+            if (!BasicFunctions.isEmpty(type)) {
+                HTTP_query += $"&type={type}";
+            }
+            if (open_now) {
+                HTTP_query += $"&opennow={open_now}";
+            }
+            if (!BasicFunctions.isEmpty(language_code)) {
+                HTTP_query += $"&language={language_code}";
+            }
+            if (min_price > 0) {
+                HTTP_query += $"&minprice={min_price}";
+            }
+            if (max_price > 0) {
+                HTTP_query += $"&maxprice={max_price}";
+            }
+            HTTP_query += $"&key={APIKey}";
+
+            // Setting up the request header to indicate that the request body will be in json
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making an asynchronous HTTP GET request to the Places API and collecting the output
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            // Similar two-step jump as we have seen before
+            if (response.IsSuccessStatusCode) {
+                try {
+                    NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
+                    if (searchResultList == null || searchResultList.Results.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return searchResultList;
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
+                    return null;
+                }
+            }
+
             return null;
         }
 
-        public List<NearbySearchResult> GetAdditionalNearbySearchResults(String APIKey) {
+        public async Task<NearbySearchResultList> GetAdditionalNearbySearchResults(String APIKey, String pageToken) {
+            if (BasicFunctions.isEmpty(APIKey)) {
+                return null;
+            }
+
+            // Creating the HTTP query url
+            String HTTP_query = $"nearbysearch/json?pagetoken={pageToken}&key={APIKey}";
+
+            // Setting up the request header to indicate that the request body will be in json
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Making an asynchronous HTTP GET request to the Places API and collecting the output
+            HttpResponseMessage response = await httpClient.GetAsync(HTTP_query);
+            Stream stream = await response.Content.ReadAsStreamAsync();
+            StreamReader streamReader = new StreamReader(stream);
+            String response_str = streamReader.ReadToEnd();
+            Console.WriteLine(response_str);
+
+            // Similar two-step jump as we have seen before
+            if (response.IsSuccessStatusCode) {
+                try {
+                    NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
+                    if (searchResultList == null || searchResultList.Results.Count == 0) {
+                        return null;
+                    }
+                    else {
+                        return searchResultList;
+                    }
+                } catch (JsonSerializationException e) {
+                    Console.WriteLine("Exception: " + e.StackTrace);
+                    return null;
+                }
+            }
+
             return null;
         }
 
