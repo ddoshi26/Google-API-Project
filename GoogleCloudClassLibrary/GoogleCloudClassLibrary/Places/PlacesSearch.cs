@@ -40,9 +40,9 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesUsingTextQuery(String APIKey, String query) {
+        public async Task<Tuple<FindPlacesCandidateList, ResponseStatus>> FindPlacesUsingTextQuery(String APIKey, String query) {
             if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_API_KEY);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_API_KEY);
             }
 
             // Converting the query into a URL friendly version
@@ -74,27 +74,27 @@ namespace GoogleCloudClassLibrary.Places {
                 try {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
-                        Status status = PlacesStatus.processErrorMessage(candidateList);
-                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
-                        return null; // TODO: Check for a better error message. Currently between 404 Not Found vs 204 No Content
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.ZERO_RESULTS);
                     }
                     else {
-                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(candidateList, PlacesStatus.OK);
                     }
                 } catch (JsonSerializationException e) {
                     Console.WriteLine("Exception: " + e.StackTrace);
-                    return null; // TODO: Check for a better error message. Maybe even pass on the exception, if nothing else works
+                    return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.DESERIALIZATION_ERROR); 
                 }
             }
             else {
-                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int)response.StatusCode, response.ReasonPhrase));
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, new ResponseStatus((int)response.StatusCode, response.ReasonPhrase));
             }
         }
 
         /*
-         * Method: FindPlacesWithPointLocationBias
+         * Method: FindPlaceWithPointLocationBias
          * 
          * Description: This method can be used to query the Places API for places with some specific matching 
          *   parameter located at a given location. This only works for text query. For phone number queries,
@@ -118,16 +118,16 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithPointLocationBias(String APIKey, String query,
-            Location location, List<Fields> fields, String language_code = "") {
+        public async Task<Tuple<FindPlacesCandidateList, ResponseStatus>> FindPlaceWithPointLocationBias(String APIKey, String query,
+            Location location, List<Fields> fields = null, String language_code = "") {
             if (BasicFunctions.isEmpty(APIKey)) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_API_KEY);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_API_KEY);
             }
             if (BasicFunctions.isEmpty(query)) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_QUERY);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_QUERY);
             }
             if (location == null) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_LOCATION);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_LOCATION);
             }
 
             String processed_query = BasicFunctions.processTextQuery(query);
@@ -159,22 +159,22 @@ namespace GoogleCloudClassLibrary.Places {
                 try {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
-                        Status status = PlacesStatus.processErrorMessage(candidateList);
-                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
-                        return null;
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.ZERO_RESULTS);
                     }
                     else {
-                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(candidateList, PlacesStatus.OK);
                     }
                 } catch (JsonSerializationException e) {
                     Console.WriteLine("Exception: " + e.StackTrace);
-                    return null;
+                    return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.DESERIALIZATION_ERROR);
                 }
             }
             else {
-                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, new ResponseStatus((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
@@ -207,19 +207,19 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithCircularLocationBias(String APIKey, String query,
+        public async Task<Tuple<FindPlacesCandidateList, ResponseStatus>> FindPlacesWithCircularLocationBias(String APIKey, String query,
             InputType inputType, Location location, double radius, List<Fields> fields, String language_code = "") {
-            if (BasicFunctions.isEmpty(APIKey) || radius <= 0) {
-                return null;
+            if (BasicFunctions.isEmpty(APIKey)) {
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_API_KEY);
             }
             if (BasicFunctions.isEmpty(query)) {
-                return null;
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_QUERY);
             }
             if (location == null) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.MISSING_LOCATION);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_LOCATION);
             }
             if (radius <= 0 || radius > 50000) {
-                return new Tuple<FindPlacesCandidateList, Status>(null, PlacesStatus.INVALID_RADIUS);
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.INVALID_RADIUS);
             }
 
             String processed_query = BasicFunctions.processTextQuery(query);
@@ -252,22 +252,22 @@ namespace GoogleCloudClassLibrary.Places {
                 try {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
-                        Status status = PlacesStatus.processErrorMessage(candidateList);
-                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
-                        return null;
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.ZERO_RESULTS);
                     }
                     else {
-                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(candidateList, PlacesStatus.OK);
                     }
                 } catch (JsonSerializationException e) {
                     Console.WriteLine("Exception: " + e.StackTrace);
-                    return null;
+                    return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.DESERIALIZATION_ERROR);
                 }
             }
             else {
-                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, new ResponseStatus((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
@@ -298,14 +298,17 @@ namespace GoogleCloudClassLibrary.Places {
          * Return: The method returns a list of all the candidates that match the query provided. The list is 
          *   wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
          */
-        public async Task<Tuple<FindPlacesCandidateList, Status>> FindPlacesWithRectLocationBias(String APIKey, 
+        public async Task<Tuple<FindPlacesCandidateList, ResponseStatus>> FindPlacesWithRectLocationBias(String APIKey, 
             String query, InputType inputType, Location southWestCorner, Location northEastCorner, 
             List<Fields> fields, String language_code = "") {
-            if (BasicFunctions.isEmpty(APIKey) || BasicFunctions.isEmpty(query)) {
-                return null;
+            if (BasicFunctions.isEmpty(APIKey)) {
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_API_KEY);
+            }
+            if (BasicFunctions.isEmpty(query)) {
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_QUERY);
             }
             if (southWestCorner == null || northEastCorner == null) {
-                return null;
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.MISSING_LOCATION);
             }
 
             String processed_query = BasicFunctions.processTextQuery(query);
@@ -338,22 +341,22 @@ namespace GoogleCloudClassLibrary.Places {
                 try {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
-                        Status status = PlacesStatus.processErrorMessage(candidateList);
-                        return new Tuple<FindPlacesCandidateList, Status>(null, status);
+                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
-                        return null;
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.ZERO_RESULTS);
                     }
                     else {
-                        return new Tuple<FindPlacesCandidateList, Status>(candidateList, PlacesStatus.OK);
+                        return new Tuple<FindPlacesCandidateList, ResponseStatus>(candidateList, PlacesStatus.OK);
                     }
                 } catch (JsonSerializationException e) {
                     Console.WriteLine("Exception: " + e.StackTrace);
-                    return null;
+                    return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, PlacesStatus.DESERIALIZATION_ERROR);
                 }
             }
             else {
-                return new Tuple<FindPlacesCandidateList, Status>(null, new Status((int) response.StatusCode, response.ReasonPhrase));
+                return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, new ResponseStatus((int) response.StatusCode, response.ReasonPhrase));
             }
         }
 
