@@ -58,5 +58,27 @@ namespace GoogleCloudClassLibrary{
 
             return processedInput;
         }
+
+        // Next two functions borrowed from: https://stackoverflow.com/a/14459730 and modified to fit into C#
+
+        public static double degreesToRadians(double degrees) {
+            return degrees * Math.PI / 180;
+        }
+
+        public static double distanceBetweenLocations(Places.Location locA, Places.Location locB) {
+            double earthRadius = 6371.00; // in Km
+
+            double lat_diff = degreesToRadians(locA.Lat - locB.Lat);
+            double lng_diff = degreesToRadians(locA.Lng - locB.Lng);
+
+            double latA_rads = degreesToRadians(locA.Lat);
+            double latB_rads = degreesToRadians(locB.Lat);
+
+            double a = Math.Pow(Math.Sin(lat_diff/2.0), 2) + Math.Pow(Math.Sin(lng_diff/2.0), 2) * Math.Cos(latA_rads) * Math.Cos(latB_rads);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return earthRadius * c;
+        }
+
+        // Borrowed functions end
     }
 }

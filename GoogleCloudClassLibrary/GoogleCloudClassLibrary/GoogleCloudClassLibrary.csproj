@@ -101,6 +101,7 @@
     <Compile Include="ImageIntelligence\objects\WebPage.cs" />
     <Compile Include="ImageIntelligence\objects\Word.cs" />
     <Compile Include="lib\BasicFunctions.cs" />
+    <Compile Include="lib\GoogleCloudClassSetup.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\AnalyzeEntitiesRequest.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\AnalyzeEntitiesResponse.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\AnalyzeSentimentResponse.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Places\objects\Id.cs" />
     <Compile Include="Places\objects\NearbySearchResult.cs" />
     <Compile Include="Places\objects\NearbySearchResultList.cs" />
+    <Compile Include="Places\objects\NearbySearchTypes.cs" />
     <Compile Include="Places\objects\Photo.cs" />
     <Compile Include="Places\objects\OpeningHours.cs" />
     <Compile Include="Places\objects\ResponseStatus.cs" />

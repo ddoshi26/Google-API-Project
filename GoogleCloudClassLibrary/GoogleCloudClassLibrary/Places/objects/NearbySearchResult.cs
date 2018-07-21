@@ -8,16 +8,14 @@ namespace GoogleCloudClassLibrary.Places {
         private String iconHTTP;
         private String id;
         private String name;
-
         private OpeningHours openingHours;
-
         private List<Photo> photos;
-
         private String place_id;
+        private PlusCode plusCode;
+        private int priceLevel;
+        private double rating;
         private String scope;
-
         private List<Id> alternate_ids;
-
         private String reference;
         private List<String> types;
         private String vicinity;
@@ -72,6 +70,12 @@ namespace GoogleCloudClassLibrary.Places {
             get => place_id; set => place_id = value;
         }
 
+        [JsonProperty("plus_code")]
+        public PlusCode PlusCode {
+            get => plusCode;
+            set => plusCode = value;
+        }
+
         [JsonProperty("scope")]
         public string Scope {
             get => scope; set => scope = value;
@@ -82,9 +86,19 @@ namespace GoogleCloudClassLibrary.Places {
             get => alternate_ids; set => alternate_ids = value;
         }
 
+        [JsonProperty("rating")]
+        public double Rating {
+            get => rating; set => rating = value;
+        }
+
+        [JsonProperty("price_level")]
+        public int PriceLevel {
+            get => priceLevel; set => priceLevel = value;
+        }
+
         public NearbySearchResult(String iconHTTP, String id, String name, OpeningHours openingHours, String reference,
             List<String> types, String vicinity, Geometry geometry, List<Photo> photos, String place_id,
-            String scope, List<Id> alternate_ids) {
+            String scope, List<Id> alternate_ids, double rating, int priceLevel) {
             this.IconHTTP = iconHTTP;
             this.Id = id;
             this.Name = name;
@@ -97,6 +111,8 @@ namespace GoogleCloudClassLibrary.Places {
             this.Place_id = place_id;
             this.Scope = scope;
             this.Alternate_ids = alternate_ids;
+            this.Rating = rating;
+            this.PriceLevel = priceLevel;
         }
     }
 }

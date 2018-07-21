@@ -7,6 +7,8 @@ namespace GoogleCloudClassLibrary.Places {
         private String nextPageToken;
         private List<String> html_attributions;
         private List<NearbySearchResult> results;
+        private String status;
+        private String error_message;
 
         [JsonProperty("results")]
         public List<NearbySearchResult> Results {
@@ -25,9 +27,23 @@ namespace GoogleCloudClassLibrary.Places {
             set => nextPageToken = value;
         }
 
-        public NearbySearchResultList(List<NearbySearchResult> results, List<String> html_attributions) {
+        [JsonProperty("status")]
+        public string Status {
+            get => status;
+            set => status = value;
+        }
+
+        [JsonProperty("error_message")]
+        public string Error_message {
+            get => error_message;
+            set => error_message = value;
+        }
+
+        public NearbySearchResultList(List<NearbySearchResult> results, List<String> html_attributions, String status, String error_message) {
             this.Results = results;
             this.Html_attributions = html_attributions;
+            this.Status = status;
+            this.Error_message = error_message;
         }
     }
 }
