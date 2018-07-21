@@ -40,8 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GoogleCloudClassLibrary">
-      <HintPath>..\..\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\GoogleCloudClassLibrary.dll</HintPath>
+    <Reference Include="GoogleCloudClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\GoogleCloudClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -60,7 +61,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FindPlacesTest.cs" />
+    <Compile Include="FindPlacesUsingCircularLBTest.cs" />
+    <Compile Include="FindPlacesUsingPointLBTest.cs" />
+    <Compile Include="FindPlacesUsingRectLBTest.cs" />
+    <Compile Include="NearbySearchAdditionalResultsTest.cs" />
+    <Compile Include="NearbySearchResultRBPWithOptionsTest.cs" />
+    <Compile Include="NearbySearchResultsRBDTest.cs" />
+    <Compile Include="NearbySearchResultsRBPTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NearbySearchResultsRBDWithOptionsTest.cs" />
+    <Compile Include="TextSearchAdditionalResultsTest.cs" />
+    <Compile Include="TextSearchResultsTest.cs" />
+    <Compile Include="TextSearchResultsWithOptionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,78 +1,100 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using NU = NUnit.Framework;
+using GC = GoogleCloudClassLibrary;
 using Places = GoogleCloudClassLibrary.Places;
 using PlacesSearch = GoogleCloudClassLibrary.Places.PlacesSearch;
 
 namespace GoogleClassLibraryTest {
-
     [TestFixture]
     public class FindPlacesTest {
-        static PlacesSearch placesSearch = placesSearch = new PlacesSearch();
-        private String MISSING_API_KEY = "";
-        private String INVALID_API_KEY = "INVALID_API_KEY";
-        private String VALID_API_KEY = System.IO.File.ReadAllText("C:\\Users\\Dhairya\\Desktop\\APIKEY.txt");
+        static PlacesSearch placesSearch;
 
-        private String PIZZA_QUERY = "pizza";
+        GC.GoogleCloudClassSetup VALID_SETUP = new GC.GoogleCloudClassSetup("C:\\Users\\Dhairya\\Desktop\\APIKEY.txt");
+        GC.GoogleCloudClassSetup INVALID_SETUP = new GC.GoogleCloudClassSetup("C:\\Users\\Dhairya\\Desktop\\INVALID_APIKEY.txt");
+
+        private String EMPTY_QUERY = "";
         private String BAD_QUERY = "BAD_QUERY";
+        private String PIZZA_QUERY = "pizza";
         private String VALID_QUERY = "720 Northwestern Ave";
+
+        private Places.Location GENERIC_LOCATION = new Places.Location(0, 0);
+        private Places.Location VALID_LOCATION = new Places.Location(40.757870, -73.983996);
+
+        private Places.Location NE_LOCATION = new Places.Location(41.740976, -84.852384);
+        private Places.Location SW_LOCATION = new Places.Location(37.827563, -88.008207);
+
+        private static List<Places.Fields> FIELDS_LIST = new List<Places.Fields>();
+
+        public FindPlacesTest() {
+            placesSearch = new PlacesSearch(VALID_SETUP);
+        }
 
         // Tests for FindPlacesUsingTextQuery() method
 
         [Test]
-        public void FindPlacesUsingTextQueryMissingAPIKey() {
-            Task<Tuple<Places.FindPlacesCandidateList, Places.Status>> candidates =
-                placesSearch.FindPlacesUsingTextQuery(MISSING_API_KEY, PIZZA_QUERY);
+        public void FindPlacesUsingTextQuery_MissingQuery() {
+            Task<Tuple<Places.FindPlacesCandidateList, Places.ResponseStatus>> candidates =
+                placesSearch.FindPlacesUsingTextQuery(EMPTY_QUERY);
             candidates.Wait();
 
-            NU.Assert.AreEqual(candidates.Result.Item1, null);
-            NU.Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.MISSING_API_KEY);
+            Assert.IsNull(candidates.Result.Item1);
+            Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.MISSING_QUERY);
         }
 
         [Test]
-        public void FindPlacesUsingTextQueryInvalidAPIKey() {
-            Task<Tuple<Places.FindPlacesCandidateList, Places.Status>> candidates =
-                placesSearch.FindPlacesUsingTextQuery(INVALID_API_KEY, PIZZA_QUERY);
+        public void FindPlacesUsingTextQuery_InvalidAPIKey() {
+
+            // Temporarily modify the class to have an invalid API Key
+            placesSearch.UpdateKey(INVALID_SETUP);
+
+            Task<Tuple<Places.FindPlacesCandidateList, Places.ResponseStatus>> candidates =
+                placesSearch.FindPlacesUsingTextQuery(PIZZA_QUERY);
             candidates.Wait();
 
-            NU.Assert.AreEqual(candidates.Result.Item1, null);
-            NU.Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.INVALID_API_KEY);
+            /*
+             * Revert the setup to a valid one before running any assert. This is important because doing so
+             * ensures that a failed assert in this test will not cause fall through error in the following tests.
+             */
+            placesSearch.UpdateKey(VALID_SETUP);
+
+            // Verifying that the function returned the expected error
+            Assert.IsNull(candidates.Result.Item1);
+            Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.INVALID_API_KEY);
         }
 
         [Test]
-        public void FindPlacesUsingTextQueryZeroResults() {
-            Task<Tuple<Places.FindPlacesCandidateList, Places.Status>> candidates =
-                placesSearch.FindPlacesUsingTextQuery(VALID_API_KEY, BAD_QUERY);
+        public void FindPlacesUsingTextQuery_ZeroResults() {
+            Task<Tuple<Places.FindPlacesCandidateList, Places.ResponseStatus>> candidates =
+                placesSearch.FindPlacesUsingTextQuery(BAD_QUERY);
             candidates.Wait();
 
-            NU.Assert.AreEqual(candidates.Result.Item1, null);
-            NU.Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.ZERO_RESULTS);
+            Assert.IsNull(candidates.Result.Item1);
+            Assert.AreEqual(candidates.Result.Item2, Places.PlacesStatus.ZERO_RESULTS);
         }
 
         [Test]
-        public void FindPlacesUsingTextQueryValidRequest() {
-            Task<Tuple<Places.FindPlacesCandidateList, Places.Status>> candidates =
-                    placesSearch.FindPlacesUsingTextQuery(VALID_API_KEY, VALID_QUERY);
+        public void FindPlacesUsingTextQuery_ValidRequest() {
+            Task<Tuple<Places.FindPlacesCandidateList, Places.ResponseStatus>> candidates =
+                    placesSearch.FindPlacesUsingTextQuery(VALID_QUERY);
             candidates.Wait();
 
             Places.FindPlacesCandidateList candidateList = candidates.Result.Item1;
             Places.FindPlaceCandidates candidate = candidateList.Candidates[0];
-            Places.Status status = candidates.Result.Item2;
+            Places.ResponseStatus status = candidates.Result.Item2;
 
             // Verify that the Candidate list is of expected size
-            NU.Assert.AreNotEqual(candidateList, null);
-            NU.Assert.AreEqual(candidateList.Candidates.Count, 1);
+            Assert.IsNotNull(candidateList);
+            Assert.AreEqual(candidateList.Candidates.Count, 1);
 
             // Verify that the place candidate result is as expected
-            NU.Assert.AreNotEqual(candidate.Place_id, null);
-            NU.Assert.AreNotEqual(candidate.Place_id, "");
-            NU.Assert.AreEqual(candidate.Name, null);
+            Assert.IsNotNull(candidate.Place_id);
+            Assert.IsNotEmpty(candidate.Place_id);
+            Assert.IsNull(candidate.Name);
 
             // Verify that the Status returned for the request is OK
-            NU.Assert.AreSame(status, Places.PlacesStatus.OK);
+            Assert.AreSame(status, Places.PlacesStatus.OK);
         }
     }
 }
