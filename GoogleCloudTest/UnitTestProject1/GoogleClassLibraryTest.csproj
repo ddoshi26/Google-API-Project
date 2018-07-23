@@ -60,14 +60,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FindPlacesTest.cs" />
     <Compile Include="FindPlacesUsingCircularLBTest.cs" />
     <Compile Include="FindPlacesUsingPointLBTest.cs" />
     <Compile Include="FindPlacesUsingRectLBTest.cs" />
+    <Compile Include="FindPlacesUsingTextQueryTest.cs" />
     <Compile Include="NearbySearchAdditionalResultsTest.cs" />
     <Compile Include="NearbySearchResultRBPWithOptionsTest.cs" />
     <Compile Include="NearbySearchResultsRBDTest.cs" />
     <Compile Include="NearbySearchResultsRBPTest.cs" />
+    <Compile Include="PlacesDetailTest.cs" />
+    <Compile Include="PlacesDetailWithOptionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NearbySearchResultsRBDWithOptionsTest.cs" />
     <Compile Include="TextSearchAdditionalResultsTest.cs" />

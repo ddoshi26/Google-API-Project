@@ -20,12 +20,12 @@ namespace GoogleCloudClassLibrary.Places {
             httpClient = new HttpClient();
 
             // Since this is the first time we use the httpClient, we need to intialize its base address
-            httpClient.BaseAddress = new Uri(setup.getAPIUrl("PLACES_SEARCH_API_URL").ToString());
+            httpClient.BaseAddress = new Uri(setup.getAPIUrl("PLACES_API_URL").ToString());
             APIKey = setup.getAPIKey();
         }
 
         public void UpdateURL(GoogleCloudClassSetup setup) {
-            httpClient.BaseAddress = new Uri(setup.getAPIUrl("PLACES_SEARCH_API_URL").ToString());
+            httpClient.BaseAddress = new Uri(setup.getAPIUrl("PLACES_API_URL").ToString());
         }
 
         public void UpdateKey(GoogleCloudClassSetup setup) {

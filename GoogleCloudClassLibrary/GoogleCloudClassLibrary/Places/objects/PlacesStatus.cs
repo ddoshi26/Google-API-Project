@@ -16,6 +16,7 @@ namespace GoogleCloudClassLibrary.Places {
         public static readonly ResponseStatus INVALID_API_KEY = new ResponseStatus(401, "Unauthorized: The provided API Key is invalid");
 
         public static readonly ResponseStatus MISSING_QUERY = new ResponseStatus(422, "Unprocessable Entity: Missing query string");
+        public static readonly ResponseStatus MISSING_PLACE_ID = new ResponseStatus(422, "Unprocessable Entity: Missing place_id parameter");
         public static readonly ResponseStatus MISSING_LOCATION = new ResponseStatus(422, "Unprocessable Entity: Missing location parameter");
         public static readonly ResponseStatus MISSING_PAGE_TOKEN = new ResponseStatus(422, "Unprocessable Entity: Missing next page token");
 

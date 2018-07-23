@@ -43,6 +43,22 @@ namespace GoogleCloudClassLibrary{
             return output;
         }
 
+        public static String getPlacesDetailFieldsListString(List<Places.PlacesDetailFields> fields) {
+            String output = "";
+            int len = fields.Count;
+
+            for (int i = 0; i < len; i++) {
+                if (i != len - 1) {
+                    output += fields[i].ToString().ToLower() + ",";
+                }
+                else {
+                    output += fields[i].ToString().ToLower();
+                }
+            }
+
+            return output;
+        }
+
         public static String processTextQuery(String input) {
             String processedInput = "";
             int len = input.Length;

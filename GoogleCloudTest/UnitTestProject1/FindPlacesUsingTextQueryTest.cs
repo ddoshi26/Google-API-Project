@@ -8,7 +8,7 @@ using PlacesSearch = GoogleCloudClassLibrary.Places.PlacesSearch;
 
 namespace GoogleClassLibraryTest {
     [TestFixture]
-    public class FindPlacesTest {
+    public class FindPlacesUsingTextQueryTest {
         static PlacesSearch placesSearch;
 
         GC.GoogleCloudClassSetup VALID_SETUP = new GC.GoogleCloudClassSetup("C:\\Users\\Dhairya\\Desktop\\APIKEY.txt");
@@ -17,7 +17,7 @@ namespace GoogleClassLibraryTest {
         private String EMPTY_QUERY = "";
         private String BAD_QUERY = "BAD_QUERY";
         private String PIZZA_QUERY = "pizza";
-        private String VALID_QUERY = "720 Northwestern Ave";
+        private String VALID_QUERY = "720 Northwestern Ave, West Lafayette";
 
         private Places.Location GENERIC_LOCATION = new Places.Location(0, 0);
         private Places.Location VALID_LOCATION = new Places.Location(40.757870, -73.983996);
@@ -27,7 +27,7 @@ namespace GoogleClassLibraryTest {
 
         private static List<Places.Fields> FIELDS_LIST = new List<Places.Fields>();
 
-        public FindPlacesTest() {
+        public FindPlacesUsingTextQueryTest() {
             placesSearch = new PlacesSearch(VALID_SETUP);
         }
 

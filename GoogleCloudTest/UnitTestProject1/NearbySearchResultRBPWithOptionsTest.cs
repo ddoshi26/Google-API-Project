@@ -158,7 +158,7 @@ namespace GoogleClassLibraryTest {
         public void NearbySearchResultsRBPWithOptions_ValidQueryWithAllOptions() {
             Task<Tuple<Places.NearbySearchResultList, Places.ResponseStatus>> searchResults =
                 placesSearch.GetNearbySearchResultsRankByProminenceWithOptions(VALID_LOCATION,
-                LARGE_RADIUS, open_now: true, keyword: "mexican", min_price: 1, max_price: 3, type: Places.NearbySearchTypes.MEAL_TAKEAWAY);
+                LARGE_RADIUS, open_now: true, keyword: "mexican", min_price: 1, max_price: 3, type: Places.NearbySearchTypes.RESTAURANT);
             searchResults.Wait();
 
             Places.NearbySearchResultList resultList = searchResults.Result.Item1;
@@ -197,7 +197,7 @@ namespace GoogleClassLibraryTest {
                 // Verifying Types
                 Assert.IsNotNull(result.Types);
                 Assert.GreaterOrEqual(result.Types.Count, 1);
-                Assert.IsTrue(result.Types.Contains("meal_takeaway") || result.Types.Contains("food"));
+                Assert.IsTrue(result.Types.Contains("restaurant") || result.Types.Contains("food"));
             }
 
             Assert.IsTrue(hasKeyword);
