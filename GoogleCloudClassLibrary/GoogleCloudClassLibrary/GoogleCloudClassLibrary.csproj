@@ -138,6 +138,10 @@
     <Compile Include="NaturalLanguageIntelligence\objects\TextFeatures.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\TextSpan.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\Token.cs" />
+    <Compile Include="Places\objects\AddressComponent.cs" />
+    <Compile Include="Places\objects\AspectRating.cs" />
+    <Compile Include="Places\objects\AspectRatingType.cs" />
+    <Compile Include="Places\objects\ClosingOpeningTime.cs" />
     <Compile Include="Places\objects\Fields.cs" />
     <Compile Include="Places\objects\FindPlaceCandidates.cs" />
     <Compile Include="Places\objects\FindPlacesCandidateList.cs" />
@@ -148,10 +152,16 @@
     <Compile Include="Places\objects\NearbySearchResult.cs" />
     <Compile Include="Places\objects\NearbySearchResultList.cs" />
     <Compile Include="Places\objects\NearbySearchTypes.cs" />
+    <Compile Include="Places\objects\Period.cs" />
     <Compile Include="Places\objects\Photo.cs" />
     <Compile Include="Places\objects\OpeningHours.cs" />
+    <Compile Include="Places\objects\PlacesDetailFields.cs" />
+    <Compile Include="Places\objects\PlacesDetailResponse.cs" />
+    <Compile Include="Places\objects\PlacesDetailResult.cs" />
     <Compile Include="Places\objects\ResponseStatus.cs" />
+    <Compile Include="Places\objects\Review.cs" />
     <Compile Include="Places\PlacesDetail.cs" />
+    <Compile Include="Places\PlacesPhotos.cs" />
     <Compile Include="Places\PlacesSearch.cs" />
     <Compile Include="Places\objects\PlacesStatus.cs" />
     <Compile Include="Places\objects\Viewport.cs" />

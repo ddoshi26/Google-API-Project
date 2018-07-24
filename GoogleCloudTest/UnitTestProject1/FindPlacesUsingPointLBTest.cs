@@ -17,6 +17,7 @@ namespace GoogleClassLibraryTest {
         private String EMPTY_QUERY = "";
         private String BAD_QUERY = "BAD_QUERY";
         private String PIZZA_QUERY = "pizza";
+        private String MUSEUM_QUERY = "museum";
 
         private Places.Location NULL_LOCATION = null;
         private Places.Location GENERIC_LOCATION = new Places.Location(0, 0);
@@ -436,7 +437,7 @@ namespace GoogleClassLibraryTest {
             FIELDS_LIST.Add(Places.Fields.TYPES);
 
             Task<Tuple<Places.FindPlacesCandidateList, Places.ResponseStatus>> candidates =
-                placesSearch.FindPlaceWithPointLocationBias(PIZZA_QUERY, VALID_LOCATION, FIELDS_LIST);
+                placesSearch.FindPlaceWithPointLocationBias(MUSEUM_QUERY, VALID_LOCATION, FIELDS_LIST);
             candidates.Wait();
 
             Places.FindPlacesCandidateList candidateList = candidates.Result.Item1;
@@ -456,7 +457,7 @@ namespace GoogleClassLibraryTest {
             // Verifying Name
             Assert.IsNotNull(candidate.Name);
             Assert.IsNotEmpty(candidate.Name);
-            Assert.IsTrue(candidate.Name.ToLower().Contains("pizza"));
+            Assert.IsTrue(candidate.Name.ToLower().Contains(MUSEUM_QUERY.ToLower()));
 
             // Verifying Photos
             Assert.IsNotNull(candidate.Photos);

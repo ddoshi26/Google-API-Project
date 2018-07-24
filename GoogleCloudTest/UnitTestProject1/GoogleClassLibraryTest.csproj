@@ -70,6 +70,7 @@
     <Compile Include="NearbySearchResultsRBPTest.cs" />
     <Compile Include="PlacesDetailTest.cs" />
     <Compile Include="PlacesDetailWithOptionsTest.cs" />
+    <Compile Include="PlacesPhotosTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NearbySearchResultsRBDWithOptionsTest.cs" />
     <Compile Include="TextSearchAdditionalResultsTest.cs" />
