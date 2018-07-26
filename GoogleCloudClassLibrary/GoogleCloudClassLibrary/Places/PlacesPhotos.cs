@@ -21,6 +21,34 @@ namespace GoogleCloudClassLibrary.Places {
             APIKey = setup.getAPIKey();
         }
 
+
+        /*
+         * Method: GetPlacesPhotos
+         * 
+         * Description: This method can be used to get a photo based on a photo reference returned as part of a
+         *   PlacesSearch or PlacesDetail response. If the photo exists, then the method will save the photo at 
+         *   the desired directory address.
+         * 
+         * Parameters:
+         *   - photoReference (String): A String identifier that uniquely identifies a photo. This is returned as
+         *       part of the response for a PlacesSearch or PlacesDetail queries. 
+         *   - fileDestination (String): An absolute or relative path address of the desired location where the
+         *       photo should be stored.
+         *       
+         *  One of the following two parameters is required:
+         *   - maxHeight (int): This is an OPTIONAL parameter which indicates the maximum height of the image.
+         *   - maxWidth (int): This is an OPTIONAL parameter which indicates the maximum width of the image.
+         * 
+         *   - APIKey (String): Implicity required paramter which should be set through the constructor when
+         *       creating an object of this class. For more details about the Google API Key please see:
+         *       https://developers.google.com/places/web-service/get-api-key
+         * 
+         * Return: The method returns a tuple of two items. The first is a String. If the query is successful
+         *   then the string returns the directory location where the photo was stored. If the query fails for any
+         *   reason then, the string is returned as null. The second element is a ResponseStatus object indicating
+         *   the status of the query along with the appropiate HTTP code. The tuple wrapped in a Task<> because
+         *   the method makes Asynchronous HTTP requests to the Places API.
+         */
         public async Task<Tuple<String, ResponseStatus>> GetPlacesPhotos(String photoReference, 
             String fileDestination, int maxHeight = 0, int maxWidth = 0) {
             if (BasicFunctions.isEmpty(APIKey)) {
@@ -68,6 +96,7 @@ namespace GoogleCloudClassLibrary.Places {
                             // End of borrowed code
                         }
                     } catch (ArgumentException e) {
+                        // If we get an exception, then the directory path provided is likely invalid and we return that error
                         Debug.WriteLine(e.StackTrace);
                         return new Tuple<String, ResponseStatus>(null, PlacesStatus.INVALID_FILE_LOCATION);
                     } catch (IOException e) {
@@ -84,6 +113,7 @@ namespace GoogleCloudClassLibrary.Places {
                 return new Tuple<string, ResponseStatus>(null, PlacesStatus.processErrorMessage(response.StatusCode.ToString(), response.ReasonPhrase));
             }
 
+            // If there are no errors, then we return the directory address where the photo was stored
             return new Tuple<string, ResponseStatus>(fileDestination, PlacesStatus.OK);
         }
     }

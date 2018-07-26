@@ -43,10 +43,10 @@ namespace GoogleCloudClassLibrary.Places {
          *       creating an object of this class. For more details about the Google API Key please see:
          *       https://developers.google.com/places/web-service/get-api-key
          * 
-         * Return: The method returns a tuple of two items. The first is an object of NearbySearchResultList
-         *   which contains the candidates returned based on the query provided. The second element is a
-         *   ResponseStatus object indicating the status of the query along with the appropiate HTTP code. The
-         *   tuple wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
+         * Return: The method returns a tuple of two items. The first is an object of PlacesDetailResponse
+         *   which contains all available details for the place. The second element is a ResponseStatus object
+         *   indicating the status of the query along with the appropiate HTTP code. The tuple wrapped in a Task<>
+         *   because the method makes Asynchronous HTTP requests to the Places API.
          */
         public async Task<Tuple<PlacesDetailResponse, ResponseStatus>> GetPlaceDetails(String place_id) {
             if (BasicFunctions.isEmpty(APIKey)) {
@@ -137,9 +137,9 @@ namespace GoogleCloudClassLibrary.Places {
          *       https://developers.google.com/places/web-service/get-api-key
          * 
          * Return: The method returns a tuple of two items. The first is an object of PlacesDetailResponse
-         *   which contains the candidates returned based on the query provided. The second element is a
-         *   ResponseStatus object indicating the status of the query along with the appropiate HTTP code. The
-         *   tuple wrapped in a Task<> because the method makes Asynchronous HTTP requests to the Places API.
+         *   which contains all available details for the place. The second element is a ResponseStatus object
+         *   indicating the status of the query along with the appropiate HTTP code. The tuple wrapped in a Task<>
+         *   because the method makes Asynchronous HTTP requests to the Places API.
          */
         public async Task<Tuple<PlacesDetailResponse, ResponseStatus>> GetPlaceDetailsWithOptions(String place_id,
             String region_code = "", String language_code = "", String session_token = "", List<PlacesDetailFields> fields = null) {
