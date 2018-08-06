@@ -91,7 +91,7 @@ namespace GoogleCloudClassLibrary.Places {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList.Status, candidateList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(candidateList.Status, candidateList.Error_message);
                         return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
@@ -184,7 +184,7 @@ namespace GoogleCloudClassLibrary.Places {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList.Status, candidateList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(candidateList.Status, candidateList.Error_message);
                         return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
@@ -288,7 +288,7 @@ namespace GoogleCloudClassLibrary.Places {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList.Status, candidateList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(candidateList.Status, candidateList.Error_message);
                         return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
@@ -384,7 +384,7 @@ namespace GoogleCloudClassLibrary.Places {
                     FindPlacesCandidateList candidateList = JsonConvert.DeserializeObject<FindPlacesCandidateList>(response_str);
                     if (!candidateList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(candidateList.Status, candidateList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(candidateList.Status, candidateList.Error_message);
                         return new Tuple<FindPlacesCandidateList, ResponseStatus>(null, status);
                     }
                     else if (candidateList.Candidates.Count == 0) {
@@ -473,7 +473,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -585,7 +585,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -671,7 +671,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -785,7 +785,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -857,7 +857,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -930,7 +930,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -1052,7 +1052,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {
@@ -1124,7 +1124,7 @@ namespace GoogleCloudClassLibrary.Places {
                     NearbySearchResultList searchResultList = JsonConvert.DeserializeObject<NearbySearchResultList>(response_str);
                     if (!searchResultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(searchResultList.Status, searchResultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(searchResultList.Status, searchResultList.Error_message);
                         return new Tuple<NearbySearchResultList, ResponseStatus>(null, status);
                     }
                     else if (searchResultList.Results.Count == 0) {

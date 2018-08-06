@@ -86,7 +86,7 @@ namespace GoogleCloudClassLibrary.Places {
                     PlacesDetailResponse resultList = JsonConvert.DeserializeObject<PlacesDetailResponse>(response_str);
                     if (!resultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(resultList.Status, resultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(resultList.Status, resultList.Error_message);
                         return new Tuple<PlacesDetailResponse, ResponseStatus>(null, status);
                     }
                     else if (resultList.Result == null) {
@@ -184,7 +184,7 @@ namespace GoogleCloudClassLibrary.Places {
                     PlacesDetailResponse resultList = JsonConvert.DeserializeObject<PlacesDetailResponse>(response_str);
                     if (!resultList.Status.Equals("OK")) {
                         // If the response status from the API is not OK, then we try to return the most appropriate Error
-                        ResponseStatus status = PlacesStatus.processErrorMessage(resultList.Status, resultList.Error_message);
+                        ResponseStatus status = PlacesStatus.ProcessErrorMessage(resultList.Status, resultList.Error_message);
                         return new Tuple<PlacesDetailResponse, ResponseStatus>(null, status);
                     }
                     else if (resultList.Result == null) {

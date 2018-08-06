@@ -6,7 +6,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class AnnotateVideoRequest {
         private String inputUri;
         private String inputContent;
-        private List<VideoFeature> features;
+        private List<String> features;
         private VideoContext videoContext;
         private String outputUri;
         private String locationId;
@@ -22,7 +22,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         }
 
         [JsonProperty("features")]
-        public List<VideoFeature> Features {
+        public List<String> Features {
             get => features; set => features = value;
         }
 
@@ -41,7 +41,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
             get => locationId; set => locationId = value;
         }
 
-        public AnnotateVideoRequest(String inputUri, String inputContent, List<VideoFeature> videoFeatures,
+        public AnnotateVideoRequest(String inputUri, String inputContent, List<String> videoFeatures,
             VideoContext videoContext, String outputUri, String outputLocationId) {
             if (!BasicFunctions.isEmpty(inputUri))
                 this.InputUri = inputUri;

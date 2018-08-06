@@ -110,7 +110,7 @@ namespace GoogleCloudClassLibrary.Places {
                 }
             }
             else {
-                return new Tuple<string, ResponseStatus>(null, PlacesStatus.processErrorMessage(response.StatusCode.ToString(), response.ReasonPhrase));
+                return new Tuple<string, ResponseStatus>(null, PlacesStatus.ProcessErrorMessage(response.StatusCode.ToString(), response.ReasonPhrase));
             }
 
             // If there are no errors, then we return the directory address where the photo was stored

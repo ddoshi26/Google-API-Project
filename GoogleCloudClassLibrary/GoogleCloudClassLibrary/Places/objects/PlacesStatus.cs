@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResponseStatus = GoogleCloudClassLibrary.ResponseStatus;
 
 namespace GoogleCloudClassLibrary.Places {
     public class PlacesStatus {
         public static readonly ResponseStatus OK = new ResponseStatus(200, "OK: Request was ok");
+
         public static readonly ResponseStatus ZERO_RESULTS = new ResponseStatus(204, "No Content: Zero results found for the given query");
 
         public static readonly ResponseStatus INVALID_REQUEST = new ResponseStatus(400, "Invalid Request");
@@ -27,7 +29,7 @@ namespace GoogleCloudClassLibrary.Places {
         public static readonly ResponseStatus INTERNAL_SERVER_ERROR = new ResponseStatus(500, "Internal Server Error");
         public static readonly ResponseStatus DESERIALIZATION_ERROR = new ResponseStatus(500, "Internal Server Error: Endpoint returned an unrecognizable response");
 
-        public static ResponseStatus processErrorMessage(string status, string message) {
+        public static ResponseStatus ProcessErrorMessage(string status, string message) {
             if (status.Equals("OK")) {
                 return OK;
             }

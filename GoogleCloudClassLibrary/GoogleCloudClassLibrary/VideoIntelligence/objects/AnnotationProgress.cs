@@ -3,7 +3,7 @@
 namespace GoogleCloudClassLibrary.VideoIntelligence {
     public class AnnotationProgress {
         private String inputUri;
-        private double progresspercent;
+        private double progressPercent;
         private String startTime;
         private String updateTime;
 
@@ -11,9 +11,9 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
             get => inputUri;
             set => inputUri = value;
         }
-        public double Progresspercent {
-            get => progresspercent;
-            set => progresspercent = value;
+        public double ProgressPercent {
+            get => progressPercent;
+            set => progressPercent = value;
         }
         public string StartTime {
             get => startTime;
@@ -26,7 +26,7 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
 
         public AnnotationProgress(String inputUri, double progresspercent, String startTime, String updateTime) {
             InputUri = inputUri;
-            Progresspercent = progresspercent;
+            ProgressPercent = progresspercent;
             StartTime = startTime;
             UpdateTime = updateTime;
         }

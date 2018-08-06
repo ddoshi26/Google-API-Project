@@ -7,7 +7,6 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         private String inputUri;
         private List<LabelAnnotation> segmentLabelAnnotations;
         private List<LabelAnnotation> shotLabelAnnotations;
-        private List<LabelAnnotation> frameLabelAnnotations;
         private List<VideoSegement> shotAnnotations;
         private ExplicitContentAnnotation explicitAnnotation;
         private Status error;
@@ -30,12 +29,6 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
             set => shotLabelAnnotations = value;
         }
 
-        [JsonProperty("frameLabelAnnotations")]
-        public List<LabelAnnotation> FrameLabelAnnotations {
-            get => frameLabelAnnotations;
-            set => frameLabelAnnotations = value;
-        }
-
         [JsonProperty("shotAnnotations")]
         public List<VideoSegement> ShotAnnotations {
             get => shotAnnotations;
@@ -55,12 +48,11 @@ namespace GoogleCloudClassLibrary.VideoIntelligence {
         }
 
         public VideoAnnotationResult(string inputUri, List<LabelAnnotation> segmentLabelAnnotations, 
-            List<LabelAnnotation> shotLabelAnnotations, List<LabelAnnotation> frameLabelAnnotations,
-            List<VideoSegement> shotAnnotations, ExplicitContentAnnotation explicitAnnotation, Status error) {
+            List<LabelAnnotation> shotLabelAnnotations, List<VideoSegement> shotAnnotations,
+            ExplicitContentAnnotation explicitAnnotation, Status error) {
             this.InputUri = inputUri;
             this.SegmentLabelAnnotations = segmentLabelAnnotations;
             this.ShotLabelAnnotations = shotLabelAnnotations;
-            this.FrameLabelAnnotations = frameLabelAnnotations;
             this.ShotAnnotations = shotAnnotations;
             this.ExplicitAnnotation = explicitAnnotation;
             this.Error = error;
