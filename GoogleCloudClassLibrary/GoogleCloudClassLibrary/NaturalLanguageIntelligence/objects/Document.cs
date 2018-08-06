@@ -25,7 +25,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             get => googleCloudUri; set => googleCloudUri = value;
         }
 
-        public Document(DocumentType type, String language, String content = null, String googleCloudUri = null) {
+        public Document(DocumentType type, String language = "en", String content = null, String googleCloudUri = null) {
             this.Type = type;
             this.Language = language;
             this.Content = content;

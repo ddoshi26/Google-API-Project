@@ -10,6 +10,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private Sentiment documentSentiment;
         private String language;
         private List<ClassificationCategory> categories;
+        private Error error;
 
         [JsonProperty("sentences")]
         public List<Sentence> Sentences {
@@ -39,6 +40,12 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         [JsonProperty("categories")]
         public List<ClassificationCategory> Categories {
             get => categories; set => categories = value;
+        }
+
+        [JsonProperty("error")]
+        public Error Error {
+            get => error;
+            set => error = value;
         }
 
         public AnnotateTextResponse(List<Sentence> sentences, List<Token> tokens, List<Entity> entities, Sentiment sentiment,

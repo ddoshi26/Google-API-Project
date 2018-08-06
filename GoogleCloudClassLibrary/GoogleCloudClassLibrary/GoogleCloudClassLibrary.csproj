@@ -38,12 +38,6 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.6\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,12 +59,17 @@
     <Compile Include="ImageIntelligence\objects\CropHint.cs" />
     <Compile Include="ImageIntelligence\objects\CropHintsAnnotation.cs" />
     <Compile Include="ImageIntelligence\objects\CropHintsParams.cs" />
+    <Compile Include="ImageIntelligence\objects\Data.cs" />
     <Compile Include="ImageIntelligence\objects\DetectedBreak.cs" />
     <Compile Include="ImageIntelligence\objects\DetectedLanguage.cs" />
     <Compile Include="ImageIntelligence\objects\DominantColorsAnnotation.cs" />
     <Compile Include="ImageIntelligence\objects\EntityAnnotation.cs" />
+    <Compile Include="lib\Error.cs" />
+    <Compile Include="lib\ErrorDetail.cs" />
+    <Compile Include="lib\ErrorLink.cs" />
     <Compile Include="ImageIntelligence\objects\FaceAnnotation.cs" />
     <Compile Include="ImageIntelligence\objects\Image.cs" />
+    <Compile Include="ImageIntelligence\objects\ImageAnnotationStatus.cs" />
     <Compile Include="ImageIntelligence\objects\ImageContext.cs" />
     <Compile Include="ImageIntelligence\objects\ImageFeatures.cs" />
     <Compile Include="ImageIntelligence\ImageIntelligence.cs" />
@@ -111,6 +110,7 @@
     <Compile Include="NaturalLanguageIntelligence\objects\ClassificationCategory.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\ClassifyTextRequest.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\ClassifyTextResponse.cs" />
+    <Compile Include="NaturalLanguageIntelligence\objects\DependencyEdge.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\DependencyEdgeLabel.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\Document.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\DocumentType.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="NaturalLanguageIntelligence\objects\EntityMentionType.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\EntityResponseType.cs" />
     <Compile Include="NaturalLanguageIntelligence\NaturalLanguageIntelligence.cs" />
+    <Compile Include="NaturalLanguageIntelligence\objects\NaturalLanguageStatus.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\PartsOfSpeech.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\PartsOfSpeechAspect.cs" />
     <Compile Include="NaturalLanguageIntelligence\objects\PartsOfSpeechCase.cs" />
@@ -158,7 +159,7 @@
     <Compile Include="Places\objects\PlacesDetailFields.cs" />
     <Compile Include="Places\objects\PlacesDetailResponse.cs" />
     <Compile Include="Places\objects\PlacesDetailResult.cs" />
-    <Compile Include="Places\objects\ResponseStatus.cs" />
+    <Compile Include="lib\ResponseStatus.cs" />
     <Compile Include="Places\objects\Review.cs" />
     <Compile Include="Places\PlacesDetail.cs" />
     <Compile Include="Places\PlacesPhotos.cs" />
@@ -185,13 +186,16 @@
     <Compile Include="VideoIntelligence\objects\Status.cs" />
     <Compile Include="VideoIntelligence\objects\VideoAnnotationResponse.cs" />
     <Compile Include="VideoIntelligence\objects\VideoAnnotationResult.cs" />
+    <Compile Include="VideoIntelligence\objects\VideoAnnotationStatus.cs" />
     <Compile Include="VideoIntelligence\objects\VideoContext.cs" />
     <Compile Include="VideoIntelligence\objects\VideoFeature.cs" />
     <Compile Include="VideoIntelligence\objects\VideoSegement.cs" />
     <Compile Include="VideoIntelligence\VideoIntelligence.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -25,14 +25,10 @@ C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleC
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\GoogleCloudClassLibrary.pdb
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Net.Http.Formatting.dll
-C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Web.Http.dll
-C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Web.Http.WebHost.dll
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Net.Http.Formatting.xml
-C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Web.Http.xml
-C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\bin\Debug\System.Web.Http.WebHost.xml
-C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csprojAssemblyReference.cache
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csproj.CoreCompileInputs.cache
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csproj.CopyComplete
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.dll
 C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.pdb
+C:\Users\Dhairya\source\repos\GoogleCloudClassLibrary\Google-API-Project\GoogleCloudClassLibrary\GoogleCloudClassLibrary\obj\Debug\GoogleCloudClassLibrary.csprojAssemblyReference.cache

@@ -5,7 +5,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     public class Token {
         private TextSpan text;
         private PartsOfSpeech partOfSpeech;
-        private DependencyEdgeLabel dependencyEdge;
+        private DependencyEdge dependencyEdge;
         private String lemma;
 
         [JsonProperty("text")]
@@ -19,7 +19,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         }
 
         [JsonProperty("dependencyEdge")]
-        public DependencyEdgeLabel DependencyEdge {
+        public DependencyEdge DependencyEdge {
             get => dependencyEdge; set => dependencyEdge = value;
         }
 
@@ -28,7 +28,7 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             get => lemma; set => lemma = value;
         }
 
-        public Token(TextSpan text, PartsOfSpeech partOfSpeech, DependencyEdgeLabel dependencyEdge, String lemma) {
+        public Token(TextSpan text, PartsOfSpeech partOfSpeech, DependencyEdge dependencyEdge, String lemma) {
             this.Text = text;
             this.PartOfSpeech = partOfSpeech;
             this.DependencyEdge = dependencyEdge;

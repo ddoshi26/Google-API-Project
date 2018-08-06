@@ -1,5 +1,5 @@
 ﻿namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
     public enum PartsOfSpeechGender {
-        GENDER_UNKOWN, FEMININE, MASCULINE, NEUTER
+        GENDER_UNKNOWN, FEMININE, MASCULINE, NEUTER
     }
 }

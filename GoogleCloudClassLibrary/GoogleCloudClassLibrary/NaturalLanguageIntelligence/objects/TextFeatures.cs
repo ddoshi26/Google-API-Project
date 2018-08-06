@@ -34,9 +34,8 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
             get => classifyText; set => classifyText = value;
         }
 
-        public TextFeatures(bool extractSyntax, bool extractEntities, bool extractDocumentSentiment,
-            bool extractEntitySentiment, bool classifyText) {
-
+        public TextFeatures(bool extractSyntax = false, bool extractEntities = false,
+            bool extractDocumentSentiment = false, bool extractEntitySentiment = false, bool classifyText = false) {
             this.ExtractSyntax = extractSyntax;
             this.ExtractEntities = extractEntities;
             this.ExtractDocumentSentiment = extractDocumentSentiment;

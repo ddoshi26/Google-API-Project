@@ -7,8 +7,9 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         private Sentiment sentiment;
         private String language;
         private List<Sentence> sentences;
+        private Error error;
 
-        [JsonProperty("sentiment")]
+        [JsonProperty("documentSentiment")]
         public Sentiment Sentiment {
             get => sentiment; set => sentiment = value;
         }
@@ -21,6 +22,11 @@ namespace GoogleCloudClassLibrary.NaturalLanguageIntelligence {
         [JsonProperty("sentences")]
         public List<Sentence> Sentences {
             get => sentences; set => sentences = value;
+        }
+
+        [JsonProperty("error")]
+        public Error Error {
+            get => error; set => error = value;
         }
 
         public AnalyzeSentimentResponse(Sentiment sentiment, String language, List<Sentence> sentences) {
