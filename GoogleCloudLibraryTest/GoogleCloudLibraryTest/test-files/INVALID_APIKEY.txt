@@ -1,0 +1,5 @@
+PLACES_SEARCH_API_URL:https://maps.googleapis.com/maps/api/place/
+IMAGE_INTELLIGENCE_API_URL:https://vision.googleapis.com/
+VIDEO_INTELLIGENCE_API_URL:https://videointelligence.googleapis.com/
+NATURAL_LANGUAGE_INTELLIGENCE_API_URL:https://language.googleapis.com/
+API_KEY:INVALID_API_KEY

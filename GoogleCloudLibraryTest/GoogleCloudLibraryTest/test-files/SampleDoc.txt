@@ -1,0 +1,60 @@
+POL 462: Constiutional Law II
+Case Response: Masterpiece Cakeshop, Ltd. v. Colorado Civil Rights Commission
+Dhairya Doshi
+Page 1 of 3
+Facts
+Petitioner Jack Phillips owns Masterpiece Cakeshop Ltd., a bakery in Colorado, which provides
+both pre-made and custom cakes. Respondents Daniel Mullins and Charlie Craig, a gay couple,
+visited the store for a custom cake for their upcoming wedding. Phillips on being informed on
+the occasion denied their request. Mullins and Craig reported this denial of service to the
+Colorado Civil Rights Commission (CCRC), the other respondents in the case and the
+Commission concluded that Phillips’ denial violated the Colorado Anti-Discrimination Act
+(CADA). The Colorado Court of Appeals unanimously affirmed the Commissions’ decision and
+the Colorado Supreme Court denied the petitioner’s request for certiorari. The petitioners
+requested certiorari, and this Court granted review.
+Legal Question(s)
+• Does the Free Speech Clause of First Amendment grant an exception for public
+accommodations from the Colorado Anti-Discrimination Act?
+• Does the Free Exercise Clause of the First Amendment Grant an exception for public
+accommodations from the Colorado Anti-Discrimination Act? 
+Page 2 of 3
+Response
+The Free Speech Clause of the First Amendment states that a citizen’s freedom of speech
+shall not be abridged. This Court through its jurisprudence has also held that a citizen’s speech
+cannot be compelled (see J. Jackson’s opinion in West Virginia State Board of Education v.
+Barnette 319 US 624 (1943)). In the area of the Fourteenth Amendment, the relevant case here is
+Obergefell v. Hodges 576 US _ (2015), wherein the Court stated that same-sex couples were
+guaranteed the same rights as opposite-sex couples by the Due Process Clause of the Fourteenth
+Amendment.
+In cases which implicate the compelled speech doctrine or the Free Speech Clause
+relating to organizations, we can judge the validity of the challenge based on the following
+questions. First, we consider whether the organization is a public accommodation, as defined
+within Title III of the Americans with Disabilities Act (1990) and in our ruling in Roberts v.
+United States Jaycees 468 US 609 (1984). If the organization is not a public accommodation,
+then it has the right to choose whom it serves. In this case, Masterpiece Cakeshop is clearly a
+public accommodation. Second, we look at whether the product requested by the customer in
+question is made available to other customers. Public accommodations that make available
+products to one set of customers cannot deny the same to another. The only exception to this is if
+the product is substantially unique to the customer, as is the case here with custom-made cakes.
+If it is so, then we consider whether the product or service includes a customer-requested
+message. The message, which can be symbolic, textual or design-based, must be clear,
+expressive, and visibly perceptive to an average person who views the product in isolation. If a
+substantially unique product does not have an explicit message, then it is treated the same as a
+“pre-made” one when dealing with a Free Speech challenge; we use the second question in that 
+Page 3 of 3
+situation. After learning of the message, the public accommodation can refuse to provide the
+product with that message on Free Speech grounds as well as if the message contains hateful,
+violent, or obscene language. The facts of the case show that there was no discussion between
+the parties about the design or message on the cake. Since Phillips was unaware of the requested
+message, his only presumable grounds for rejecting service was the identity of the customers,
+which is precisely what anti-discrimination laws aim to proscribe. We conclude that the
+petitioner does not satisfy the outlined criteria for an exception and is in violation of CADA.
+As for the Free Exercise Clause challenge, the ruling that holds precedent is Church of
+Lukumi Babalu Aye v. City of Hialeah 508 US 520 (1993). In Lukumi this Court held that any
+law, challenged on Free Exercise grounds, should meet one of two criteria to be upheld. First,
+utilizing the Smith test, we consider if the law is neutral in its intent and has general applicability.
+If it does not, then we ask whether it furthers a compelling state interest under the strict scrutiny
+test. In this case, CADA is broadly written to prohibit several forms of discrimination and does
+not aim to burden the religious exercise of any group. It also furthers the state’s interest of
+ensuring equal rights for all its citizens. We conclude that there are no grounds to grant an
+exception to CADA based on the Free Exercise Clause of the First Amendment.
