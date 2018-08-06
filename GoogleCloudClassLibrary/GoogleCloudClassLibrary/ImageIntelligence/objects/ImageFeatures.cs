@@ -3,12 +3,12 @@ using System;
 
 namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class ImageFeatures {
-        private ImageType type;
+        private String type;
         private int maxResults;
         private String model;
 
         [JsonProperty("type")]
-        public ImageType Type {
+        public String Type {
             get => type; set => type = value;
         }
 
@@ -23,7 +23,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
         }
 
         public ImageFeatures(ImageType type, int maxResults, String model) {
-            this.Type = type;
+            this.Type = type.ToString();
             this.MaxResults = maxResults;
             this.Model = model;
         }

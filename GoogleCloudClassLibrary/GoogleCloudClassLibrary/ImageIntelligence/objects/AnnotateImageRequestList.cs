@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace GoogleCloudClassLibrary.ImageIntelligence {
     public class AnnotateImageRequestList {
-        private List<AnnotateImageRequests> requests;
+        private List<AnnotateImageRequest> requests;
 
         [JsonProperty("requests")]
-        public List<AnnotateImageRequests> Requests {
+        public List<AnnotateImageRequest> Requests {
             get => requests; set => requests = value;
         }
 
-        public AnnotateImageRequestList(List<AnnotateImageRequests> requests) {
+        public AnnotateImageRequestList(List<AnnotateImageRequest> requests) {
             this.Requests = requests;
         }
     }

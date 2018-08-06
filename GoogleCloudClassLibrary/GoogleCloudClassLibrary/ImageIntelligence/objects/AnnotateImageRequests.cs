@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace GoogleCloudClassLibrary.ImageIntelligence {
-    public class AnnotateImageRequests {
+    public class AnnotateImageRequest {
         private Image image;
         private List<ImageFeatures> features;
         private ImageContext imageContext;
@@ -22,7 +22,7 @@ namespace GoogleCloudClassLibrary.ImageIntelligence {
             get => imageContext; set => imageContext = value;
         }
 
-        public AnnotateImageRequests(Image image, List<ImageFeatures> features, ImageContext context) {
+        public AnnotateImageRequest(Image image, List<ImageFeatures> features, ImageContext context) {
             this.Image = image;
             this.Features = features;
             this.ImageContext = context;
